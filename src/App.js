@@ -5,8 +5,17 @@ import './App.css';
 import ReactLeaflet from './components/reactLeaflet';
 
 function App() {
+
+  const mapDivStyle = {
+    display: 'flex',
+    height:'100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+
   return (
-    <div>
+    <div style={mapDivStyle}
+    >
       <ReactLeaflet />
     </div>
   );
