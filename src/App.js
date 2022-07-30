@@ -11,6 +11,7 @@ function App() {
     height:'100vh',
     justifyContent: 'center',
     alignItems: 'center',
+    // transform: 'rotate3d(1, 0, 0, 45deg)',
   }
 
   return (
