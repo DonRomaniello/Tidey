@@ -6,12 +6,15 @@ import {
   useMap,
 } from 'react-leaflet'
 
+import "leaflet/dist/leaflet.css";
+
+
 
 const ReactLeaflet = () => {
 
   const styling = {
     height:'50vh',
-    width:'50'
+    width:'50vw'
   }
 
 
@@ -25,7 +28,6 @@ const ReactLeaflet = () => {
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        style={styling}
       />
 </MapContainer>
 </>
