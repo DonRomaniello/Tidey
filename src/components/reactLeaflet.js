@@ -27,6 +27,7 @@ const ReactLeaflet = (props) => {
     transform: 'rotate3d(1, 0, 0, 45deg)',
   }
 
+  console.log(stations)
 
   return (
     <>
@@ -40,7 +41,16 @@ const ReactLeaflet = (props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors |
         Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
         />
-      <Station />
+      {stations.map((stationInfo, idx) => {
+        if (stationInfo.lat & stationInfo.lng) {
+          return <Station
+                  key={stationInfo.stationID + idx}
+                  stationInfo={stationInfo} />
+            }
+          return null
+
+      })}
+
 </MapContainer>
 </>
 )

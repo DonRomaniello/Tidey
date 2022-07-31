@@ -10,7 +10,9 @@ import {
 
 const Station = (props) => {
 
-const position = [40.778041, -73.921264]
+const { stationInfo } = props
+
+const position = [stationInfo?.lat, stationInfo?.lng]
 
 const bounds = [
   position,
@@ -24,10 +26,11 @@ const overlayStyle = {
 
 const circleRadius = 10
 
+console.log(stationInfo)
 
   return (
     <>
-    <SVGOverlay attributes={{ stroke: 'red' }} bounds={bounds} style={{overlayStyle}}>
+       <SVGOverlay attributes={{ stroke: 'red' }} bounds={bounds} style={{overlayStyle}}>
       {/* <rect x="0" y="0" width="100%" height="100%" fill="blue" opacity='.5' /> */}
       <circle r={circleRadius}
       cx={circleRadius + 1}
@@ -38,7 +41,7 @@ const circleRadius = 10
         text
       </text> */}
     </SVGOverlay>
-</>
+    </>
 )
 }
 
