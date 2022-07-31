@@ -32,11 +32,13 @@ console.log(stationInfo)
     <>
        <SVGOverlay attributes={{ stroke: 'red' }} bounds={bounds} style={{overlayStyle}}>
       {/* <rect x="0" y="0" width="100%" height="100%" fill="blue" opacity='.5' /> */}
-      <circle r={circleRadius}
+      <circle
+      r={circleRadius}
       cx={circleRadius + 1}
       cy={circleRadius + 1}
       fill="red"
-      opacity='1' />
+      opacity='.3'
+      />
       {/* <text x="50%" y="50%" stroke="white" opacity='.5'>
         text
       </text> */}
