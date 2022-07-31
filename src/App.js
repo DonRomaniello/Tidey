@@ -2,14 +2,9 @@ import axios from 'axios';
 
 import React, {useEffect, useState} from 'react';
 
-import logo from './logo.svg';
-
-
 import './App.css';
 
 import ReactLeaflet from './components/reactLeaflet';
-
-import getStations from './components/NOAAListCall';
 
 function App() {
 
@@ -31,7 +26,7 @@ function App() {
   return (
     <div style={mapDivStyle}
     >
-      <ReactLeaflet stations={stations} />
+      <ReactLeaflet stations={stations}/>
     </div>
   );
 }
