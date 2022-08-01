@@ -35,17 +35,40 @@ url = url
 
 url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
 
+// url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/mode.json'
+
+// let stationID = '8418150'
+
+
+let stations = []
+
 axios.get(url, {
   headers: {
     token: process.env.noaaToken,
   }})
   .then(function (response) {
     // handle success
-    console.log(Object.keys(response.data));
-    // console.log(response.data.metadata);
-})
+    stations = response.data.stations
+
+    stations.slice(0, 3).forEach((station) => {
+      console.log("running")
+      axios.get(stationHarConURL(station.id), {
+        headers: {
+          token: process.env.noaaToken,
+        }})
+        .then(function (response) {
+          console.log(response.data)
+        }).catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+      })
+  })
   .catch(function (error) {
     // handle error
     console.log(error);
-})
+  })
 
+  const stationHarConURL = (stationID) => {
+    return `https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/${stationID}/harcon.json`
+  }
