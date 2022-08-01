@@ -32,11 +32,12 @@ let stations = []
 
 let args = [
   { station: '8454000'},
-  {begin_date: '20130808'},
-  {end_date: '20130809'},
+  // {begin_date: '20130808'},
+  // {end_date: '20130809'},
+  {range: '4'},
   {product: 'water_level'},
   {datum: 'NAVD'},
-  {units: 'metric'},
+  {units: 'english'},
   {time_zone: 'gmt'},
   {format: 'json'},
 ]
@@ -63,7 +64,8 @@ axios.get(urlWithArguments(url, args), {
   .then(function (response) {
     // handle success
 
-    console.log(response.data)
+    console.log(Object.keys(response.data))
+    console.log(response.data.data)
 
     // stations.slice(0,3).forEach((station) => {
     //   console.log("running")
