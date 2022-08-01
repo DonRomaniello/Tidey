@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import {
-  MapContainer,
-  SVGOverlay,
-  TileLayer,
-  useMap,
+  CircleMarker
 } from 'react-leaflet'
 
 
@@ -13,11 +10,6 @@ const Station = (props) => {
 const { stationInfo } = props
 
 const position = [stationInfo?.lat, stationInfo?.lng]
-
-const bounds = [
-  position,
-  [position[0] - 1, position[1] + 1],
-]
 
 const overlayStyle = {
   opacity: '.25',
@@ -30,22 +22,13 @@ console.log(stationInfo)
 
   return (
     <>
-       <SVGOverlay attributes={{ stroke: 'red' }} bounds={bounds} style={{overlayStyle}}>
-      {/* <rect x="0" y="0" width="100%" height="100%" fill="blue" opacity='.5' /> */}
-      <circle
-      r={circleRadius}
-      cx={circleRadius + 1}
-      cy={circleRadius + 1}
-      fill="red"
-      opacity='.3'
-      />
-      {/* <text x="50%" y="50%" stroke="white" opacity='.5'>
-        text
-      </text> */}
-    </SVGOverlay>
+       <CircleMarker center={position} pathOptions={stationMarker} radius={3} />
     </>
 )
 }
+
+const stationMarker = { color: 'blue', opacity: '.2' }
+
 
 export default Station
 

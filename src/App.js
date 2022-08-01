@@ -13,12 +13,12 @@ function App() {
 
   useEffect(() => {
 
-    let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/portsstation.json'
+    let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
 
     axios.get(url)
     .then(response => {
       const stationData = response.data
-      setStations(stationData?.portsStationList)
+      setStations(stationData?.stations)
     })
 
   }, [])

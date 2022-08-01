@@ -27,8 +27,6 @@ const ReactLeaflet = (props) => {
     transform: 'rotate3d(1, 0, 0, 45deg)',
   }
 
-  console.log(stations)
-
   return (
     <>
     <MapContainer
@@ -44,7 +42,7 @@ const ReactLeaflet = (props) => {
       {stations.map((stationInfo, idx) => {
         if (stationInfo.lat & stationInfo.lng) {
           return <Station
-                  key={stationInfo.stationID + idx}
+                  key={stationInfo.stationID}
                   stationInfo={stationInfo} />
             }
           return null
