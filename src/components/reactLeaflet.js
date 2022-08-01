@@ -31,7 +31,7 @@ const ReactLeaflet = (props) => {
     <>
     <MapContainer
     center={position}
-    zoom={10}
+    zoom={14}
     // scrollWheelZoom={true}
     style={styling}>
       <TileLayer
@@ -40,7 +40,7 @@ const ReactLeaflet = (props) => {
         Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
         />
       {stations.map((stationInfo, idx) => {
-        if (stationInfo.lat & stationInfo.lng) {
+        if (stationInfo.lat & stationInfo.lng % stationInfo.reference_id) {
           return <Station
                   key={stationInfo.stationID}
                   stationInfo={stationInfo} />

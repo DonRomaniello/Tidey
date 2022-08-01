@@ -32,9 +32,7 @@ let stations = []
 
 let args = [
   { station: '8454000'},
-  // {begin_date: '20130808'},
-  // {end_date: '20130809'},
-  {range: '4'},
+  {range: '24'},
   {product: 'water_level'},
   {datum: 'NAVD'},
   {units: 'english'},
