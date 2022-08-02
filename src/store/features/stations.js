@@ -22,8 +22,6 @@ export const fetchStations = createAsyncThunk(
   }
 )
 
-
-
 export const stationsSlice = createSlice({
   name: 'stations',
   initialState,

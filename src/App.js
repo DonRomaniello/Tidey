@@ -23,20 +23,6 @@ function App() {
     dispatch(fetchStations())
   }, [dispatch])
 
-  // const [stations, setStations] = useState([])
-
-  // useEffect(() => {
-
-  //   let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
-
-  //   axios.get(url)
-  //   .then(response => {
-  //     const stationData = response.data
-  //     setStations(stationData?.stations)
-  //   })
-
-  // }, [])
-
   return (
     <div style={mapDivStyle}
     >
