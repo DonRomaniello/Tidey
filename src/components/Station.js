@@ -89,7 +89,7 @@ const urlWithArguments = () => {
 )
 }
 
-const stationMarker = { color: 'blue', opacity: '.2' }
+const stationMarker = { color: 'white', opacity: '.8' }
 
 const waterLevelMarker = { color: 'green' }
 

@@ -1,27 +1,41 @@
-
-import axios from 'axios';
+// import axios from 'axios';
 
 import React, {useEffect, useState} from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import './App.css';
 
 import Map from './components/Map';
 
+import {
+  fetchStations,
+} from './store/features/stations';
+
+
 function App() {
 
-  const [stations, setStations] = useState([])
+  const dispatch = useDispatch();
+
+  const stations = useSelector((state) => state.stations.stations)
 
   useEffect(() => {
+    dispatch(fetchStations())
+  }, [dispatch])
 
-    let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
+  // const [stations, setStations] = useState([])
 
-    axios.get(url)
-    .then(response => {
-      const stationData = response.data
-      setStations(stationData?.stations)
-    })
+  // useEffect(() => {
 
-  }, [])
+  //   let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
+
+  //   axios.get(url)
+  //   .then(response => {
+  //     const stationData = response.data
+  //     setStations(stationData?.stations)
+  //   })
+
+  // }, [])
 
   return (
     <div style={mapDivStyle}
