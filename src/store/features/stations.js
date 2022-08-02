@@ -15,10 +15,10 @@ const initialState = {
 export const fetchStations = createAsyncThunk(
   'stations/fetchStations',
   () => {
-    axios
-      .get('https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions')
-      .then((response) => response.data.stations)
-      .finally((response) => console.log(response))
+    return axios
+          .get('https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions')
+          .then((response) => response.data )
+          .finally((response) => console.log(response))
   }
 )
 
@@ -35,7 +35,7 @@ export const stationsSlice = createSlice({
     })
     builder.addCase(fetchStations.fulfilled, (state, action) => {
       state.loading = false
-      state.stations = action.payload
+      state.stations = action.payload.stations
       state.error = ''
     })
     builder.addCase(fetchStations.rejected, (state, action) => {
