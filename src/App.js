@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 
 import './App.css';
 
-import ReactLeaflet from './components/reactLeaflet';
+import Map from './components/Map';
 
 function App() {
 
@@ -26,7 +26,7 @@ function App() {
   return (
     <div style={mapDivStyle}
     >
-      <ReactLeaflet stations={stations}/>
+      <Map stations={stations}/>
     </div>
   );
 }
@@ -38,5 +38,4 @@ const mapDivStyle = {
   height:'100vh',
   justifyContent: 'center',
   alignItems: 'center',
-  // transform: 'rotate3d(1, 0, 0, 45deg)',
 }

@@ -49,25 +49,25 @@ const urlWithArguments = () => {
     return returnURl
 }
 
-useEffect(() => {
+// useEffect(() => {
 
-  // const fetchTide = async () => {
-  //   const waterLevels = await axios.get(urlWithArguments(),
-  //    { headers: {
-  //     token: process.env.noaaToken,
-  //   }}
-  //   ).catch((error) => {
-  //     console.log(error)
-  //   })
+//   const fetchTide = async () => {
+//     const waterLevels = await axios.get(urlWithArguments(),
+//      { headers: {
+//       token: process.env.noaaToken,
+//     }}
+//     ).catch((error) => {
+//       console.log(error)
+//     })
 
 
 
-  //   setPredictions(waterLevels);
-  // }
+//     setPredictions(waterLevels);
+//   }
 
-  // fetchTide();
+//   fetchTide();
 
-}, [])
+// }, [])
 
 // useEffect(() => {
 //   setLinePosition([

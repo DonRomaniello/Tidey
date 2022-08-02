@@ -35,7 +35,7 @@ const ReactLeaflet = (props) => {
     // scrollWheelZoom={true}
     style={styling}>
       <TileLayer
-        url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}.jpg"
+        url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors |
         Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
         />
@@ -58,8 +58,9 @@ export default ReactLeaflet
 
 const styling = {
   display: 'flex',
-  height:'90vh',
-  width:'90vw',
+  height: 'calc(100vh - 100px)',
+  width: 'calc(100vw - 100px)',
+  // margin
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius:'10px',
