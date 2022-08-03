@@ -22,22 +22,19 @@ require('dotenv').config();
 
 // let stationID = '8418150'
 
-let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
+let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=datums'
+
+url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
+
+url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=harcon'
 
 let stations =  []
 
 axios.get(url)
     .then(response => stations = response.data.stations)
     .catch(error => console.log(error))
-    // .finally(() => console.log(stations))
-    .finally(() => whatIsTheRate())
-
-
-
-
-
-
-
+    .finally(() => console.log(stations[0]))
+    // .finally(() => whatIsTheRate())
 // url = 'https://www.ncei.noaa.gov/cdo-web/api/v2/locations?'
 
 
@@ -55,17 +52,20 @@ const urlWithArguments = (url, args) => {
 
 let stationIdx = 0;
 
+let errorIds = []
+
 const whatIsTheRate = () => {
 
-console.log(stations[stationIdx])
+// console.log(stations[stationIdx].id)
 
 url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?'
 
 let args = [
   { station: stations[stationIdx].id},
+  // { station: 1612340},
   {range: '24'},
-  {product: 'water_level'},
-  {datum: 'MLLW'},
+  {product: 'predictions'},
+  {datum: 'STND'},
   {units: 'english'},
   {time_zone: 'gmt'},
   {format: 'json'},
@@ -84,16 +84,23 @@ axios.get(urlWithArguments(url, args), {
     token: process.env.noaaToken,
   }})
   .then(function (response) {
-    // handle success
-    console.log(response.data)
+
+    if (response.data?.error) {
+      errorIds.push(stations[stationIdx].id)
+      console.log(errorIds.length)
+    }
+
+
   })
   .catch(function (error) {
     // handle error
+
+
     // console.log(urlWithArguments(url, args))
-    console.log(error);
+    // console.log(error);
   })
   stationIdx++
-  // setTimeout(whatIsTheRate, 1000)
+  // setTimeout(whatIsTheRate, 200)
 }
 
 // whatIsTheRate()
