@@ -23,5 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # secrets
-
 .env
+
+# test data
+/resources/data.csv
