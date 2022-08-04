@@ -4,26 +4,6 @@ const fs = require('fs')
 
 require('dotenv').config();
 
-// Master list
-// https://api.tidesandcurrents.noaa.gov/mdapi/prod/
-
-
-// https://www.ncdc.noaa.gov/cdo-web/webservices/v2
-
-// Format
-// https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/9455760.json?units=english
-
-
-// /api/datagetter?product=predictions&application=NOS.COOPS.TAC.WL&begin_date=20220801&end_date=20220802&datum=MLLW&station=8518949&time_zone=lst_ldt&units=english&interval=hilo&format=json
-
-// https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredicitons
-
-// url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
-
-// url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/mode.json'
-
-// let stationID = '8418150'
-
 let url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=datums'
 
 url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=tidepredictions'
@@ -36,8 +16,8 @@ axios.get(url)
     .then(response => stations = response.data.stations)
     .catch(error => console.log(error))
     // .finally(() => console.log(stations[0]))
-    // .finally(() => stations.forEach((station) => fs.appendFileSync('./resources/stattions.txt', station.id + '\n')))
-    .finally(() => whatIsTheRate())
+
+    .finally(() => queryAllStations())
 // url = 'https://www.ncei.noaa.gov/cdo-web/api/v2/locations?'
 
 
@@ -57,7 +37,7 @@ let stationIdx = 0;
 
 let errorIds = []
 
-const whatIsTheRate = () => {
+const queryAllStations = () => {
 
 // console.log(stations[stationIdx].id)
 
@@ -67,7 +47,9 @@ let args = [
   { station: stations[stationIdx].id},
   // { station: 1612340},
   {interval: 'h'},
-  {range: '24'},
+  // {range: '24'},
+  {begin_date: '20210101'},
+  {end_date: '20220101'},
   {product: 'predictions'},
   {datum: 'STND'},
   {units: 'english'},
@@ -94,11 +76,30 @@ axios.get(urlWithArguments(url, args), {
   .then(function (response) {
 
     if (response.data?.error) {
-      fs.appendFileSync('./resources/errors.log', response.data.error.message + '\n');
+      fs.appendFileSync('./resources/errors.log',
+      stations[stationIdx].id
+      + ': '
+      + response.data.error.message + '\n');
 
     } else {
 
-      const line = response.data.predictions.map((reading) => reading.v).join(',')
+      const line = stations[stationIdx].id + ','
+                   + stations[stationIdx].lat + ','
+                   + stations[stationIdx].lng + ','
+                  //  + stations[stationIdx].name + ','
+                   + response.data.predictions
+                   .map((reading) => reading.v)
+                   .join(',')
+
+      const header = 'stationId,'
+                     + 'lat,'
+                     + 'lng,'
+                    //  +  'name,'
+                     + response.data.predictions
+                     .map((reading) => reading.t)
+                     .join(',')
+
+      fs.writeFileSync( './resources/dataTopLine.csv', header)
 
       fs.appendFileSync('./resources/data.csv', line + '\n');
 
@@ -112,10 +113,10 @@ axios.get(urlWithArguments(url, args), {
     console.log(error)
   })
   stationIdx++
-  setTimeout(whatIsTheRate, 200)
+  setTimeout(queryAllStations, 200)
 }
 
-// whatIsTheRate()
+// queryAllStations()
 
 
 
