@@ -1,5 +1,7 @@
 const axios =  require("axios");
 
+const fs = require('fs')
+
 require('dotenv').config();
 
 // Master list
@@ -33,8 +35,9 @@ let stations =  []
 axios.get(url)
     .then(response => stations = response.data.stations)
     .catch(error => console.log(error))
-    .finally(() => console.log(stations[0]))
-    // .finally(() => whatIsTheRate())
+    // .finally(() => console.log(stations[0]))
+    // .finally(() => stations.forEach((station) => fs.appendFileSync('./resources/stattions.txt', station.id + '\n')))
+    .finally(() => whatIsTheRate())
 // url = 'https://www.ncei.noaa.gov/cdo-web/api/v2/locations?'
 
 
@@ -63,6 +66,7 @@ url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?'
 let args = [
   { station: stations[stationIdx].id},
   // { station: 1612340},
+  {interval: 'h'},
   {range: '24'},
   {product: 'predictions'},
   {datum: 'STND'},
@@ -79,6 +83,10 @@ let args = [
 //   {format: 'json'},
 // ]
 
+let works = []
+
+let errors = 0
+
 axios.get(urlWithArguments(url, args), {
   headers: {
     token: process.env.noaaToken,
@@ -86,21 +94,25 @@ axios.get(urlWithArguments(url, args), {
   .then(function (response) {
 
     if (response.data?.error) {
-      errorIds.push(stations[stationIdx].id)
-      console.log(errorIds.length)
+      fs.appendFileSync('./resources/errors.log', response.data.error.message + '\n');
+
+    } else {
+
+      const line = response.data.predictions.map((reading) => reading.v).join(',')
+
+      fs.appendFileSync('./resources/data.csv', line + '\n');
+
     }
+
 
 
   })
   .catch(function (error) {
     // handle error
-
-
-    // console.log(urlWithArguments(url, args))
-    // console.log(error);
+    console.log(error)
   })
   stationIdx++
-  // setTimeout(whatIsTheRate, 200)
+  setTimeout(whatIsTheRate, 200)
 }
 
 // whatIsTheRate()
