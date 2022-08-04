@@ -46,10 +46,10 @@ url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?'
 let args = [
   { station: stations[stationIdx].id},
   // { station: 1612340},
-  {interval: 'h'},
-  // {range: '24'},
-  {begin_date: '20210101'},
-  {end_date: '20220101'},
+  // {interval: 'h'},
+  {range: '24'},
+  // {begin_date: '20230101'},
+  // {end_date: '20220101'},
   {product: 'predictions'},
   {datum: 'STND'},
   {units: 'english'},
@@ -83,25 +83,11 @@ axios.get(urlWithArguments(url, args), {
 
     } else {
 
-      const line = stations[stationIdx].id + ','
-                   + stations[stationIdx].lat + ','
-                   + stations[stationIdx].lng + ','
-                  //  + stations[stationIdx].name + ','
-                   + response.data.predictions
-                   .map((reading) => reading.v)
-                   .join(',')
+      createJson(response, stationIdx)
 
-      const header = 'stationId,'
-                     + 'lat,'
-                     + 'lng,'
-                    //  +  'name,'
-                     + response.data.predictions
-                     .map((reading) => reading.t)
-                     .join(',')
+      // writeCSVs(response, stationIdx)
 
-      fs.writeFileSync( './resources/dataTopLine.csv', header)
 
-      fs.appendFileSync('./resources/data.csv', line + '\n');
 
     }
 
@@ -118,7 +104,58 @@ axios.get(urlWithArguments(url, args), {
 
 // queryAllStations()
 
+const createJson = (response, stationIdx) => {
 
+  const id = stations[stationIdx].id
+
+  const lat = stations[stationIdx].lat
+
+  const lng = stations[stationIdx].lng
+
+  const name = stations[stationIdx].name
+
+  const predictions = response.data.predictions.map((prediction) => {
+    return {
+      t : Date.parse(prediction.t),
+      v : prediction.v,
+    }})
+
+  const entry = {
+    id,
+    lat,
+    lng,
+    name,
+    predictions
+  }
+
+
+  fs.appendFileSync('./resources/dayData.json', JSON.stringify(entry) + ',\n');
+
+}
+
+
+
+const writeCSVs = (response, stationIdx) => {
+  const line = stations[stationIdx].id + ','
+                   + stations[stationIdx].lat + ','
+                   + stations[stationIdx].lng + ','
+                  //  + stations[stationIdx].name + ','
+                   + response.data.predictions
+                   .map((reading) => reading.v)
+                   .join(',')
+
+      const header = 'stationId,'
+                     + 'lat,'
+                     + 'lng,'
+                    //  +  'name,'
+                     + response.data.predictions
+                     .map((reading) => reading.t)
+                     .join(',')
+
+      fs.writeFileSync( './resources/dayDataTopLine.csv', header)
+
+      fs.appendFileSync('./resources/dayData.csv', line + '\n');
+}
 
 
 
@@ -151,7 +188,3 @@ axios.get(urlWithArguments(url, args), {
 //     // handle error
 //     console.log(error);
 //   })
-
-
-
-

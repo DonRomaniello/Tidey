@@ -8,9 +8,9 @@ import './App.css';
 
 import Map from './components/Map';
 
-import {
-  fetchStations,
-} from './store/features/stations';
+// import {
+//   fetchStations,
+// } from './store/features/stations';
 
 
 function App() {
@@ -20,8 +20,10 @@ function App() {
   const stations = useSelector((state) => state.stations.stations)
 
   useEffect(() => {
-    dispatch(fetchStations())
+    // dispatch(fetchStations())
   }, [dispatch])
+
+  console.log(stations[0])
 
   return (
     <div style={mapDivStyle}

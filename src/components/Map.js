@@ -6,11 +6,12 @@ import {
   useMap,
 } from 'react-leaflet'
 
-
 import Station from './Station';
 
 // import leaflet-pro css
 import "leaflet/dist/leaflet.css";
+
+import "./css/timeMarker.css";
 
 const ReactLeaflet = (props) => {
 
@@ -36,23 +37,29 @@ const ReactLeaflet = (props) => {
     style={styling}>
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
-
-
-
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors |
         Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
         />
       {stations.map((stationInfo, idx) => {
-        if (stationInfo.lat & stationInfo.lng % stationInfo.reference_id) {
+        if (stationInfo.lat & stationInfo.lng & stationInfo.id) {
           return <Station
-                  key={stationInfo.stationID}
+                  key={stationInfo.id + idx}
                   stationInfo={stationInfo} />
             }
           return null
 
       })}
-
-</MapContainer>
+  </MapContainer>
+  <div className='svgStyling'>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="lightgrey"
+      d="M0,0 h100 v100 h-100 z" />
+    <circle r="5" fill="red">
+      <animateMotion dur="10s" repeatCount="indefinite"
+        path="M0,0 h100 v100 h-100 z" />
+    </circle>
+  </svg>
+  </div>
 </>
 )
 }
@@ -68,4 +75,3 @@ const styling = {
   alignItems: 'center',
   borderRadius:'10px',
 }
-

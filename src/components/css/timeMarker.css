@@ -1,0 +1,14 @@
+
+.svgStyling {
+  position: absolute;
+  /* top: 100px;
+  left: 100px; */
+  display: flex;
+  height: calc(100vh - 100px);
+  width: calc(100vw - 100px);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-Index: 1000;
+}
+
