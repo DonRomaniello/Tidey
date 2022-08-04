@@ -6,6 +6,12 @@ import {
   useMap,
 } from 'react-leaflet'
 
+import { useSelector, useDispatch } from 'react-redux'
+
+import timeIndex, {
+  increment,
+} from '../store/features/timeIndex'
+
 import Station from './Station';
 
 // import leaflet-pro css
@@ -15,24 +21,30 @@ import "./css/timeMarker.css";
 
 const ReactLeaflet = (props) => {
 
+  const dispatch = useDispatch();
+
   const { stations } = props;
 
   const position = [40.778041, -73.921264]
 
-  const overlayStyle = {
-    // display: 'flex',
-    // height:'100vh',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    opacity: '.25',
-    transform: 'rotate3d(1, 0, 0, 45deg)',
-  }
+  const timeIndex = useSelector((state) => state.timeIndex.value)
+
+  useEffect(() => {
+    const delayedIncrement = () => {
+
+      dispatch(increment(stations[0].predictions.length))
+
+      setTimeout(delayedIncrement, 100)
+    }
+
+    delayedIncrement();
+  }, [])
 
   return (
     <>
     <MapContainer
     center={position}
-    zoom={14}
+    zoom={8}
     scrollWheelZoom={true}
     style={styling}>
       <TileLayer
@@ -44,13 +56,14 @@ const ReactLeaflet = (props) => {
         if (stationInfo.lat & stationInfo.lng & stationInfo.id) {
           return <Station
                   key={stationInfo.id + idx}
-                  stationInfo={stationInfo} />
+                  stationInfo={stationInfo}
+                  />
             }
           return null
 
       })}
   </MapContainer>
-  <div className='svgStyling'>
+  {/* <div className='svgStyling'>
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <path fill="none" stroke="lightgrey"
       d="M0,0 h100 v100 h-100 z" />
@@ -59,7 +72,7 @@ const ReactLeaflet = (props) => {
         path="M0,0 h100 v100 h-100 z" />
     </circle>
   </svg>
-  </div>
+  </div> */}
 </>
 )
 }

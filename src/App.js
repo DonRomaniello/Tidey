@@ -19,16 +19,18 @@ function App() {
 
   const stations = useSelector((state) => state.stations.stations)
 
+  const timeMarks = stations[0].predictions.map((entry) => entry.t)
+
   useEffect(() => {
     // dispatch(fetchStations())
   }, [dispatch])
 
-  console.log(stations[0])
+
 
   return (
     <div style={mapDivStyle}
     >
-      <Map stations={stations}/>
+      <Map stations={stations} timeMarks={timeMarks}/>
     </div>
   );
 }
