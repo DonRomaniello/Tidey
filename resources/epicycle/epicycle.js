@@ -391,7 +391,7 @@ function draw() {
 
   ctx.translate(radius, 0);
 
-  radius = (constituents[1].amplitude  * 10)
+  radius = (constituents[1].amplitude  * 20)
   speed = constituents[1].speed
   shift = constituents[1].phase_GMT
   ctx.beginPath();
@@ -404,7 +404,7 @@ function draw() {
 
 
   constituents.slice(2, 5).forEach((constituent) => {
-    radius = constituent.amplitude * 10
+    radius = constituent.amplitude * 20
     speed = constituent.speed
     shit = constituent.phase_GMT
     ctx.translate(radius / 2, 0);
