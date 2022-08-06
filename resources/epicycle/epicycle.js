@@ -372,6 +372,8 @@ function draw() {
   let radius = (constituents[0].amplitude  * 10)
   let speed = constituents[0].speed
   let shift = constituents[0].phase_GMT
+  let incrementor = (time.getTime() - timeSubtract)
+  const limiter = 100000
 
 
   ctx.beginPath();
@@ -379,12 +381,7 @@ function draw() {
   ctx.stroke();
   ctx.translate(center[0], center[1]);
 
-
-  console.log(((2 * Math.PI) / speed) * (time.getTime()/ - timeSubtract))
-  ctx.rotate(((2 * Math.PI) / speed) * ((time.getTime() - timeSubtract) / 1000))
-  // ctx.rotate(((2 * Math.PI) / speed) * time.getSeconds())
-  // ctx.rotate(((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds())
-  // ctx.rotate((((2 * Math.PI) / speed) * time.getSeconds() + shift) + ((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds());
+  ctx.rotate((((speed) * (incrementor / limiter))) + (shift / limiter))
   ctx.save();
 
 
@@ -396,11 +393,8 @@ function draw() {
   ctx.beginPath();
   ctx.arc(0, 0, radius, 0, Math.PI * 2, false);
   ctx.stroke();
-  ctx.rotate((((2 * Math.PI) / speed) * time.getSeconds()));
-  ctx.rotate(((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds());
+  ctx.rotate((((speed) * (incrementor / limiter))) + (shift / limiter))
   ctx.translate(0, radius);
-
-
 
 
   constituents.slice(2, 10).forEach((constituent) => {
@@ -411,8 +405,7 @@ function draw() {
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0, Math.PI * 2, false);
     ctx.stroke();
-    ctx.rotate((((2 * Math.PI) / speed) * time.getSeconds()));
-    ctx.rotate(((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds());
+    ctx.rotate((((speed) * (incrementor / limiter))) + (shift / limiter))
     ctx.translate(0, radius);
   })
 
