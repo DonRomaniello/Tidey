@@ -357,7 +357,7 @@ function draw() {
   const ctx = document.getElementById('canvas').getContext('2d');
 
   ctx.globalCompositeOperation = 'destination-over';
-  ctx.clearRect(0, 0, 1000, 1000); // clear canvas
+  ctx.clearRect(0, 0, 500, 500); // clear canvas
 
   ctx.lineWidth = 3;
   ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
@@ -368,7 +368,7 @@ function draw() {
 
   const time = new Date();
 
-  let center = [500, 500]
+  let center = [250, 250]
   let radius = (constituents[0].amplitude  * 10)
   let speed = constituents[0].speed
   let shift = constituents[0].phase_GMT
@@ -376,12 +376,16 @@ function draw() {
   const limiter = 100000
 
 
-  ctx.beginPath();
-  ctx.arc(center[0], center[1], radius, 0, Math.PI * 2, false);
-  ctx.stroke();
   ctx.translate(center[0], center[1]);
-
+  ctx.beginPath();
+  ctx.arc(0, 0, 1, 0, Math.PI * 2, false);
+  ctx.stroke();
   ctx.rotate((((speed) * (incrementor / limiter))) + (shift / limiter))
+  ctx.beginPath();
+  ctx.arc(0, radius, radius, 0, Math.PI * 2, false);
+  ctx.stroke();
+  ctx.translate(0, radius);
+
   ctx.save();
 
 
@@ -397,7 +401,9 @@ function draw() {
   ctx.translate(0, radius);
 
 
-  constituents.slice(2, 10).forEach((constituent) => {
+
+
+  constituents.slice(2, 5).forEach((constituent) => {
     radius = constituent.amplitude * 10
     speed = constituent.speed
     shit = constituent.phase_GMT
