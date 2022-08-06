@@ -347,7 +347,11 @@ function init() {
   window.requestAnimationFrame(draw);
 }
 
-console.log(harcon.HarmonicConstituents)
+harcon.HarmonicConstituents.sort((a, b) => b.amplitude - a.amplitude)
+
+let constituents = harcon.HarmonicConstituents
+
+let timeSubtract = new Date().getTime()
 
 function draw() {
   const ctx = document.getElementById('canvas').getContext('2d');
@@ -357,42 +361,58 @@ function draw() {
 
   ctx.lineWidth = 3;
   ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-  ctx.strokeStyle = 'rgba(0, 153, 255, 0.9)';
+  ctx.strokeStyle = 'rgba(0, 153, 255, 0.5)';
 
 
   ctx.save();
 
   const time = new Date();
+
   let center = [500, 500]
-  let radius = 200
+  let radius = (constituents[0].amplitude  * 10)
+  let speed = constituents[0].speed
+  let shift = constituents[0].phase_GMT
+
 
   ctx.beginPath();
   ctx.arc(center[0], center[1], radius, 0, Math.PI * 2, false);
   ctx.stroke();
   ctx.translate(center[0], center[1]);
 
-  ctx.rotate(((2 * Math.PI) / 60) * time.getSeconds() + ((2 * Math.PI) / 60000) * time.getMilliseconds());
+
+  console.log(((2 * Math.PI) / speed) * (time.getTime()/ - timeSubtract))
+  ctx.rotate(((2 * Math.PI) / speed) * ((time.getTime() - timeSubtract) / 1000))
+  // ctx.rotate(((2 * Math.PI) / speed) * time.getSeconds())
+  // ctx.rotate(((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds())
+  // ctx.rotate((((2 * Math.PI) / speed) * time.getSeconds() + shift) + ((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds());
   ctx.save();
 
 
   ctx.translate(radius, 0);
 
-  radius = 100
+  radius = (constituents[1].amplitude  * 10)
+  speed = constituents[1].speed
+  shift = constituents[1].phase_GMT
   ctx.beginPath();
   ctx.arc(0, 0, radius, 0, Math.PI * 2, false);
   ctx.stroke();
-  ctx.rotate(((2 * Math.PI) / 6) * time.getSeconds() + ((2 * Math.PI) / 6000) * time.getMilliseconds());
+  ctx.rotate((((2 * Math.PI) / speed) * time.getSeconds()));
+  ctx.rotate(((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds());
   ctx.translate(0, radius);
 
 
-  let radii = [50, 25, 12.5]
 
-  radii.forEach((radius) => {
+
+  constituents.slice(2, 10).forEach((constituent) => {
+    radius = constituent.amplitude * 10
+    speed = constituent.speed
+    shit = constituent.phase_GMT
     ctx.translate(radius / 2, 0);
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0, Math.PI * 2, false);
     ctx.stroke();
-    ctx.rotate(((2 * Math.PI) / 6) * time.getSeconds() + ((2 * Math.PI) / 6000) * time.getMilliseconds());
+    ctx.rotate((((2 * Math.PI) / speed) * time.getSeconds()));
+    ctx.rotate(((2 * Math.PI) / (speed * 1000)) * time.getMilliseconds());
     ctx.translate(0, radius);
   })
 
