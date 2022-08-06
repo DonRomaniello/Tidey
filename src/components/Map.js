@@ -31,9 +31,7 @@ const ReactLeaflet = (props) => {
 
   useEffect(() => {
     const delayedIncrement = () => {
-
       dispatch(increment(stations[0].predictions.length))
-
       setTimeout(delayedIncrement, 100)
     }
 
