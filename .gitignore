@@ -27,3 +27,4 @@ yarn-error.log*
 
 # test data
 /resources/data.csv
+resources/epicycle/animatedBezier.js

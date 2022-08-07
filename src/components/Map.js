@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import {
   MapContainer,
+  Popup,
   TileLayer,
   useMap,
 } from 'react-leaflet'
@@ -12,7 +13,11 @@ import timeIndex, {
   increment,
 } from '../store/features/timeIndex'
 
+import EpicyclePopup from './EpicyclePopup';
+
 import Station from './Station';
+
+import Square from './customReactLeaflet'
 
 // import leaflet-pro css
 import "leaflet/dist/leaflet.css";
@@ -29,15 +34,6 @@ const ReactLeaflet = (props) => {
 
   const timeIndex = useSelector((state) => state.timeIndex.value)
 
-  useEffect(() => {
-    const delayedIncrement = () => {
-      dispatch(increment(stations[0].predictions.length))
-      setTimeout(delayedIncrement, 100)
-    }
-
-    delayedIncrement();
-  }, [])
-
   return (
     <>
     <MapContainer
@@ -52,14 +48,14 @@ const ReactLeaflet = (props) => {
         />
       {stations.map((stationInfo, idx) => {
         if (stationInfo.lat & stationInfo.lng & stationInfo.id) {
-          return <Station
+          return <EpicyclePopup
                   key={stationInfo.id + idx}
                   stationInfo={stationInfo}
                   />
             }
           return null
-
       })}
+      {/* <EpicyclePopup /> */}
   </MapContainer>
   {/* <div className='svgStyling'>
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

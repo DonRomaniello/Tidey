@@ -43,6 +43,8 @@ const queryAllStations = () => {
 
 url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?'
 
+// https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/8410834/harcon.json
+
 let args = [
   { station: stations[stationIdx].id},
   // { station: 1612340},

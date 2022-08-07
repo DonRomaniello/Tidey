@@ -400,9 +400,6 @@ function draw() {
   ctx.rotate((((speed) * (incrementor / limiter))) + (shift / limiter))
   ctx.translate(0, radius);
 
-
-
-
   constituents.slice(2, 5).forEach((constituent) => {
     radius = constituent.amplitude * 20
     speed = constituent.speed
@@ -415,12 +412,23 @@ function draw() {
     ctx.translate(0, radius);
   })
 
-  ctx.restore();
+
+  radius = (constituents[6].amplitude  * 20)
+  speed = constituents[6].speed
+  shift = constituents[6].phase_GMT
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, Math.PI * 2, false);
+  ctx.stroke();
+  ctx.rotate((((speed) * (incrementor / limiter))) + (shift / limiter))
+  ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+  ctx.beginPath();
+  ctx.arc(radius, 0, 1, 0, Math.PI * 2, false);
+  ctx.stroke();
+
   ctx.restore();
 
   ctx.save()
   ctx.restore();
-
 
   window.requestAnimationFrame(draw);
 }
