@@ -352,7 +352,7 @@ let featureStrokeColor = 'rgba(0, 128, 255, 1)'
 // How smooth the tide chart curves should be
 const wavePrecision = 1
 
-const numOfConstituents = 1
+const numOfConstituents = 2
 let constituents = harcon.HarmonicConstituents
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
@@ -403,23 +403,52 @@ const draw = () => {
   ctx.fillStyle = featureFillColor;
   ctx.lineWidth = 1;
 
-  ctx.restore();
 
 
   // Update the time and draw again
   draw.seconds = (time - timeSubtract) / (100000 / speed);
   draw.hourOffset = (time - timeSubtract) + (30000)
-  draw.t = draw.seconds*Math.PI;
-  runThroughConstituents()
+  draw.t = draw.seconds;
+  runThroughConstituents(draw.t * Math.PI)
+  ctx.restore();
 
   window.requestAnimationFrame(draw);
 }
 
-const runThroughConstituents = () => {
+const runThroughConstituents = (time) => {
 
+  constituents.forEach((constituent) => {
 
+    const radius = Math.floor(constituent.amplitude * unit)
+    ctx.beginPath()
+    ctx.arc(nextXCenter, nextYCenter, radius, 20, 2*Math.PI, false);
+    ctx.stroke();
 
+    getLocationOnCircle(time, radius, constituent.phase_GMT)
 
+    console.log(time)
+  })
+
+}
+
+const getLocationOnCircle = (time, phase, radius) => {
+
+  let nextCenters = getPhasedXY(time, phase, radius)
+  nextXCenter = nextCenters[0]
+  nextYCenter = nextCenters[1]
+}
+
+const getRadians = (angle) => {
+  return (angle * (Math.PI / 180))
+}
+
+const getPhasedXY = (time, phase, radius) => {
+
+  let phaseX = nextXCenter + radius * Math.sin((time + getRadians(phase)))
+
+  let phaseY = nextYCenter + radius * Math.cos((time + getRadians(phase)))
+
+  return [phaseX, phaseY]
 }
 
 const drawAxes = () => {
