@@ -352,7 +352,7 @@ let featureStrokeColor = 'rgba(0, 128, 255, 1)'
 // How smooth the tide chart curves should be
 const wavePrecision = 1
 
-const numOfConstituents = 2
+const numOfConstituents = 4
 let constituents = harcon.HarmonicConstituents
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
@@ -423,10 +423,8 @@ const runThroughConstituents = (time) => {
     ctx.beginPath()
     ctx.arc(nextXCenter, nextYCenter, radius, 20, 2*Math.PI, false);
     ctx.stroke();
-
     getLocationOnCircle(time, radius, constituent.phase_GMT)
 
-    console.log(time)
   })
 
 }
@@ -444,9 +442,9 @@ const getRadians = (angle) => {
 
 const getPhasedXY = (time, phase, radius) => {
 
-  let phaseX = nextXCenter + radius * Math.sin((time + getRadians(phase)))
+  let phaseX = nextXCenter + (radius * Math.sin((time + getRadians(phase))) / unit)
 
-  let phaseY = nextYCenter + radius * Math.cos((time + getRadians(phase)))
+  let phaseY = nextYCenter + (radius * Math.cos((time + getRadians(phase))) / unit)
 
   return [phaseX, phaseY]
 }
