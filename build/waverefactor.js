@@ -354,7 +354,7 @@ let beadColor = 'rgba(255, 0, 0, 1)'
 // How smooth the tide chart curves should be
 const wavePrecision = .25
 
-const numOfConstituents = 3
+const numOfConstituents = 5
 let constituents = harcon.HarmonicConstituents
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
@@ -494,13 +494,11 @@ const drawEpicycles = (radius) => {
 
 
 function drawTideChart() {
-
   ctx.beginPath();
   ctx.moveTo(width, timeSeriesChords[0]);
   timeSeriesChords.slice(1).forEach((yCoordinate, idx) => {
     ctx.lineTo((width - ((idx + 1) * wavePrecision)), yCoordinate);
   })
-
   ctx.stroke();
 }
 
