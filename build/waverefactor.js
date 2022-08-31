@@ -465,7 +465,11 @@ const populateTimeSeries = (timeSeriesLength) => {
 // Drawing functions
 const drawArrow = () => {
 
-
+  ctx.beginPath()
+  ctx.setLineDash([5, 10]);
+  ctx.moveTo(yAxis, nextYCenter)
+  ctx.lineTo(nextXCenter, nextYCenter)
+  ctx.stroke()
 
 }
 
