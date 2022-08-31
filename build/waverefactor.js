@@ -344,12 +344,13 @@ const timeSubtract = new Date().getTime()
 const unit = 10
 const canvasSize = [500, 500]
 // The amplitude indicators on the harmonics are called beads
-const beadSize = 5
+const beadSize = 2
 const speed = 1
 const frameRate = 60
-let axesStrokeColor = 'rgba(128, 128, 128, 1)'
-let featureFillColor = 'rgba(0, 128, 255, .1)'
-let featureStrokeColor = 'rgba(0, 128, 255, 1)'
+const axesStrokeColor = 'rgba(128, 128, 128, 1)'
+const featureFillColor = 'rgba(0, 128, 255, .1)'
+const featureStrokeColor = 'rgba(0, 128, 255, 1)'
+let beadColor = 'rgba(255, 0, 0, 1)'
 // How smooth the tide chart curves should be
 const wavePrecision = .25
 
@@ -421,6 +422,7 @@ const draw = () => {
   runThroughConstituents(draw.t * Math.PI, drawEpicycles)
   drawTideChart();
   drawArrow();
+  drawBead()
   ctx.restore();
 
   setTimeout(draw, (1000 / frameRate));
@@ -429,7 +431,7 @@ const draw = () => {
 const runThroughConstituents = (time, drawFunction) => {
   constituents.forEach((constituent, idx) => {
     const radius = Math.floor(constituent.amplitude * unit)
-    drawFunction(radius, constituent.phase_GMT)
+    drawFunction(radius)
     getLocationOnCircle(time, radius, constituent)
     if (idx == (constituents.length - 1)) {
       timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
@@ -464,16 +466,25 @@ const populateTimeSeries = (timeSeriesLength) => {
 
 // Drawing functions
 const drawArrow = () => {
-
   ctx.beginPath()
   ctx.setLineDash([5, 10]);
   ctx.moveTo(yAxis, nextYCenter)
   ctx.lineTo(nextXCenter, nextYCenter)
   ctx.stroke()
-
 }
 
-const drawEpicycles = (radius, phase) => {
+const drawBead = () => {
+  ctx.beginPath()
+      ctx.strokeStyle = beadColor;
+      ctx.fillStyle = beadColor;
+      ctx.arc(nextXCenter, nextYCenter, beadSize, 0, 2 * Math.PI, false);
+      ctx.fill();
+      ctx.stroke();
+      ctx.strokeStyle = featureStrokeColor; // restore color
+}
+
+
+const drawEpicycles = (radius) => {
   ctx.beginPath()
   ctx.arc(nextXCenter, nextYCenter, radius, 0, 2 * Math.PI, false);
   ctx.fill();
