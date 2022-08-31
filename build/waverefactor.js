@@ -345,14 +345,14 @@ const unit = 10
 const canvasSize = [500, 500]
 // The amplitude indicators on the harmonics are called beads
 const beadSize = 5
-const speed = 10
+const speed = 1
 let axesStrokeColor = 'rgba(0, 0, 0, 1)'
-let featureFillColor = 'rgba(255, 255, 255, 1)'
+let featureFillColor = 'rgba(0, 128, 255, 0)'
 let featureStrokeColor = 'rgba(0, 128, 255, 1)'
 // How smooth the tide chart curves should be
 const wavePrecision = 1
 
-const numOfConstituents = 4
+const numOfConstituents = 5
 let constituents = harcon.HarmonicConstituents
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
@@ -421,17 +421,18 @@ const runThroughConstituents = (time) => {
 
     const radius = Math.floor(constituent.amplitude * unit)
     ctx.beginPath()
-    ctx.arc(nextXCenter, nextYCenter, radius, 20, 2*Math.PI, false);
+    ctx.arc(nextXCenter, nextYCenter, radius, 0, 2*Math.PI, false);
+    ctx.fill();
     ctx.stroke();
-    getLocationOnCircle(time, radius, constituent.phase_GMT)
+    getLocationOnCircle(time, radius, constituent)
 
   })
 
 }
 
-const getLocationOnCircle = (time, phase, radius) => {
+const getLocationOnCircle = (time, radius, constituent) => {
 
-  let nextCenters = getPhasedXY(time, phase, radius)
+  let nextCenters = getPhasedXY(time, radius, constituent)
   nextXCenter = nextCenters[0]
   nextYCenter = nextCenters[1]
 }
@@ -440,11 +441,15 @@ const getRadians = (angle) => {
   return (angle * (Math.PI / 180))
 }
 
-const getPhasedXY = (time, phase, radius) => {
+const getPhasedXY = (time, radius, constituent) => {
 
-  let phaseX = nextXCenter + (radius * Math.sin((time + getRadians(phase))) / unit)
+  const { phase_GMT, speed} = constituent
 
-  let phaseY = nextYCenter + (radius * Math.cos((time + getRadians(phase))) / unit)
+  let phase = phase_GMT
+
+  let phaseX = nextXCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
+
+  let phaseY = nextYCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
 
   return [phaseX, phaseY]
 }
