@@ -357,9 +357,13 @@ let constituents = harcon.HarmonicConstituents
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
 
+let timeSeriesChords = []
+
 // declare a lot of variables that should not be redeclared each time
 let canvas, ctx, height, width, xAxis, yAxis,
-    x, y, nextXCenter, nextYCenter
+    x, y, nextXCenter, nextYCenter, timeSeriesLength;
+
+
 
 const init = () => {
   // this may change, will revisit
@@ -376,6 +380,8 @@ const init = () => {
 
   xAxis = Math.floor(height/2);
   yAxis = Math.floor(width/4);
+
+  timeSeriesLength = ((width - yAxis) / wavePrecision)
 
   // Tracking the center of the current constituent is important
 
@@ -410,6 +416,7 @@ const draw = () => {
   draw.hourOffset = (time - timeSubtract) + (30000)
   draw.t = draw.seconds;
   runThroughConstituents(draw.t * Math.PI)
+  drawTideChart();
   ctx.restore();
 
   window.requestAnimationFrame(draw);
@@ -417,7 +424,7 @@ const draw = () => {
 
 const runThroughConstituents = (time) => {
 
-  constituents.forEach((constituent) => {
+  constituents.forEach((constituent, idx) => {
 
     const radius = Math.floor(constituent.amplitude * unit)
     ctx.beginPath()
@@ -426,34 +433,45 @@ const runThroughConstituents = (time) => {
     ctx.stroke();
     getLocationOnCircle(time, radius, constituent)
 
+    if (idx == (constituents.length - 1)) {
+      timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
+    }
   })
 
 }
 
 const getLocationOnCircle = (time, radius, constituent) => {
-
   let nextCenters = getPhasedXY(time, radius, constituent)
   nextXCenter = nextCenters[0]
   nextYCenter = nextCenters[1]
 }
 
-const getRadians = (angle) => {
-  return (angle * (Math.PI / 180))
-}
-
 const getPhasedXY = (time, radius, constituent) => {
-
   const { phase_GMT, speed} = constituent
-
   let phase = phase_GMT
-
   let phaseX = nextXCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
-
   let phaseY = nextYCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
-
   return [phaseX, phaseY]
 }
 
+function drawTideChart() {
+
+  ctx.beginPath();
+  ctx.moveTo(width, timeSeriesChords[0]);
+  timeSeriesChords.slice(1).forEach((yCoordinate, idx) => {
+    ctx.lineTo((width - ((idx + 1) * wavePrecision)), yCoordinate);
+  })
+
+  ctx.stroke();
+}
+
+
+
+
+
+const getRadians = (angle) => {
+  return (angle * (Math.PI / 180))
+}
 const drawAxes = () => {
   // Draw X and Y axes
   ctx.strokeStyle = axesStrokeColor;
