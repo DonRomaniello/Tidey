@@ -347,13 +347,13 @@ const canvasSize = [500, 500]
 const beadSize = 5
 const speed = 1
 const frameRate = 60
-let axesStrokeColor = 'rgba(0, 0, 0, 1)'
-let featureFillColor = 'rgba(0, 128, 255, 0)'
+let axesStrokeColor = 'rgba(128, 128, 128, 1)'
+let featureFillColor = 'rgba(0, 128, 255, .1)'
 let featureStrokeColor = 'rgba(0, 128, 255, 1)'
 // How smooth the tide chart curves should be
 const wavePrecision = .25
 
-const numOfConstituents = 5
+const numOfConstituents = 3
 let constituents = harcon.HarmonicConstituents
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
@@ -429,7 +429,7 @@ const draw = () => {
 const runThroughConstituents = (time, drawFunction) => {
   constituents.forEach((constituent, idx) => {
     const radius = Math.floor(constituent.amplitude * unit)
-    drawFunction(radius)
+    drawFunction(radius, constituent.phase_GMT)
     getLocationOnCircle(time, radius, constituent)
     if (idx == (constituents.length - 1)) {
       timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
@@ -473,9 +473,9 @@ const drawArrow = () => {
 
 }
 
-const drawEpicycles = (radius) => {
+const drawEpicycles = (radius, phase) => {
   ctx.beginPath()
-  ctx.arc(nextXCenter, nextYCenter, radius, 0, 2*Math.PI, false);
+  ctx.arc(nextXCenter, nextYCenter, radius, 0, 2 * Math.PI, false);
   ctx.fill();
   ctx.stroke();
 }
