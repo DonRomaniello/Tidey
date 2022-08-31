@@ -363,7 +363,8 @@ let timeSeriesChords = []
 let canvas, ctx, height, width, xAxis, yAxis,
     x, y, nextXCenter, nextYCenter, timeSeriesLength;
 
-
+const emptyFunction = () => {
+}
 
 const init = () => {
   // this may change, will revisit
@@ -382,6 +383,8 @@ const init = () => {
   yAxis = Math.floor(width/4);
 
   timeSeriesLength = ((width - yAxis) / wavePrecision)
+
+  populateTimeSeries(timeSeriesLength, emptyFunction)
 
   // Tracking the center of the current constituent is important
 
@@ -412,32 +415,35 @@ const draw = () => {
 
 
   // Update the time and draw again
-  draw.seconds = (time - timeSubtract) / (100000 / speed);
-  draw.hourOffset = (time - timeSubtract) + (30000)
-  draw.t = draw.seconds;
-  runThroughConstituents(draw.t * Math.PI)
+  draw.t = (time - timeSubtract) / (100000 / speed);
+  console.log(draw.t)
+  runThroughConstituents(draw.t * Math.PI, drawEpicycles)
   drawTideChart();
   ctx.restore();
 
   window.requestAnimationFrame(draw);
 }
 
-const runThroughConstituents = (time) => {
+
+
+const runThroughConstituents = (time, drawFunction) => {
 
   constituents.forEach((constituent, idx) => {
-
     const radius = Math.floor(constituent.amplitude * unit)
-    ctx.beginPath()
-    ctx.arc(nextXCenter, nextYCenter, radius, 0, 2*Math.PI, false);
-    ctx.fill();
-    ctx.stroke();
-    getLocationOnCircle(time, radius, constituent)
 
+    drawFunction(radius)
+
+    getLocationOnCircle(time, radius, constituent)
     if (idx == (constituents.length - 1)) {
       timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
     }
   })
+}
 
+
+
+const getRadians = (angle) => {
+  return (angle * (Math.PI / 180))
 }
 
 const getLocationOnCircle = (time, radius, constituent) => {
@@ -454,6 +460,24 @@ const getPhasedXY = (time, radius, constituent) => {
   return [phaseX, phaseY]
 }
 
+const populateTimeSeries = (timeSeriesLength) => {
+  for (let i = 0; i < timeSeriesLength; i++) {
+    runThroughConstituents(i, emptyFunction)
+    timeSeriesChords.push(nextYCenter)
+  }
+}
+
+// Drawing functions
+
+const drawEpicycles = (radius) => {
+  ctx.beginPath()
+  ctx.arc(nextXCenter, nextYCenter, radius, 0, 2*Math.PI, false);
+  ctx.fill();
+  ctx.stroke();
+}
+
+
+
 function drawTideChart() {
 
   ctx.beginPath();
@@ -466,12 +490,6 @@ function drawTideChart() {
 }
 
 
-
-
-
-const getRadians = (angle) => {
-  return (angle * (Math.PI / 180))
-}
 const drawAxes = () => {
   // Draw X and Y axes
   ctx.strokeStyle = axesStrokeColor;
