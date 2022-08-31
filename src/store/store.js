@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import stationsReducer from './features/stations'
-import timeIndexReducer from './features/timeIndex'
+import harmonicsReducer from './features/harmonics'
 
 
 export const store = configureStore({
   reducer: {
     stations: stationsReducer,
-    timeIndex: timeIndexReducer,
+    harmonics: harmonicsReducer,
   },
 })

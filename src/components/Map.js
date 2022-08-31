@@ -9,11 +9,7 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import timeIndex, {
-  increment,
-} from '../store/features/timeIndex'
-
-import EpicyclePopup from './EpicyclePopup';
+import Epicycles from './Epicycles';
 
 import Station from './Station';
 
@@ -32,7 +28,6 @@ const ReactLeaflet = (props) => {
 
   const position = [40.778041, -73.921264]
 
-  const timeIndex = useSelector((state) => state.timeIndex.value)
 
   return (
     <>
@@ -48,25 +43,14 @@ const ReactLeaflet = (props) => {
         />
       {stations.map((stationInfo, idx) => {
         if (stationInfo.lat & stationInfo.lng & stationInfo.id) {
-          return <EpicyclePopup
-                  key={stationInfo.id + idx}
+          return <Epicycles
+                  key={stationInfo.id + stationInfo.lat + stationInfo.lng}
                   stationInfo={stationInfo}
                   />
             }
           return null
       })}
-      {/* <EpicyclePopup /> */}
   </MapContainer>
-  {/* <div className='svgStyling'>
-  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path fill="none" stroke="lightgrey"
-      d="M0,0 h100 v100 h-100 z" />
-    <circle r="5" fill="red">
-      <animateMotion dur="10s" repeatCount="indefinite"
-        path="M0,0 h100 v100 h-100 z" />
-    </circle>
-  </svg>
-  </div> */}
 </>
 )
 }

@@ -8,9 +8,9 @@ import './App.css';
 
 import Map from './components/Map';
 
-// import {
-//   fetchStations,
-// } from './store/features/stations';
+import {
+  fetchStations,
+} from './store/features/stations';
 
 
 function App() {
@@ -19,10 +19,8 @@ function App() {
 
   const stations = useSelector((state) => state.stations.stations)
 
-  const timeMarks = stations[0].predictions.map((entry) => entry.t)
-
   useEffect(() => {
-    // dispatch(fetchStations())
+    dispatch(fetchStations())
   }, [dispatch])
 
 
@@ -30,7 +28,7 @@ function App() {
   return (
     <div style={mapDivStyle}
     >
-      <Map stations={stations} timeMarks={timeMarks}/>
+      <Map stations={stations}/>
     </div>
   );
 }
