@@ -346,11 +346,12 @@ const canvasSize = [500, 500]
 // The amplitude indicators on the harmonics are called beads
 const beadSize = 5
 const speed = 1
+const frameRate = 60
 let axesStrokeColor = 'rgba(0, 0, 0, 1)'
 let featureFillColor = 'rgba(0, 128, 255, 0)'
 let featureStrokeColor = 'rgba(0, 128, 255, 1)'
 // How smooth the tide chart curves should be
-const wavePrecision = 1
+const wavePrecision = .25
 
 const numOfConstituents = 5
 let constituents = harcon.HarmonicConstituents
@@ -389,6 +390,7 @@ const init = () => {
   // Tracking the center of the current constituent is important
 
   ctx.save();
+
   window.requestAnimationFrame(draw);
 }
 
@@ -416,31 +418,24 @@ const draw = () => {
 
   // Update the time and draw again
   draw.t = (time - timeSubtract) / (100000 / speed);
-  console.log(draw.t)
   runThroughConstituents(draw.t * Math.PI, drawEpicycles)
   drawTideChart();
+  drawArrow();
   ctx.restore();
 
-  window.requestAnimationFrame(draw);
+  setTimeout(draw, (1000 / frameRate));
 }
 
-
-
 const runThroughConstituents = (time, drawFunction) => {
-
   constituents.forEach((constituent, idx) => {
     const radius = Math.floor(constituent.amplitude * unit)
-
     drawFunction(radius)
-
     getLocationOnCircle(time, radius, constituent)
     if (idx == (constituents.length - 1)) {
       timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
     }
   })
 }
-
-
 
 const getRadians = (angle) => {
   return (angle * (Math.PI / 180))
@@ -468,6 +463,11 @@ const populateTimeSeries = (timeSeriesLength) => {
 }
 
 // Drawing functions
+const drawArrow = () => {
+
+
+
+}
 
 const drawEpicycles = (radius) => {
   ctx.beginPath()
