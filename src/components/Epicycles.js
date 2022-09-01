@@ -66,9 +66,7 @@ const Epicycles = (props) => {
       autoPan={true}
       autoClose={false}>
         {((harmonics.loaded) && couldOpen) ?
-          <div id="epicycleCanvas">
-            Loaded.
-          </div> :
+          <canvas id="epicycleCanvas" />  :
           <div className='loading' >
             loading...
             </div>}
