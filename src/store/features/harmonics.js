@@ -8,6 +8,7 @@ import axios from 'axios';
 const initialState = {
   harmonics: [],
   loading: false,
+  loaded: false,
   error: '',
 }
 
@@ -30,16 +31,18 @@ export const harmonicsSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchHarmonics.pending, state => {
       state.loading = true;
+      state.loaded = false;
     })
     builder.addCase(fetchHarmonics.fulfilled, (state, action) => {
       state.loading = false
-      // console.log(action.payload)
       state.harmonics = action.payload.HarmonicConstituents
+      state.loaded = true
       state.error = ''
     })
     builder.addCase(fetchHarmonics.rejected, (state, action) => {
       state.loading = false
       state.harmonics = []
+      state.loaded = false
       state.error = action.error.message
     })
   },

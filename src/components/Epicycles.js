@@ -14,12 +14,16 @@ import {
 
 import 'leaflet/dist/leaflet.css';
 
+import drawVisualizer from './modules/drawHarmonicConstituents';
+
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 const Epicycles = (props) => {
 
   const harmonics = useSelector((state) => state.harmonics)
+
+  const [couldOpen, setCouldOpen] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -37,9 +41,9 @@ const Epicycles = (props) => {
   const position = [stationInfo?.lat, stationInfo?.lng]
 
   useEffect(() => {
-    if (harmonics) {
-
-      console.log(harmonics)
+    if (harmonics.loaded && couldOpen) {
+      console.log(harmonics.harmonics)
+      drawVisualizer(harmonics.harmonics, 5, [200, 200])
     }
   }, [harmonics])
 
@@ -52,8 +56,8 @@ const Epicycles = (props) => {
     riseOnHover={true}
     eventHandlers={{
       click: () => {
-        console.log(stationInfo.harmonicConstituents)
         dispatch(fetchHarmonics(stationInfo.harmonicConstituents))
+        setCouldOpen(!couldOpen);
       },
     }}
     >
@@ -61,9 +65,13 @@ const Epicycles = (props) => {
       autoPanPadding={[500, 250]}
       autoPan={true}
       autoClose={false}>
-          <div>
-
-          </div>
+        {((harmonics.loaded) && couldOpen) ?
+          <div id="epicycleCanvas">
+            Loaded.
+          </div> :
+          <div className='loading' >
+            loading...
+            </div>}
       </Popup>
     </Marker>
     </>
