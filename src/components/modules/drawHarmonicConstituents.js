@@ -1,9 +1,9 @@
 
-const drawVisualizer = (harcon, numOfConstituents = 5, canvasSize = [500, 500]) => {
+const drawVisualizer = (harcon, canvasName,
+   numOfConstituents = 5,
+    canvasSize = [500, 500]) => {
 // Record the initial time so the delta can be calculated later
 const timeSubtract = new Date().getTime()
-// This is how much to scale by
-const unit = 10
 // The amplitude indicators on the harmonics are called beads
 const beadSize = 2
 const speed = 1
@@ -16,11 +16,18 @@ const wavePrecision = .25 // How smooth the tide chart curves should be
 let constituents = [...harcon]
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
+let width = canvasSize[0]
+let height = canvasSize[1]
+
+// This is how much to scale by
+const scale = constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
+
+const unit = ((height / 2) / scale)
 
 let timeSeriesChords = []
 
 // declare a lot of variables that should not be redeclared each time
-let canvas, ctx, height, width, xAxis, yAxis,
+let canvas, ctx, xAxis, yAxis,
     x, y, nextXCenter, nextYCenter, timeSeriesLength;
 
 const emptyFunction = () => {
@@ -28,18 +35,13 @@ const emptyFunction = () => {
 
 const init = () => {
   // this may change, will revisit
-  canvas = document.getElementById("epicycleCanvas");
-
-  console.log(canvas)
+  canvas = document.getElementById(canvasName);
 
   canvas.width = canvasSize[0];
   canvas.height = canvasSize[1];
 
   ctx = canvas.getContext("2d");
   ctx.lineJoin = 'round';
-
-  height = canvas.height;
-  width = canvas.width;
 
   xAxis = Math.floor(height/2);
   yAxis = Math.floor(width/4);

@@ -40,10 +40,12 @@ const Epicycles = (props) => {
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
+  const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
+
   useEffect(() => {
     if (harmonics.loaded && couldOpen) {
       console.log(harmonics.harmonics)
-      drawVisualizer(harmonics.harmonics, 5, [200, 200])
+      drawVisualizer(harmonics.harmonics, canvasName, 5, [200, 200])
     }
   }, [harmonics])
 
@@ -66,7 +68,7 @@ const Epicycles = (props) => {
       autoPan={true}
       autoClose={false}>
         {((harmonics.loaded) && couldOpen) ?
-          <canvas id="epicycleCanvas" />  :
+          <canvas id={canvasName} />  :
           <div className='loading' >
             loading...
             </div>}
