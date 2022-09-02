@@ -12,14 +12,20 @@ import {
   Popup,
 } from 'react-leaflet'
 
-import 'leaflet/dist/leaflet.css';
 
 import drawVisualizer from './modules/drawHarmonicConstituents';
-
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
+import 'leaflet/dist/leaflet.css';
+
+import './css/Epicycles.module.css'
+
+// import { popupStyle } from './css/Epicycles.module';
+
 const Epicycles = (props) => {
+
+  const { stationInfo } = props
 
   const harmonics = useSelector((state) => state.harmonics)
 
@@ -36,7 +42,9 @@ const Epicycles = (props) => {
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
-  const { stationInfo } = props
+  L.Popup.prototype.options.maxWidth = '1000%'
+
+
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
@@ -45,13 +53,14 @@ const Epicycles = (props) => {
   useEffect(() => {
     if (harmonics.loaded && couldOpen) {
       console.log(harmonics.harmonics)
-      drawVisualizer(harmonics.harmonics, canvasName, 5, [200, 200])
+      drawVisualizer(harmonics.harmonics, canvasName, 5, [400, 200])
     }
   }, [harmonics])
 
   return (
     <>
     <Marker
+    maxWidth='400px'
     position={position}
     autoPan={true}
     autoPanOnFocus={true}
@@ -66,7 +75,7 @@ const Epicycles = (props) => {
       <Popup
       autoPanPadding={[500, 250]}
       autoPan={true}
-      autoClose={false}>
+      >
         {((harmonics.loaded) && couldOpen) ?
           <canvas id={canvasName} />  :
           <div className='loading' >

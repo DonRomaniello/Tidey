@@ -44,7 +44,7 @@ const init = () => {
   ctx.lineJoin = 'round';
 
   xAxis = Math.floor(height/2);
-  yAxis = Math.floor(width/2 - scale);
+  yAxis = Math.floor(width/4 - scale);
 
   timeSeriesLength = ((width - yAxis) / wavePrecision)
 
