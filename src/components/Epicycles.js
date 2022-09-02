@@ -44,18 +44,21 @@ const Epicycles = (props) => {
 
   L.Popup.prototype.options.maxWidth = '1000%'
 
-
+  L.Popup.prototype.options.offset = [0,0]
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
   const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
 
+  const stopLooping = () => {
+    return couldOpen
+  }
+
   useEffect(() => {
     if (harmonics.loaded && couldOpen) {
-      console.log(harmonics.harmonics)
-      drawVisualizer(harmonics.harmonics, canvasName, 5, [400, 200])
+      drawVisualizer(harmonics.harmonics, canvasName, 5, [400, 200], stopLooping)
     }
-  }, [harmonics])
+  }, [canvasName, couldOpen, harmonics])
 
   return (
     <>
@@ -66,10 +69,13 @@ const Epicycles = (props) => {
     autoPanOnFocus={true}
     riseOnHover={true}
     eventHandlers={{
-      click: () => {
+      popupopen: () => {
         dispatch(fetchHarmonics(stationInfo.harmonicConstituents))
-        setCouldOpen(!couldOpen);
+        setCouldOpen(true);
       },
+      popupclose: () => {
+        setCouldOpen(false)
+      }
     }}
     >
       <Popup

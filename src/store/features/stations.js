@@ -18,7 +18,6 @@ export const fetchStations = createAsyncThunk(
     return axios
           .get('https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json?type=harcon')
           .then((response) => response.data )
-          .finally((response) => console.log(response))
   }
 )
 

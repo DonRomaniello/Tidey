@@ -19,7 +19,6 @@ export const fetchHarmonics = createAsyncThunk(
     return axios
           .get(harmonicsUrl.self)
           .then((response) => response.data )
-          .finally((response) => console.log(response))
   }
 )
 

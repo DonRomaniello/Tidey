@@ -1,7 +1,8 @@
 
 const drawVisualizer = (harcon, canvasName,
    numOfConstituents = 5,
-    canvasSize = [500, 500]) => {
+    canvasSize = [500, 500],
+    loopCallback) => {
 // Record the initial time so the delta can be calculated later
 const timeSubtract = new Date().getTime()
 // The amplitude indicators on the harmonics are called beads
@@ -18,7 +19,6 @@ constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
 let width = canvasSize[0]
 let height = canvasSize[1]
-
 // This is how much to scale by
 const scale = constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
 
@@ -28,7 +28,7 @@ let timeSeriesChords = []
 
 // declare a lot of variables that should not be redeclared each time
 let canvas, ctx, xAxis, yAxis,
-    x, y, nextXCenter, nextYCenter, timeSeriesLength;
+   nextXCenter, nextYCenter, timeoutID, timeSeriesLength;
 
 const emptyFunction = () => {
 }
@@ -79,13 +79,17 @@ const draw = () => {
 
   // Update the time and draw again
   draw.t = (time - timeSubtract) / (100000 / speed);
+  console.log(timeSubtract)
   runThroughConstituents(draw.t * Math.PI, drawEpicycles)
   drawTideChart();
   drawArrow();
   drawBead()
   ctx.restore();
 
-  setTimeout(draw, (1000 / frameRate));
+  if (loopCallback()){
+    setTimeout(draw, (1000 / frameRate));
+  }
+
 }
 
 const runThroughConstituents = (time, drawFunction) => {
@@ -174,6 +178,9 @@ const drawAxes = () => {
 }
 
 init()
+
 }
+
+
 
 export default drawVisualizer
