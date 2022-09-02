@@ -4,9 +4,11 @@ import React, {useEffect, useState} from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import './App.css';
+import styles from './App.css';
 
 import Map from './components/Map';
+
+import CompassRose from './components/CompassRose';
 
 import {
   fetchStations,
@@ -26,10 +28,12 @@ function App() {
 
 
   return (
-    <div style={mapDivStyle}
-    >
+    <>
+    <CompassRose />
+    <div style={mapDivStyle}>
       <Map stations={stations}/>
     </div>
+    </>
   );
 }
 

@@ -64,5 +64,5 @@ const styling = {
   // margin
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius:'10px',
+  borderRadius:'30px',
 }

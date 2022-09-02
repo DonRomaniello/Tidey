@@ -1,0 +1,39 @@
+:root {
+  --base-z: 401;
+}
+
+.compass {
+  position: fixed;
+  bottom: 100px;
+  right: 100px;
+}
+
+.compass:hover {
+  filter: drop-shadow(5px 5px 5px black)
+}
+
+#compassHolder {
+  z-index: var(--base-z);
+}
+
+#zeroLayer {
+  z-index: calc(var(--base-z) + 1);
+}
+
+.oneLayer {
+  z-index: calc(var(--base-z) + 2);
+}
+
+.oneLayer:hover {
+  transform: rotate(0.5turn);
+}
+
+
+
+#twoLayer {
+  z-index: calc(var(--base-z) + 3);
+}
+
+#topLayer {
+  z-index: calc(var(--base-z) + 10);
+}
