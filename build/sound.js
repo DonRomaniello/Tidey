@@ -335,18 +335,42 @@ const harmonics = [{
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 // create Oscillator node
-const oscillator = audioCtx.createOscillator();
 
 const mixNode = audioCtx.createGain()
 
-harmonics.forEach
+// harmonics.forEach((harmonic) => {
+//   const oscillator = audioCtx.createOscillator();
+//   const harmonicVolume = audioCtx.createGain()
+//   harmonicVolume.gain.setValueAtTime(harmonic.amplitude, audioCtx.currentTime)
+//   oscillator.frequency.setValueAtTime(harmonic.speed, harmonic.phase_GMT); // value in hertz
+//   oscillator.connect(harmonicVolume);
+//   harmonicVolume.connect(mixNode)
+//   audioCtx.resume()
+//   oscillator.start();
+// })
+
+const boscillator = audioCtx.createOscillator();
+  const bharmonicVolume = audioCtx.createGain()
+  bharmonicVolume.gain.setValueAtTime(1, 0)
+  boscillator.frequency.setValueAtTime(200, 0); // value in hertz
+  boscillator.connect(bharmonicVolume);
+  bharmonicVolume.connect(mixNode)
+  audioCtx.resume()
+  boscillator.start();
+
+for (let i = 1; i < 30; i++) {
+  const oscillator = audioCtx.createOscillator();
+  const harmonicVolume = audioCtx.createGain()
+  harmonicVolume.gain.setValueAtTime((1, 0)
+  oscillator.frequency.setValueAtTime((i + 1 / i) * 200, (i + 1 / i) * 200); // value in hertz
+  oscillator.connect(harmonicVolume);
+  harmonicVolume.connect(mixNode)
+  audioCtx.resume()
+  oscillator.start();
+}
 
 
-oscillator.frequency.setValueAtTime(440, 0); // value in hertz
-oscillator.connect(mixNode);
-oscillator.start();
+
 
 
 mixNode.connect(audioCtx.destination)
-
-
