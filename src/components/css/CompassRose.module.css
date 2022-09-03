@@ -14,8 +14,9 @@
 
 #compassHolder {
   z-index: var(--base-z);
-  margin: -100px;
-  padding: 100px;
+  margin: -50px;
+  padding: 50px;
+  border-radius: 50%;
 }
 
 .zeroLayer {
@@ -26,10 +27,10 @@
   z-index: calc(var(--base-z) + 2);
   animation-play-state: inherit;
   animation-name: turnClockwise;
-  animation-duration: 10s;
+  animation-duration: 3s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  transition: animate 10s;
+  animation-fill-mode: forwards;
 }
 
 
@@ -37,9 +38,10 @@
   z-index: calc(var(--base-z) + 3);
   animation-play-state: inherit;
   animation-name: turnCounterclockwise;
-  animation-duration: 10s;
+  animation-duration: 3s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
 }
 
 .topLayer{
@@ -52,7 +54,7 @@
   }
 
   to {
-    transform: rotate(359deg);
+    transform: rotate(45deg);
   }
 }
 
@@ -63,7 +65,7 @@
   }
 
   from {
-    transform: rotate(359deg);
+    transform: rotate(45deg);
   }
 }
 

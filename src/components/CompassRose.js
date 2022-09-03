@@ -17,6 +17,11 @@ const CompassRose = () => {
 
   const [compassHover, setCompassHover] = useState(false);
 
+  const animationStyle = {
+    animationPlayState: compassHover ? 'running' : 'paused',
+  }
+
+
   return (
     <>
     <div
@@ -24,7 +29,7 @@ const CompassRose = () => {
     className={styles.compass}
     onMouseEnter={() => setCompassHover(true)}
     onMouseLeave={() => setCompassHover(false)}
-    style={{animationPlayState: compassHover ? 'running' : 'paused'}}
+    style={animationStyle}
     >
       <CompassTopLayer className={`${styles.topLayer} ${styles.compass}`} />
       <CompassTwoLayer className={`${styles.twoLayer} ${styles.compass}`}
