@@ -7,13 +7,13 @@ const drawVisualizer = (harcon, canvasName,
 const timeSubtract = new Date().getTime()
 // The amplitude indicators on the harmonics are called beads
 const beadSize = 2
-const speed = 1
+const mainSpeed = 1
 const frameRate = 60
 const axesStrokeColor = 'rgba(128, 128, 128, 1)'
 const featureFillColor = 'rgba(0, 128, 255, .1)'
 const featureStrokeColor = 'rgba(0, 128, 255, 1)'
-let beadColor = 'rgba(255, 0, 0, 1)'
-const wavePrecision = .25 // How smooth the tide chart curves should be
+const beadColor = 'rgba(255, 0, 0, 1)'
+const wavePrecision = 2 // How smooth the tide chart curves should be
 let constituents = [...harcon]
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
@@ -78,7 +78,7 @@ const draw = () => {
 
 
   // Update the time and draw again
-  draw.t = (time - timeSubtract) / (100000 / speed);
+  draw.t = (time - timeSubtract) / (100000 / mainSpeed);
   runThroughConstituents(draw.t * Math.PI, drawEpicycles)
   drawTideChart();
   drawArrow();
