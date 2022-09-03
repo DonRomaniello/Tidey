@@ -22,11 +22,17 @@
 
 .oneLayer {
   z-index: calc(var(--base-z) + 2);
+}
+
+.oneLayerHover {
   animation: 10s infinite normal linear turnClockwise;
 }
 
 .twoLayer {
   z-index: calc(var(--base-z) + 3);
+}
+
+.twoLayerHover {
   animation: 10s infinite normal linear turnCounterclockwise;
 }
 
