@@ -12,9 +12,12 @@ const featureStrokeColor = 'rgba(0, 128, 255, 1)'
 
 const canvasSize = [500, 500]
 
+
 const wavePrecision = .25 // How smooth the tide chart curves should be
 let width = canvasSize[0]
 let height = canvasSize[1]
+
+const canvasCenter = {x: width / 2, y: height / 2}
 
 let globeSize = width / 4
 
@@ -42,6 +45,7 @@ const init = () => {
  timeSeriesLength = ((width - yAxis) / wavePrecision)
 
  ctx.save();
+ ctx.translate(xAxis, yAxis);
 
  window.requestAnimationFrame(draw);
 }
@@ -63,24 +67,48 @@ const draw = () => {
  ctx.fillStyle = featureFillColor;
  ctx.lineWidth = 1;
 
+  drawAxes()
 
-drawGlobe(globeSize)
+  drawGlobe(globeSize)
+
 
  // Update the time and draw again
  draw.t = (time - timeSubtract) / (100000 / speed);
  ctx.restore();
 
 
- drawTideCurve(draw.t)
+ drawTideCurve(draw.t, 20)
 
 
 setTimeout(draw, (1000 / frameRate));
 }
 
-const drawTideCurve = (time) => {
+const drawTideCurve = (time, waveHeight) => {
 
 
 
+  let start = { x: canvasCenter.x,    y: (canvasCenter.y - globeSize - waveHeight)  };
+  let cp1 =   { x: (canvasCenter.x + globeSize + waveHeight * 2.5),   y: (canvasCenter.y - (globeSize) - waveHeight) };
+  let cp2 =   { x: (canvasCenter.x + (globeSize + waveHeight * 2.5)),   y: (canvasCenter.y + globeSize + waveHeight)  };
+  let end =   { x: canvasCenter.x,   y: (canvasCenter.y + globeSize + waveHeight) };
+
+
+  ctx.strokeStyle = featureStrokeColor;
+  ctx.beginPath()
+  ctx.moveTo(start.x, start.y)
+  ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, end.x, end.y);
+  ctx.bezierCurveTo(-cp1.x, -cp1.y, -cp2.x, -cp2.y, start.x, start.y);
+  ctx.stroke()
+
+
+ctx.fillStyle = 'red';
+ctx.beginPath();
+ctx.arc(cp1.x, cp1.y, 5, 0, 2 * Math.PI);  // Control point one
+ctx.fill();
+ctx.beginPath();
+ctx.fillStyle = 'blue';
+ctx.arc(cp2.x, cp2.y, 5, 0, Math.PI);  // Control point two
+ctx.fill();
 
 
 }
@@ -93,11 +121,20 @@ const drawGlobe = (globeSize) => {
   ctx.lineWidth = 1;
 
   ctx.beginPath()
-  ctx.arc(xAxis, yAxis, globeSize, 0, 2 * Math.PI, false)
+  ctx.arc(0, 0, globeSize, 0, 2 * Math.PI, false)
   ctx.fill()
   ctx.stroke()
 }
 
+const drawAxes = () => {
+  // Draw X and Y axes
+  ctx.strokeStyle = axesStrokeColor;
+  ctx.moveTo(-width, 0);
+  ctx.lineTo(width, 0);
+  ctx.moveTo(0, height);
+  ctx.lineTo(0, -height);
+  ctx.stroke();
+}
 
 
 init()
