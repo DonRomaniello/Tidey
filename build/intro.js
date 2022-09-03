@@ -16,15 +16,20 @@ const wavePrecision = 2 // How smooth the tide chart curves should be
 
 const constituents = [
   {
-    amplitude: globeSize,
+    amplitude: globeSize + 10,
     phase: 0,
     speed: 30,
   },
   {
-    amplitude: 20,
+    amplitude: 8,
     phase: 60,
-    speed: 60,
-  }
+    speed: 15,
+  },
+  // {
+  //   amplitude: 8,
+  //   phase: 60,
+  //   speed: 60,
+  // }
 ]
 
 let canvasSize = {
@@ -37,7 +42,7 @@ let height = canvasSize.y
 // This is how much to scale by
 const scale = constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
 
-const unit = ((height / 2) / scale)
+const unit = 1
 
 
 let timeSeriesChords = []
