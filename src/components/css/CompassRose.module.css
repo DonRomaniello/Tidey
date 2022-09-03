@@ -1,16 +1,16 @@
-:root {
+  :root {
   --base-z: 401;
+  transform-origin: 50%, 50%;
 }
 
 .compass {
   position: fixed;
   bottom: 100px;
   right: 100px;
+  height: 150px;
+  width: 150px;
 }
 
-.compass:hover {
-  filter: drop-shadow(5px 5px 5px black)
-}
 
 #compassHolder {
   z-index: var(--base-z);
@@ -22,11 +22,24 @@
 
 .oneLayer {
   z-index: calc(var(--base-z) + 2);
+  animation: 3s infinite alternate alwaysTurn;
 }
 
-.oneLayer:hover {
-  transform: rotate(0.5turn);
+@keyframes alwaysTurn {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
 }
+
+
+
+/* .oneLayer:hover {
+  transform: rotate(0.5turn);
+} */
 
 
 
