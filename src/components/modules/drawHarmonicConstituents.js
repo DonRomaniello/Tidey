@@ -79,7 +79,6 @@ const draw = () => {
 
   // Update the time and draw again
   draw.t = (time - timeSubtract) / (100000 / speed);
-  console.log(timeSubtract)
   runThroughConstituents(draw.t * Math.PI, drawEpicycles)
   drawTideChart();
   drawArrow();
