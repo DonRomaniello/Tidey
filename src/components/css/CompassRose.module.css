@@ -16,16 +16,25 @@
   z-index: var(--base-z);
 }
 
-#zeroLayer {
+.zeroLayer {
   z-index: calc(var(--base-z) + 1);
 }
 
 .oneLayer {
   z-index: calc(var(--base-z) + 2);
-  animation: 3s infinite alternate alwaysTurn;
+  animation: 10s infinite normal linear turnClockwise;
 }
 
-@keyframes alwaysTurn {
+.twoLayer {
+  z-index: calc(var(--base-z) + 3);
+  animation: 10s infinite normal linear turnCounterclockwise;
+}
+
+.topLayer{
+  z-index: calc(var(--base-z) + 4);
+}
+
+@keyframes turnClockwise {
   from {
     transform: rotate(0deg);
   }
@@ -35,6 +44,16 @@
   }
 }
 
+
+@keyframes turnCounterclockwise {
+  to {
+    transform: rotate(0deg);
+  }
+
+  from {
+    transform: rotate(359deg);
+  }
+}
 
 
 /* .oneLayer:hover {

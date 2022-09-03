@@ -18,11 +18,10 @@ const CompassRose = () => {
   return (
     <>
     <div id={styles.compassHolder} className={styles.compass}>
-      {/* <div className={`${styles.oneLayer} + ${styles.compass}`}>test</div> */}
-       <CompassOneLayer id={styles.oneLayer} className={`${styles.oneLayer} + ${styles.compass}`}/>
-      <CompassTwoLayer id={styles.twoLayer} className={styles.compass}/>
-      <CompassZeroLayer id={styles.zeroLayer} className={styles.compass} />
-      <CompassTopLayer id={styles.topLayer} className={styles.compass}/>
+       <CompassOneLayer className={`${styles.oneLayer} + ${styles.compass}`}/>
+      <CompassTwoLayer className={`${styles.twoLayer} + ${styles.compass}`}/>
+      <CompassZeroLayer className={`${styles.zeroLayer} + ${styles.compass}`} />
+      <CompassTopLayer className={`${styles.topLayer} + ${styles.compass}`}/>
     </div>
     </>
 )
