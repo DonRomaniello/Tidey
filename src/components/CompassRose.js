@@ -17,13 +17,6 @@ const CompassRose = () => {
 
   const [compassHover, setCompassHover] = useState(false);
 
-
-  const hoverClass = (layerClass) => {
-    if (compassHover) {
-      return styles[layerClass + 'Hover']
-    }
-  }
-
   return (
     <>
     <div
@@ -31,15 +24,21 @@ const CompassRose = () => {
     className={styles.compass}
     onMouseEnter={() => setCompassHover(true)}
     onMouseLeave={() => setCompassHover(false)}
+    style={{animationPlayState: compassHover ? 'running' : 'paused'}}
     >
       <CompassTopLayer className={`${styles.topLayer} ${styles.compass}`} />
-      <CompassTwoLayer className={`${hoverClass('twoLayer')} ${styles.twoLayer} ${styles.compass}`}/>
-      <CompassOneLayer className={`${hoverClass('oneLayer')} ${styles.oneLayer} ${styles.compass}`}/>
+      <CompassTwoLayer className={`${styles.twoLayer} ${styles.compass}`}
+      />
+      <CompassOneLayer className={`${styles.oneLayer} ${styles.compass}`}/>
       <CompassZeroLayer className={`${styles.zeroLayer} ${styles.compass}`} />
     </div>
     </>
 )
 }
+
+
+
+
 
 
 export default CompassRose
