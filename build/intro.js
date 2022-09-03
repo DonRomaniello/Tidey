@@ -7,23 +7,25 @@ const frameRate = 60
 const axesStrokeColor = 'rgba(128, 128, 128, 1)'
 const featureFillColor = 'rgba(0, 128, 255, .1)'
 const featureStrokeColor = 'rgba(0, 128, 255, 1)'
+const timeSeriesStroke = 'rgba(255, 0, 0, 1)'
 const beadColor = 'rgba(255, 0, 0, 1)'
+
+const globeSize = 100
 
 const wavePrecision = 2 // How smooth the tide chart curves should be
 
 const constituents = [
   {
-    amplitude: 60,
-    phase: 30,
-    speed:10,
+    amplitude: globeSize,
+    phase: 0,
+    speed: 30,
   },
   {
     amplitude: 20,
     phase: 60,
-    speed: 5,
+    speed: 60,
   }
 ]
-
 
 let canvasSize = {
   x: 500,
@@ -36,7 +38,7 @@ let height = canvasSize.y
 const scale = constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
 
 const unit = ((height / 2) / scale)
-console.log(unit)
+
 
 let timeSeriesChords = []
 
@@ -97,7 +99,7 @@ const draw = () => {
  drawBead()
  ctx.restore();
 
- drawGlobe(100)
+ drawGlobe(globeSize)
 //  if (loopCallback()){
    setTimeout(draw, (1000 / frameRate));
 //  }
@@ -110,7 +112,7 @@ const runThroughConstituents = (time, drawFunction) => {
    drawFunction(radius)
    getLocationOnCircle(time, radius, constituent)
    if (idx == (constituents.length - 1)) {
-     timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
+     timeSeriesChords = [...timeSeriesChords, {x: nextXCenter, y: nextYCenter}].slice(-timeSeriesLength)
    }
  })
 }
@@ -135,7 +137,7 @@ const getPhasedXY = (time, radius, constituent) => {
 const populateTimeSeries = (timeSeriesLength) => {
  for (let i = 0; i < timeSeriesLength; i++) {
    runThroughConstituents(i, emptyFunction)
-   timeSeriesChords.push(nextYCenter)
+   timeSeriesChords.push({x: nextXCenter, y: nextYCenter})
  }
 }
 
@@ -162,7 +164,6 @@ const drawBead = () => {
 const drawEpicycles = (radius) => {
  ctx.beginPath()
  ctx.arc(nextXCenter, nextYCenter, radius, 0, 2 * Math.PI, false);
- console.log(nextXCenter,  nextYCenter)
  ctx.fill();
  ctx.stroke();
 }
@@ -170,10 +171,11 @@ const drawEpicycles = (radius) => {
 
 
 function drawTideChart() {
- ctx.beginPath();
+ ctx.strokeStyle = timeSeriesStroke;
+  ctx.beginPath();
  ctx.moveTo(width, timeSeriesChords[0]);
- timeSeriesChords.slice(1).forEach((yCoordinate, idx) => {
-   ctx.lineTo((width - ((idx + 1) * wavePrecision)), yCoordinate);
+ timeSeriesChords.slice(1).forEach((coordinate, idx) => {
+   ctx.lineTo(coordinate.x, coordinate.y);
  })
  ctx.stroke();
 }
