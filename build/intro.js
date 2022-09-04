@@ -1,3 +1,4 @@
+
 // Record the initial time so the delta can be calculated later
 const timeSubtract = new Date().getTime()
 // The amplitude indicators on the harmonics are called beads
@@ -5,8 +6,10 @@ const beadSize = 2
 const mainSpeed = 5000
 const frameRate = 60
 const axesStrokeColor = 'rgba(128, 128, 128, 1)'
-const featureFillColor = 'rgba(0, 128, 255, .1)'
-const featureStrokeColor = 'rgba(0, 128, 255, 1)'
+const waterFillColor = 'rgba(0, 128, 255, .1)'
+const waterStrokeColor = 'rgba(0, 128, 255, 1)'
+const moonColor = '#f5e3d3'
+
 
 const globeSize = 100
 
@@ -55,12 +58,12 @@ const draw = () => {
  // Draw the axes in their own path
  ctx.strokeStyle = axesStrokeColor;
  ctx.beginPath();
- drawAxes();
+//  drawAxes();
 
  // Set styles for animated graphics
  ctx.save();
- ctx.strokeStyle = featureStrokeColor;
- ctx.fillStyle = featureFillColor;
+ ctx.strokeStyle = waterStrokeColor;
+ ctx.fillStyle = waterFillColor;
  ctx.lineWidth = 1;
 
  // Update the time and draw again
@@ -70,6 +73,7 @@ const draw = () => {
 
  drawEllipse(draw.t)
  drawGlobe(globeSize)
+ drawMoon(draw.t)
 
 setTimeout(draw, (1000 / frameRate));
 
@@ -90,6 +94,24 @@ const drawGlobe = (globeSize) => {
   ctx.stroke()
 }
 
+const drawMoon = (time) => {
+  let feedAngle = getRadians(time % 360) + Math.PI * .5
+  ctx.strokeStyle = moonColor;
+  ctx.fillStyle = moonColor;
+  ctx.beginPath()
+  let moonCenter = {
+    y: xAxis + Math.sin(feedAngle) * 200,
+    x: yAxis + Math.cos(feedAngle) * 200,
+  }
+  ctx.arc(moonCenter.x, moonCenter.y, 20, 0, Math.PI * 2)
+  ctx.stroke();
+  ctx.fill()
+
+
+
+}
+
+
 const drawAxes = () => {
  // Draw X and Y axes
  ctx.strokeStyle = axesStrokeColor;
@@ -102,8 +124,8 @@ const drawAxes = () => {
 
 const drawEllipse = (time) => {
   let startAngle = getRadians(time % 360)
-  ctx.strokeStyle = featureStrokeColor;
-  ctx.fillStyle = featureFillColor;
+  ctx.strokeStyle = waterStrokeColor;
+  ctx.fillStyle = waterFillColor;
   ctx.beginPath();
   ctx.ellipse(xAxis, yAxis, globeSize + 5, globeSize + 20, startAngle, 0, Math.PI);
   ctx.arc(xAxis, yAxis, globeSize + 5, startAngle + Math.PI, startAngle);
