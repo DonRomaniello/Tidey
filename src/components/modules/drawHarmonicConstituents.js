@@ -154,8 +154,6 @@ const drawEpicycles = (radius) => {
   ctx.stroke();
 }
 
-
-
 function drawTideChart() {
   ctx.beginPath();
   ctx.moveTo(width, timeSeriesChords[0]);

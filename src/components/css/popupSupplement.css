@@ -1,0 +1,15 @@
+.leaflet-popup-content-wrapper{
+
+  /* background-color: rgba(0, 0, 0, 1);
+   */
+  /* background:blue; */
+  border-radius: 50vmin;
+
+  border: 2px solid #7A7D7D;
+  /* border-color: black; */
+  /* margin: 100px; */
+}
+
+.leaflet-popup-tip {
+  opacity: 0;
+}

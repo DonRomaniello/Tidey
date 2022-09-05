@@ -14,14 +14,12 @@ import {
 
 
 import drawVisualizer from './modules/drawHarmonicConstituents';
-import icon from 'leaflet/dist/images/marker-icon.png';
+
+import icon from './assets/pin.svg';
+
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import 'leaflet/dist/leaflet.css';
-
 import './css/Epicycles.module.css'
-
-// import { popupStyle } from './css/Epicycles.module';
 
 const Epicycles = (props) => {
 
@@ -35,16 +33,18 @@ const Epicycles = (props) => {
 
   let DefaultIcon = L.icon({
     iconUrl: icon,
-    shadowUrl: iconShadow,
-    iconAnchor: [0, 0],
-    popupAnchor: [0,0],
+    // shadowUrl: iconShadow,
+    iconAnchor: [16, 42],
+    popupAnchor: [-50, 0],// this should be half width, full height of popup
   });
+
+  L.Popup.prototype.options.offset = [0,0] // look here
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
   L.Popup.prototype.options.maxWidth = '1000%'
 
-  L.Popup.prototype.options.offset = [0,0]
+  L.Popup.prototype.options.className = 'popuply'
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
@@ -83,7 +83,8 @@ const Epicycles = (props) => {
       autoPan={true}
       >
         {((harmonics.loaded) && couldOpen) ?
-          <canvas id={canvasName} />  :
+          <canvas id={canvasName}/>
+            :
           <div className='loading' >
             loading...
             </div>}

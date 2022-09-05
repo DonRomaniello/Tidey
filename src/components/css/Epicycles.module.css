@@ -1,8 +1,13 @@
-.popup {
-  background-color: rgba(0, 0, 0, 1);
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+
+  /* background-color: rgba(0, 0, 0, 1);
+   */
+  background:blue;
+  border-radius: 100px;
   /* margin: 100px; */
 }
 
-.leaflet-popup-tip .leaflet-tooltip .leaflet-div-icon{
-  background: rgba(255,255,255,.5);
+.canvas {
+  border-width: 10px;
+  border-color: black;
 }

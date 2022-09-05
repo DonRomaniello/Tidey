@@ -5,10 +5,18 @@
   <title>My Page Title</title>
   <meta name="description" content="My Page Description">
   <link rel="stylesheet" href="./styles.css">
-  <script defer="defer" src="./intro.js"></script>
+  <script defer="defer" src="./animations/workIntro.js"></script>
   <!-- <script defer="defer" src="./bundle.js"></script> -->
+  <style>
+    #gradientDemo {
+      height:100px;
+      width: 100vw;
+      background: linear-gradient(to right, rgb(22, 105, 122), rgb(134, 216, 154))
+  }
+  </style>
 </head>
 <body>
-  <canvas id="canvas" width="1000" height="1000"></canvas>
+  <!-- <canvas id="canvas" width="1000" height="1000"></canvas> -->
+  <div id="gradientDemo" />
 </body>
 </html>

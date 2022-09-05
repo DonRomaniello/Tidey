@@ -4,7 +4,7 @@ const timeSubtract = new Date().getTime()
 // The amplitude indicators on the harmonics are called beads
 const beadSize = 2
 const mainSpeed = 5000
-const frameRate = 60
+const frameRate = 20
 const axesStrokeColor = 'rgba(128, 128, 128, 1)'
 const waterFillColor = 'rgba(0, 128, 255, .1)'
 const waterStrokeColor = 'rgba(0, 128, 255, 1)'
@@ -25,13 +25,13 @@ const height = canvasSize.y
 
 let transformVariables = {
   xLimit: 0,
-  yLimit: 100,
+  yLimit: 0,
   zoomLimit: 1.5,
   xCurrent: 0,
   yCurrent: 0,
   zoomCurrent: 1,
   xRate: 0,
-  yRate: 1,
+  yRate: 0,
   zoomRate: .001,
 }
 
@@ -44,6 +44,7 @@ const init = () => {
  // this may change, will revisit
  canvas = document.getElementById('canvas');
 
+
  canvas.width = canvasSize.x;
  canvas.height = canvasSize.y;
 
@@ -53,7 +54,6 @@ const init = () => {
  xAxis = Math.floor(height/2);
  yAxis = Math.floor(width/2);
 
-
  ctx.save();
 
  window.requestAnimationFrame(draw);
@@ -61,33 +61,33 @@ const init = () => {
 
 const draw = () => {
 
- const time = new Date()
+  const time = new Date()
 
- ctx.clearRect(0, 0, width, height);
+  ctx.save();
+  ctx.clearRect(0, 0, width, height);
 
- // Draw the axes in their own path
- ctx.strokeStyle = axesStrokeColor;
- ctx.beginPath();
-//  drawAxes();
 
- // Set styles for animated graphics
- ctx.save();
- ctx.strokeStyle = waterStrokeColor;
- ctx.fillStyle = waterFillColor;
- ctx.lineWidth = 1;
+  // Draw the axes in their own path
+  ctx.strokeStyle = axesStrokeColor;
+  ctx.beginPath();
+  //  drawAxes();
 
- // Update the time and draw again
- draw.t = (time - timeSubtract) / (100000 / mainSpeed);
+  // Set styles for animated graphics
+  ctx.strokeStyle = waterStrokeColor;
+  ctx.fillStyle = waterFillColor;
+  ctx.lineWidth = 1;
 
- ctx.restore();
+  // Update the time and draw again
+  draw.t = (time - timeSubtract) / (100000 / mainSpeed);
 
- drawEllipse(draw.t)
- drawGlobe(globeSize)
- drawMoon(draw.t)
+  ctx.restore();
+  transformer()
 
-//  transformer()
 
-setTimeout(draw, (1000 / frameRate));
+  drawEllipse(draw.t)
+  drawGlobe(globeSize)
+  drawMoon(draw.t)
+ setTimeout(draw, (1000 / frameRate));
 
 }
 
@@ -96,19 +96,33 @@ const getRadians = (angle) => {
 }
 
 const transformer = () => {
-  if (transformVariables.zoomCurrent <= transformVariables.zoomLimit) {
-    ctx.scale(1 + transformVariables.zoomRate, 1 + transformVariables.zoomRate)
-    transformVariables.zoomCurrent += transformVariables.zoomRate
-  }
-  if (transformVariables.xCurrent <= transformVariables.xLimit) {
+  if (transformVariables.xCurrent < transformVariables.xLimit) {
     ctx.translate(transformVariables.xRate, 0)
     transformVariables.xCurrent += transformVariables.xRate
   }
-  if (transformVariables.yCurrent <= transformVariables.yLimit) {
+  if (transformVariables.yCurrent < transformVariables.yLimit) {
     ctx.translate(0, transformVariables.yRate)
     transformVariables.yCurrent += transformVariables.yRate
   }
+  if (transformVariables.zoomCurrent < transformVariables.zoomLimit) {
+    ctx.scale(1 + transformVariables.zoomRate, 1 + transformVariables.zoomRate)
+    transformVariables.zoomCurrent += transformVariables.zoomRate
+  }
+  console.log(ctx.getTransform())
 }
+
+// const transformer = () => {
+//   ctx.setTransform(2, 1, 0, 0, 1, 0)
+//   // ctx.save()
+// }
+
+
+// a (m11) Horizontal scaling. A value of 1 results in no scaling.
+// b (m12) Vertical skewing.
+// c (m21) Horizontal skewing.
+// d (m22) Vertical scaling. A value of 1 results in no scaling.
+// e (dx) Horizontal translation (moving).
+// f (dy) Vertical translation (moving).
 
 
 const drawGlobe = (globeSize) => {
@@ -133,9 +147,6 @@ const drawMoon = (time) => {
   ctx.arc(moonCenter.x, moonCenter.y, 20, 0, Math.PI * 2)
   ctx.stroke();
   ctx.fill()
-
-
-
 }
 
 

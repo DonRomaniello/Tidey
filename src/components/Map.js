@@ -15,10 +15,11 @@ import Station from './Station';
 
 import Square from './customReactLeaflet'
 
-// import leaflet-pro css
 import "leaflet/dist/leaflet.css";
 
 import "./css/timeMarker.css";
+
+import "./css/popupSupplement.css"
 
 const ReactLeaflet = (props) => {
 
