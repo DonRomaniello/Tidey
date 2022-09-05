@@ -4,13 +4,17 @@
    */
   /* background:blue; */
   border-radius: 50vmin;
-
+  overflow: hidden;
   border: 2px solid #7A7D7D;
   /* border-color: black; */
   /* margin: 100px; */
 }
 
 .leaflet-popup-tip {
+  opacity: 0;
+}
+
+.leaflet-popup-close-button {
   opacity: 0;
 }
 

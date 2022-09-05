@@ -163,7 +163,7 @@ const drawEpicycles = (radius, idx) => {
   ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
   ctx.beginPath()
   ctx.arc(nextXCenter, nextYCenter, radius, 0, 2 * Math.PI, false);
-  ctx.fill();
+  // ctx.fill();
   ctx.stroke();
 }
 
