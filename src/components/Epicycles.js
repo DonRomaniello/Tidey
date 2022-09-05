@@ -19,7 +19,7 @@ import icon from './assets/pin.svg';
 
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import './css/Epicycles.module.css'
+import styles from './css/Epicycles.module.css'
 
 const Epicycles = (props) => {
 
@@ -50,6 +50,11 @@ const Epicycles = (props) => {
 
   const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
 
+  const autoPanPad = {
+    x: (window.innerWidth - 500) / 2,
+    y: (window.innerHeight - 300) / 2,
+ }
+
   const stopLooping = () => {
     return couldOpen
   }
@@ -79,7 +84,7 @@ const Epicycles = (props) => {
     }}
     >
       <Popup
-      autoPanPadding={[500, 250]}
+      autoPanPadding={autoPanPad}
       autoPan={true}
       >
         {((harmonics.loaded) && couldOpen) ?
