@@ -1,29 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+
+import L from 'leaflet';
 
 import {
   MapContainer,
-  Popup,
   TileLayer,
-  useMap,
+  ZoomControl,
 } from 'react-leaflet'
 
-import { useSelector, useDispatch } from 'react-redux'
 
 import Epicycles from './Epicycles';
 
-import Station from './Station';
-
-import Square from './customReactLeaflet'
 
 import "leaflet/dist/leaflet.css";
 
 import "./css/timeMarker.css";
 
-import "./css/popupSupplement.css"
+import "./css/TopLevelSupplement.css"
 
 const ReactLeaflet = (props) => {
-
-  const dispatch = useDispatch();
 
   const { stations } = props;
 
@@ -34,7 +29,8 @@ const ReactLeaflet = (props) => {
     <>
     <MapContainer
     center={position}
-    zoom={8}
+    zoomControl={false}
+    zoom={7}
     scrollWheelZoom={true}
     style={styling}>
       <TileLayer
@@ -42,6 +38,7 @@ const ReactLeaflet = (props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors |
         Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
         />
+        <ZoomControl position='topleft' zoomInText='' zoomOutText='' />
       {stations.map((stationInfo, idx) => {
         if (stationInfo.lat & stationInfo.lng & stationInfo.id) {
           return <Epicycles

@@ -31,7 +31,7 @@ const Epicycles = (props) => {
 
   const dispatch = useDispatch();
 
-  let DefaultIcon = L.icon({
+  const DefaultIcon = L.icon({
     iconUrl: icon,
     // shadowUrl: iconShadow,
     iconAnchor: [16, 42],
