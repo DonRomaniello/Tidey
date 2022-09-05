@@ -180,10 +180,10 @@ function drawTideChart() {
 const drawAxes = () => {
   // Draw X and Y axes
   ctx.strokeStyle = axesStrokeColor;
-  ctx.moveTo(0, xAxis);
-  ctx.lineTo(width, xAxis);
-  ctx.moveTo(yAxis, 0);
-  ctx.lineTo(yAxis, height);
+  // ctx.moveTo(0, xAxis);
+  // ctx.lineTo(width, xAxis);
+  // ctx.moveTo(yAxis, 0);
+  // ctx.lineTo(yAxis, height);
   ctx.stroke();
 }
 
