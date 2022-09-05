@@ -13,7 +13,7 @@ const mainSpeed = 1
 const frameRate = 60
 const axesStrokeColor = 'rgba(128, 128, 128, 1)'
 const beadColor = 'rgba(255, 0, 0, 1)'
-const wavePrecision = .25 // How smooth the tide chart curves should be
+const wavePrecision = 20 // How smooth the tide chart curves should be
 let constituents = [...harcon]
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, callbackMessages.numOfConstituents)
@@ -25,6 +25,8 @@ const scale = constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
 const unit = ((height / 2) / scale)
 
 let timeSeriesChords = []
+
+let timeSeriesCounter = 0
 
 // declare a lot of variables that should not be redeclared each time
 let canvas, ctx, featureFillColor, featureStrokeColor, xAxis, yAxis,
@@ -46,7 +48,7 @@ const init = () => {
   xAxis = Math.floor(height/2);
   yAxis = Math.floor(width/4 - scale);
 
-  timeSeriesLength = ((width - yAxis) / wavePrecision)
+  timeSeriesLength = ((width - yAxis))
 
   populateTimeSeries(timeSeriesLength, emptyFunction)
 
@@ -96,7 +98,8 @@ const runThroughConstituents = (time, drawFunction) => {
     const radius = Math.floor(constituent.amplitude * unit)
     drawFunction(radius, idx)
     getLocationOnCircle(time, radius, constituent)
-    if (idx == (constituents.length - 1)) {
+    timeSeriesCounter++;
+    if (idx == (constituents.length - 1) && (timeSeriesCounter % wavePrecision == 0)) {
       timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
     }
   })
@@ -171,7 +174,7 @@ function drawTideChart() {
   ctx.beginPath();
   ctx.moveTo(width, timeSeriesChords[0]);
   timeSeriesChords.slice(1).forEach((yCoordinate, idx) => {
-    ctx.lineTo((width - ((idx + 1) * wavePrecision)), yCoordinate);
+      ctx.lineTo((width - ((idx + 1))), yCoordinate);
   })
   ctx.stroke();
 }
