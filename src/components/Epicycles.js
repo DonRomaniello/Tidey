@@ -56,12 +56,16 @@ const Epicycles = (props) => {
  }
 
   const stopLooping = () => {
-    return couldOpen
+    return {
+      continue: couldOpen,
+      numOfConstituents: 5,
   }
+}
 
   useEffect(() => {
     if (harmonics.loaded && couldOpen) {
-      drawVisualizer(harmonics.harmonics, canvasName, 5, [400, 200], stopLooping)
+      drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
+        [400, 200], stopLooping)
     }
   }, [canvasName, couldOpen, harmonics])
 
@@ -98,6 +102,20 @@ const Epicycles = (props) => {
     </>
 )
 }
+
+const constituentColors = {
+  start : {
+    r: 22,
+    g: 105,
+    b: 122
+  },
+  end : {
+    r: 134,
+    g: 216,
+    b: 154
+  }
+}
+
 
 
 export default Epicycles

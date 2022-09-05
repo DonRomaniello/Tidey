@@ -1,22 +1,22 @@
 
-const drawVisualizer = (harcon, canvasName,
-   numOfConstituents = 5,
+const drawVisualizer = (harcon,
+  canvasName,
+  colorRange,
     canvasSize = [500, 500],
     loopCallback) => {
 // Record the initial time so the delta can be calculated later
 const timeSubtract = new Date().getTime()
 // The amplitude indicators on the harmonics are called beads
+let callbackMessages = loopCallback()
 const beadSize = 2
 const mainSpeed = 1
 const frameRate = 60
 const axesStrokeColor = 'rgba(128, 128, 128, 1)'
-const featureFillColor = 'rgba(0, 128, 255, .1)'
-const featureStrokeColor = 'rgba(0, 128, 255, 1)'
 const beadColor = 'rgba(255, 0, 0, 1)'
-const wavePrecision = 2 // How smooth the tide chart curves should be
+const wavePrecision = .25 // How smooth the tide chart curves should be
 let constituents = [...harcon]
 constituents.sort((a, b) => b.amplitude - a.amplitude)
-constituents = constituents.slice(0, numOfConstituents)
+constituents = constituents.slice(0, callbackMessages.numOfConstituents)
 let width = canvasSize[0]
 let height = canvasSize[1]
 // This is how much to scale by
@@ -27,8 +27,8 @@ const unit = ((height / 2) / scale)
 let timeSeriesChords = []
 
 // declare a lot of variables that should not be redeclared each time
-let canvas, ctx, xAxis, yAxis,
-   nextXCenter, nextYCenter, timeoutID, timeSeriesLength;
+let canvas, ctx, featureFillColor, featureStrokeColor, xAxis, yAxis,
+   nextXCenter, nextYCenter, timeSeriesLength;
 
 const emptyFunction = () => {
 }
@@ -75,8 +75,6 @@ const draw = () => {
   ctx.fillStyle = featureFillColor;
   ctx.lineWidth = 1;
 
-
-
   // Update the time and draw again
   draw.t = (time - timeSubtract) / (100000 / mainSpeed);
   runThroughConstituents(draw.t * Math.PI, drawEpicycles)
@@ -85,7 +83,9 @@ const draw = () => {
   drawBead()
   ctx.restore();
 
-  if (loopCallback()){
+  callbackMessages = loopCallback()
+
+  if (callbackMessages.continue){
     setTimeout(draw, (1000 / frameRate));
   }
 
@@ -94,7 +94,7 @@ const draw = () => {
 const runThroughConstituents = (time, drawFunction) => {
   constituents.forEach((constituent, idx) => {
     const radius = Math.floor(constituent.amplitude * unit)
-    drawFunction(radius)
+    drawFunction(radius, idx)
     getLocationOnCircle(time, radius, constituent)
     if (idx == (constituents.length - 1)) {
       timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
@@ -105,6 +105,16 @@ const runThroughConstituents = (time, drawFunction) => {
 const getRadians = (angle) => {
   return (angle * (Math.PI / 180))
 }
+
+const getSteppedColor = (idx) => {
+  let degreeB = idx / callbackMessages.numOfConstituents
+  let degreeA = 1 - degreeB
+  let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
+  let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
+  let b = (colorRange.start.b * degreeA) + (colorRange.end.b * degreeB)
+  return { r, g, b}
+}
+
 
 const getLocationOnCircle = (time, radius, constituent) => {
   let nextCenters = getPhasedXY(time, radius, constituent)
@@ -147,7 +157,10 @@ const drawBead = () => {
 }
 
 
-const drawEpicycles = (radius) => {
+const drawEpicycles = (radius, idx) => {
+  let baseColor = getSteppedColor(idx)
+  ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
+  ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
   ctx.beginPath()
   ctx.arc(nextXCenter, nextYCenter, radius, 0, 2 * Math.PI, false);
   ctx.fill();
