@@ -27,7 +27,7 @@
   z-index: calc(var(--base-z) + 2);
   animation-play-state: inherit;
   animation-name: turnClockwise;
-  animation-duration: 3s;
+  animation-duration: 300s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
@@ -38,7 +38,7 @@
   z-index: calc(var(--base-z) + 3);
   animation-play-state: inherit;
   animation-name: turnCounterclockwise;
-  animation-duration: 3s;
+  animation-duration: 60s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;

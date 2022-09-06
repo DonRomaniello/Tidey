@@ -1,6 +1,6 @@
 
 
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 
 import { ReactComponent as CompassZeroLayer} from './assets/Compass_0Layer.svg'
@@ -13,18 +13,53 @@ import { ReactComponent as CompassTopLayer} from './assets/Compass_TopLayer.svg'
 
 import styles from './css/CompassRose.module.css'
 
+import { screen } from '@testing-library/react';
+
 const CompassRose = () => {
+
+  const compassElement = useRef(null);
 
   const [compassHover, setCompassHover] = useState(false);
 
+  const [mouseProximity, setMouseProximity] = useState()
+
+  const [compassPosition, setCompassPosition] = useState({})
+
   const animationStyle = {
-    animationPlayState: compassHover ? 'running' : 'paused',
+    animationPlayState: compassHover ? 'running' : 'running',
   }
 
+  const getCompassPosition = () => {
+    let computedStyle = getComputedStyle(compassElement.current)
+    let x = window.innerWidth - computedStyle.getPropertyValue("bottom").slice(0, -2)
+    let y = window.innerHeight - computedStyle.getPropertyValue("right").slice(0, -2)
+    return {x, y}
+  }
+
+  useEffect(() => {
+    setCompassPosition(getCompassPosition())
+  }, [])
+
+
+
+  const getMouseDistance = (e) => {
+    console.log(compassPosition);
+  }
+
+  document.addEventListener('mousemove', getMouseDistance);
+
+
+  // console.log(here.MouseEvent.clientX)
+
+  const autoPanPad = {
+    x: (window.innerWidth - 500) / 2,
+    y: (window.innerHeight - 300) / 2,
+ }
 
   return (
     <>
     <div
+    ref={compassElement}
     id={styles.compassHolder}
     className={styles.compass}
     onMouseEnter={() => setCompassHover(true)}
