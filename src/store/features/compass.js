@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: 0,
+  coords: {x: 0, y: 0, w: 0, h: 0},
+  distance: 0,
   status: 'idle',
 };
 
-export const timeIndexSlice = createSlice({
-  name: 'timeIndex',
+export const compassIndexSlice = createSlice({
+  name: 'compassIndex',
   initialState,
   reducers: {
     increment: (state, action) => {
@@ -28,8 +29,8 @@ export const timeIndexSlice = createSlice({
   },
 });
 
-export const { increment, decrement, incrementByAmount, arbitraryValue } = timeIndexSlice.actions;
+export const { increment, decrement, incrementByAmount, arbitraryValue } = compassIndexSlice.actions;
 
-export const selectCount = (state) => state.timeIndex.value;
+export const selectCount = (state) => state.compassIndex.value;
 
-export default timeIndexSlice.reducer;
+export default compassIndexSlice.reducer;

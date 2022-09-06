@@ -13,8 +13,6 @@ import { ReactComponent as CompassTopLayer} from './assets/Compass_TopLayer.svg'
 
 import styles from './css/CompassRose.module.css'
 
-import { screen } from '@testing-library/react';
-
 const CompassRose = () => {
 
   const compassElement = useRef(null);
@@ -23,27 +21,45 @@ const CompassRose = () => {
 
   const [mouseProximity, setMouseProximity] = useState()
 
-  const [compassPosition, setCompassPosition] = useState({})
+  const [compassInfo, setCompassInfo] = useState({})
 
   const animationStyle = {
     animationPlayState: compassHover ? 'running' : 'running',
   }
 
-  const getCompassPosition = () => {
+  const getCompassInfo = () => {
     let computedStyle = getComputedStyle(compassElement.current)
-    let x = window.innerWidth - computedStyle.getPropertyValue("bottom").slice(0, -2)
-    let y = window.innerHeight - computedStyle.getPropertyValue("right").slice(0, -2)
-    return {x, y}
+    let w = computedStyle.getPropertyValue("width").slice(0, -2)
+    let h = computedStyle.getPropertyValue("height").slice(0, -2)
+    let x = window.innerWidth
+            - computedStyle.getPropertyValue("bottom").slice(0, -2)
+            + (w / 2)
+    let y = window.innerHeight
+            - computedStyle.getPropertyValue("right").slice(0, -2)
+            + (h / 2)
+    return {x, y, w, h}
   }
 
   useEffect(() => {
-    setCompassPosition(getCompassPosition())
+    setCompassInfo(getCompassInfo())
   }, [])
 
-
-
   const getMouseDistance = (e) => {
-    console.log(compassPosition);
+
+    setCompassInfo(getCompassInfo())
+
+
+      let distanceTo = Math.sqrt(
+        Math.pow((compassInfo.x - e.x),2)
+        + Math.pow((compassInfo.y - e.y),2))
+
+        if (distanceTo) {
+          console.log(compassInfo)
+          console.log(distanceTo)
+        }
+
+
+
   }
 
   document.addEventListener('mousemove', getMouseDistance);
