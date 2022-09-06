@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setDistance, selectDistance } from '../store/features/compass';
+import { setDistance } from '../store/features/compass';
 
 import { ReactComponent as CompassZeroLayer} from './assets/Compass_0Layer.svg'
 
@@ -24,10 +24,9 @@ const CompassRose = () => {
 
   const [mouseInfo, setMouseInfo] = useState({})
 
-  const compassDistance = useSelector(selectDistance)
+  const distance = useSelector((state) => state.compassInfo.distance)
 
   const dispatch = useDispatch();
-
 
   const animationStyle = {
     animationPlayState: compassHover ? 'running' : 'running',
@@ -53,13 +52,12 @@ const CompassRose = () => {
 
   document.addEventListener('mousemove', getMouseDistance);
 
+  useEffect(() => {
 
-  // console.log(here.MouseEvent.clientX)
+  }, [distance])
 
-  const autoPanPad = {
-    x: (window.innerWidth - 500) / 2,
-    y: (window.innerHeight - 300) / 2,
- }
+
+
 
   return (
     <>
