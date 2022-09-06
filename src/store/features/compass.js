@@ -1,36 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const _calculateDistance = (info) => {
+
+  const {e, mouseInfo} = info
+
+  let distanceTo = Math.floor(Math.sqrt(
+    Math.pow((mouseInfo.x - e.x),2)
+    + Math.pow((mouseInfo.y - e.y),2)))
+
+    console.log('inthin', mouseInfo, distanceTo)
+
+    return distanceTo
+
+}
+
+
+
 const initialState = {
-  coords: {x: 0, y: 0, w: 0, h: 0},
   distance: 0,
-  status: 'idle',
 };
 
-export const compassIndexSlice = createSlice({
-  name: 'compassIndex',
+export const compassInfoSlice = createSlice({
+  name: 'compassInfo',
   initialState,
   reducers: {
-    increment: (state, action) => {
-      if (state.value >= (action.payload - 1)){
-        state.value = 0;
-      } else {
-        state.value += 1;
-      }
+    setDistance: (state, action) => {
+      state.distance = _calculateDistance(action.payload)
     },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
-    arbitraryValue: (state, action) => {
-      state.value = action.payload;
-    }
   },
 });
 
-export const { increment, decrement, incrementByAmount, arbitraryValue } = compassIndexSlice.actions;
+export const { setDistance } = compassInfoSlice.actions;
 
-export const selectCount = (state) => state.compassIndex.value;
+export const selectDistance = (state) => state.compassInfo.distance
 
-export default compassIndexSlice.reducer;
+export default compassInfoSlice.reducer;

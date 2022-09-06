@@ -2,6 +2,9 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setDistance, selectDistance } from '../store/features/compass';
 
 import { ReactComponent as CompassZeroLayer} from './assets/Compass_0Layer.svg'
 
@@ -19,15 +22,18 @@ const CompassRose = () => {
 
   const [compassHover, setCompassHover] = useState(false);
 
-  const [mouseProximity, setMouseProximity] = useState()
+  const [mouseInfo, setMouseInfo] = useState({})
 
-  const [compassInfo, setCompassInfo] = useState({})
+  const compassDistance = useSelector(selectDistance)
+
+  const dispatch = useDispatch();
+
 
   const animationStyle = {
     animationPlayState: compassHover ? 'running' : 'running',
   }
 
-  const getCompassInfo = () => {
+  const getMouseInfo = () => {
     let computedStyle = getComputedStyle(compassElement.current)
     let w = computedStyle.getPropertyValue("width").slice(0, -2)
     let h = computedStyle.getPropertyValue("height").slice(0, -2)
@@ -37,29 +43,12 @@ const CompassRose = () => {
     let y = window.innerHeight
             - computedStyle.getPropertyValue("right").slice(0, -2)
             + (h / 2)
-    return {x, y, w, h}
+    setMouseInfo({x, y})
   }
 
-  useEffect(() => {
-    setCompassInfo(getCompassInfo())
-  }, [])
-
   const getMouseDistance = (e) => {
-
-    setCompassInfo(getCompassInfo())
-
-
-      let distanceTo = Math.sqrt(
-        Math.pow((compassInfo.x - e.x),2)
-        + Math.pow((compassInfo.y - e.y),2))
-
-        if (distanceTo) {
-          console.log(compassInfo)
-          console.log(distanceTo)
-        }
-
-
-
+    getMouseInfo()
+    dispatch(setDistance({e, mouseInfo}))
   }
 
   document.addEventListener('mousemove', getMouseDistance);
