@@ -52,7 +52,6 @@ const ReactLeaflet = (props) => {
     zoom={7}
     scrollWheelZoom={true}
     style={{...sizeStyle[current], ...styling[current]}}
-    // style={styling[current]}
     >
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"

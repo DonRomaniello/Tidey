@@ -46,3 +46,7 @@
   /* opacity: .8; */
   filter: drop-shadow(0 0 3px rgba(0,0,0,.4))
 }
+
+.leaflet-control-attribution {
+  opacity: 0;
+}
