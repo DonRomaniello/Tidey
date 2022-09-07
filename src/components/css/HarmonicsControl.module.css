@@ -1,0 +1,21 @@
+#container {
+  height: 111px;
+}
+
+#increment {
+  margin: 1px;
+  border-radius: 50%;
+}
+
+#increment:hover {
+  background-color: #16697a;
+}
+
+
+.decrement {
+  border-radius: 50%;
+}
+
+.empty {
+  border-radius: 50%;
+}

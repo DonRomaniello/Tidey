@@ -1,5 +1,6 @@
 import React from "react";
 
+import { HarmonicsController } from "./HarmonicsControl";
 
 import { ReactComponent as Credits} from './assets/Credits.svg'
 
@@ -12,6 +13,7 @@ export const Settings = () => {
   return (
     <>
     <div id={styles.settings} >
+    <HarmonicsController />
     <Questions className={styles.icons}/>
     <Credits className={styles.icons}/>
     </div>
