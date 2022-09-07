@@ -17,9 +17,9 @@ const CompassRose = () => {
 
   const compassElement = useRef(null);
 
-  const oneLayerWrapElement = useRef(null);
+  // const oneLayerWrapElement = useRef(null);
 
-  const twoLayerWrapElement = useRef(null)
+  // const twoLayerWrapElement = useRef(null)
 
   const topLayerElement = useRef(null)
 

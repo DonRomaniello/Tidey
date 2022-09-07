@@ -17,9 +17,9 @@ import drawVisualizer from './modules/drawHarmonicConstituents';
 
 import icon from './assets/pin.svg';
 
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+// import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import styles from './css/Epicycles.module.css'
+// import styles from './css/Epicycles.module.css'
 
 const Epicycles = (props) => {
 
