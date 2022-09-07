@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Tidey/static/css/main.2080c9bd.css",
-    "main.js": "/Tidey/static/js/main.4ee6e55e.js",
+    "main.css": "/Tidey/static/css/main.770f25f3.css",
+    "main.js": "/Tidey/static/js/main.0c6b3f94.js",
     "static/js/787.5539bc7f.chunk.js": "/Tidey/static/js/787.5539bc7f.chunk.js",
     "static/media/Compass_0Layer.svg": "/Tidey/static/media/Compass_0Layer.b0a809394bae5273bd67cf1cb23b44ee.svg",
     "static/media/Compass_1Layer.svg": "/Tidey/static/media/Compass_1Layer.f64381919223083ef04cdb67554c215e.svg",
@@ -11,12 +11,12 @@
     "static/media/zoomOut.svg": "/Tidey/static/media/zoomOut.7d9b740bd87493865ff3.svg",
     "index.html": "/Tidey/index.html",
     "static/media/Compass_TopLayer.svg": "/Tidey/static/media/Compass_TopLayer.98fcf208c872ff9ecbc2d6ea147df6a8.svg",
-    "main.2080c9bd.css.map": "/Tidey/static/css/main.2080c9bd.css.map",
-    "main.4ee6e55e.js.map": "/Tidey/static/js/main.4ee6e55e.js.map",
+    "main.770f25f3.css.map": "/Tidey/static/css/main.770f25f3.css.map",
+    "main.0c6b3f94.js.map": "/Tidey/static/js/main.0c6b3f94.js.map",
     "787.5539bc7f.chunk.js.map": "/Tidey/static/js/787.5539bc7f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2080c9bd.css",
-    "static/js/main.4ee6e55e.js"
+    "static/css/main.770f25f3.css",
+    "static/js/main.0c6b3f94.js"
   ]
 }

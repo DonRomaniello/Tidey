@@ -29,32 +29,54 @@
 }
 
 .zeroLayer {
-  z-index: calc(var(--base-z) + 1);
+  z-index: calc(var(--base-z) + 2);
+  pointer-events: none;
+}
+
+.menu {
+  position: fixed;
+  height: 120px;
+  width: 120px;
+  bottom: 113px;
+  right: 113px;
+  background-color: white;
+  border-radius: 50%;
+  border: 2.666px solid rgb(122, 125, 125);
+  transition: all 1s;
+}
+
+.menuOpen {
+  height: 200px;
+  width: 200px;
+  bottom: 113px;
+  right: 113px;
 }
 
 .oneLayer {
-  z-index: calc(var(--base-z) + 2);
+  z-index: calc(var(--base-z) + 3);
   animation-name: baseClockwise;
   animation-play-state: running;
   animation-duration: inherit;
   animation-timing-function: inherit;
   animation-iteration-count: infinite;
   animation-fill-mode: inherit;
+  pointer-events: none;
+
 }
 
 .twoLayer {
-  z-index: calc(var(--base-z) + 3);
+  z-index: calc(var(--base-z) + 4);
   animation-name: baseCounterClockwise;
   animation-play-state: running;
   animation-duration: inherit;
   animation-timing-function: inherit;
   animation-iteration-count: infinite;
   animation-fill-mode: inherit;
-
+  pointer-events: none;
 }
 
 .topLayer{
-  z-index: calc(var(--base-z) + 4);
+  z-index: calc(var(--base-z) + 5);
   animation-name: hoverSpin;
   animation-play-state: inherit;
   animation-duration: 2s;
@@ -63,6 +85,7 @@
   animation-fill-mode: forwards;
   animation-direction: alternate;
   transition: all 1s;
+  pointer-events: none;
 }
 
 @keyframes baseClockwise {
@@ -100,7 +123,7 @@
 }
 
 #twoLayer {
-  z-index: calc(var(--base-z) + 3);
+  z-index: calc(var(--base-z) + 4);
 }
 
 #topLayer {

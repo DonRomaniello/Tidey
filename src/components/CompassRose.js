@@ -10,6 +10,8 @@ import { ReactComponent as CompassTwoLayer} from './assets/Compass_2Layer.svg'
 
 import { ReactComponent as CompassTopLayer} from './assets/Compass_TopLayer.svg'
 
+import { Settings } from './Settings';
+
 import styles from './css/CompassRose.module.css'
 
 const CompassRose = () => {
@@ -24,6 +26,8 @@ const CompassRose = () => {
   const topLayerElement = useRef(null)
 
   const [compassHover, setCompassHover] = useState(false);
+
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     topLayerElement.current.style.transform = compassHover ?  '' : 'rotate(0deg)'
@@ -43,6 +47,10 @@ const CompassRose = () => {
       <CompassTwoLayer className={`${styles.twoLayer} ${styles.compass}`} />
       <CompassOneLayer className={`${styles.oneLayer} ${styles.compass}`} />
       <CompassZeroLayer className={`${styles.zeroLayer} ${styles.compass}`} />
+      <div className={`${styles.compass} ${styles.menu} ${menuOpen ? styles.menuOpen : null}`}
+      onMouseDown={() => setMenuOpen(true)}>
+      {menuOpen ? <Settings /> : null}
+      </div>
     </div>
     </>
 )
