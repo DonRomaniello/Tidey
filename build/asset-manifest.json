@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.eb2a5bca.css",
+    "main.js": "/static/js/main.b17a78df.js",
+    "static/js/787.5539bc7f.chunk.js": "/static/js/787.5539bc7f.chunk.js",
+    "static/media/Compass_0Layer.svg": "/static/media/Compass_0Layer.b0a809394bae5273bd67cf1cb23b44ee.svg",
+    "static/media/Compass_1Layer.svg": "/static/media/Compass_1Layer.f64381919223083ef04cdb67554c215e.svg",
+    "static/media/Compass_2Layer.svg": "/static/media/Compass_2Layer.143b603d7c947a2c21bfa01e0464d712.svg",
+    "static/media/pin.svg": "/static/media/pin.8c88119e47ec706e72e4a85e4713a389.svg",
+    "static/media/zoomIn.svg": "/static/media/zoomIn.26c02104c6d33e612feb.svg",
+    "static/media/zoomOut.svg": "/static/media/zoomOut.7d9b740bd87493865ff3.svg",
+    "index.html": "/index.html",
+    "static/media/Compass_TopLayer.svg": "/static/media/Compass_TopLayer.98fcf208c872ff9ecbc2d6ea147df6a8.svg",
+    "main.eb2a5bca.css.map": "/static/css/main.eb2a5bca.css.map",
+    "main.b17a78df.js.map": "/static/js/main.b17a78df.js.map",
+    "787.5539bc7f.chunk.js.map": "/static/js/787.5539bc7f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eb2a5bca.css",
+    "static/js/main.b17a78df.js"
+  ]
+}
