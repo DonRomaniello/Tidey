@@ -1,6 +1,7 @@
 {
   "name": "tidey",
   "version": "0.1.0",
+  "homepage": "https://DonRomaniello.github.io/Tidey",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
