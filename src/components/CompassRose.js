@@ -30,7 +30,7 @@ const CompassRose = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    topLayerElement.current.style.transform = compassHover ?  '' : 'rotate(0deg)'
+    topLayerElement.current.style.transform = (!menuOpen && compassHover) ?  '' : 'rotate(0deg)'
     compassElement.current.style.animationPlayState = compassHover ?  'running' : 'paused'
   }, [compassHover])
 
@@ -48,7 +48,7 @@ const CompassRose = () => {
       <CompassOneLayer className={`${styles.oneLayer} ${styles.compass}`} />
       <CompassZeroLayer className={`${styles.zeroLayer} ${styles.compass}`} />
       <div className={`${styles.compass} ${styles.menu} ${menuOpen ? styles.menuOpen : null}`}
-      onMouseDown={() => setMenuOpen(true)}>
+      onMouseDown={() => setMenuOpen(!menuOpen)}>
       {menuOpen ? <Settings /> : null}
       </div>
     </div>
