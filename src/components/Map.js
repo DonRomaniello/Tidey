@@ -16,6 +16,8 @@ import "./css/timeMarker.css";
 
 import "./css/TopLevelSupplement.css"
 
+import { styling } from './css/Map.module.js'
+
 const ReactLeaflet = (props) => {
 
   const { stations } = props;
@@ -30,7 +32,8 @@ const ReactLeaflet = (props) => {
     zoomControl={false}
     zoom={7}
     scrollWheelZoom={true}
-    style={styling}>
+    style={styling}
+    >
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors |
@@ -52,13 +55,3 @@ const ReactLeaflet = (props) => {
 }
 
 export default ReactLeaflet
-
-const styling = {
-  display: 'flex',
-  height: 'calc(100vh - 100px)',
-  width: 'calc(100vw - 100px)',
-  // margin
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius:'30px',
-}
