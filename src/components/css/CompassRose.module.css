@@ -13,7 +13,7 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
-  animation-duration: 1s;
+  animation-duration: 3s;
 }
 
 
@@ -31,26 +31,34 @@
 .oneLayer {
   z-index: calc(var(--base-z) + 2);
   animation-name: baseClockwise;
-  animation-play-state: inherit;
+  animation-play-state: running;
   animation-duration: inherit;
   animation-timing-function: inherit;
-  animation-iteration-count: inherit;
+  animation-iteration-count: infinite;
   animation-fill-mode: inherit;
 }
 
 .twoLayer {
   z-index: calc(var(--base-z) + 3);
   animation-name: baseCounterClockwise;
-  animation-play-state: inherit;
+  animation-play-state: running;
   animation-duration: inherit;
   animation-timing-function: inherit;
-  animation-iteration-count: inherit;
+  animation-iteration-count: infinite;
   animation-fill-mode: inherit;
 
 }
 
 .topLayer{
   z-index: calc(var(--base-z) + 4);
+  animation-name: hoverSpin;
+  animation-play-state: inherit;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-direction: alternate;
+  transition: all 1s;
 }
 
 @keyframes baseClockwise {
@@ -62,15 +70,29 @@
   }
 }
 
-
 @keyframes baseCounterClockwise {
-  to {
-    transform: rotate(0deg);
-  }
-
   from {
     transform: rotate(45deg);
   }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes hoverSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(0deg);
+  }
+  95% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+
 }
 
 #twoLayer {

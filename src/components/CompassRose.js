@@ -21,15 +21,14 @@ const CompassRose = () => {
 
   const twoLayerWrapElement = useRef(null)
 
+  const topLayerElement = useRef(null)
+
   const [compassHover, setCompassHover] = useState(false);
 
   useEffect(() => {
-    compassElement.current.style.animationDuration = compassHover ?  '1s' : '6s'
-    twoLayerWrapElement.current.style.animationName = compassHover ?  'hoverCounterClockwise' : 'baseCounterClockwise'
-
-    // console.log(compassElement.current.animationDuration)
+    topLayerElement.current.style.transform = compassHover ?  '' : 'rotate(0deg)'
+    compassElement.current.style.animationPlayState = compassHover ?  'running' : 'paused'
   }, [compassHover])
-
 
   return (
     <>
@@ -40,9 +39,8 @@ const CompassRose = () => {
     onMouseEnter={() => setCompassHover(true)}
     onMouseLeave={() => setCompassHover(false)}
     >
-      <CompassTopLayer className={`${styles.topLayer} ${styles.compass}`} />
-      <CompassTwoLayer className={`${styles.twoLayer} ${styles.compass}`}
-      ref={twoLayerWrapElement}/>
+      <CompassTopLayer ref={topLayerElement} className={`${styles.topLayer} ${styles.compass}`} />
+      <CompassTwoLayer className={`${styles.twoLayer} ${styles.compass}`} />
       <CompassOneLayer className={`${styles.oneLayer} ${styles.compass}`} />
       <CompassZeroLayer className={`${styles.zeroLayer} ${styles.compass}`} />
     </div>
