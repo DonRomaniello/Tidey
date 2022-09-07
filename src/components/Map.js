@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   MapContainer,
@@ -6,9 +6,9 @@ import {
   ZoomControl,
 } from 'react-leaflet'
 
-
 import Epicycles from './Epicycles';
 
+import { useMedia } from 'tiny-use-media-esm';
 
 import "leaflet/dist/leaflet.css";
 
@@ -18,12 +18,18 @@ import "./css/TopLevelSupplement.css"
 
 import { styling } from './css/Map.module.js'
 
+// import styles from './css/Map.module.css'
+
 const ReactLeaflet = (props) => {
 
   const { stations } = props;
 
   const position = [40.778041, -73.921264]
 
+  const { current } = useMedia({
+    mobile: 0,
+    desktop: 800,
+  })
 
   return (
     <>
@@ -32,7 +38,7 @@ const ReactLeaflet = (props) => {
     zoomControl={false}
     zoom={7}
     scrollWheelZoom={true}
-    style={styling}
+    style={styling[current]}
     >
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
