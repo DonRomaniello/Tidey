@@ -1,7 +1,7 @@
 .mapContainer {
   display: 'flex';
-  height: 'calc(100vh - 100px)';
-  width: 'calc(100vw - 100px)';
+  height: 'calc(100dvh - 100px)';
+  width: 'calc(100dvw - 100px)';
   justify-content: 'center';
   align-items: 'center';
   border-radius:'30px';

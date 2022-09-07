@@ -26,10 +26,23 @@ const ReactLeaflet = (props) => {
 
   const position = [40.778041, -73.921264]
 
+  const sizeStyle = {
+    desktop: {
+      height: `${window.innerHeight - 100}px`,
+      width: `${window.innerWidth - 100}px`,
+    },
+    mobile: {
+      // height: `${window.innerHeight - 50}px`,
+      // width: `${window.innerWidth - 50}px`,
+    },
+  }
+
   const { current } = useMedia({
     mobile: 0,
     desktop: 800,
   })
+
+  window.scrollTo(50, 50)
 
   return (
     <>
@@ -38,7 +51,8 @@ const ReactLeaflet = (props) => {
     zoomControl={false}
     zoom={7}
     scrollWheelZoom={true}
-    style={styling[current]}
+    style={{...sizeStyle[current], ...styling[current]}}
+    // style={styling[current]}
     >
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"

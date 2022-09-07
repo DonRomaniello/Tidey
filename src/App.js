@@ -23,8 +23,6 @@ function App() {
     dispatch(fetchStations())
   }, [dispatch])
 
-
-
   return (
     <>
     <CompassRose />
