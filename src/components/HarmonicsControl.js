@@ -14,9 +14,9 @@ export const HarmonicsController = () => {
   return (
     <>
     <div id={styles.container} >
-    <Increment id={styles.increment}/>
     <Empty className={styles.empty} />
     <Decrement className={styles.decrement}/>
+    <Increment id={styles.increment}/>
     </div>
     </>
 

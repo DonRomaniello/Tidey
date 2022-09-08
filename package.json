@@ -17,6 +17,7 @@
     "react-leaflet": "^4.0.2",
     "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
+    "react-svg": "^15.1.7",
     "tiny-use-media-esm": "^1.0.1",
     "web-vitals": "^2.1.4"
   },

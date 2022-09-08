@@ -19,10 +19,6 @@ const CompassRose = () => {
 
   const compassElement = useRef(null);
 
-  // const oneLayerWrapElement = useRef(null);
-
-  // const twoLayerWrapElement = useRef(null)
-
   const topLayerElement = useRef(null)
 
   const [compassHover, setCompassHover] = useState(false);

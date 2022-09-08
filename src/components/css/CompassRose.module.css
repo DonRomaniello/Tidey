@@ -10,11 +10,15 @@
   right: 100px;
   height: 150px;
   width: 150px;
+}
+
+.compass > * {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
   animation-duration: 3s;
 }
+
 #compassHolder {
   z-index: var(--base-z);
   margin: -50px;
@@ -67,10 +71,6 @@
   z-index: calc(var(--base-z) + 3);
   animation-name: baseClockwise;
   animation-play-state: running;
-  animation-duration: inherit;
-  animation-timing-function: inherit;
-  animation-iteration-count: infinite;
-  animation-fill-mode: inherit;
   pointer-events: none;
 
 }
@@ -79,10 +79,6 @@
   z-index: calc(var(--base-z) + 4);
   animation-name: baseCounterClockwise;
   animation-play-state: running;
-  animation-duration: inherit;
-  animation-timing-function: inherit;
-  animation-iteration-count: infinite;
-  animation-fill-mode: inherit;
   pointer-events: none;
 }
 

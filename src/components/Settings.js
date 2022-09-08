@@ -13,7 +13,7 @@ export const Settings = () => {
   return (
     <>
     <div id={styles.settings} >
-    <HarmonicsController />
+    <HarmonicsController className={styles.controller} />
     <Questions className={styles.icons}/>
     <Credits className={styles.icons}/>
     </div>

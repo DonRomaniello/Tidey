@@ -1,14 +1,24 @@
 #container {
   height: 111px;
+  position: relative;
+  justify-content: center;
+  display: flex;
+  align-items: flex;
+  margin: 0 50%;
 }
 
-#increment {
-  margin: 1px;
+#container > * {
+  transition: background-color .2s;
+  position: absolute;
   border-radius: 50%;
 }
 
+
+#increment {
+}
+
 #increment:hover {
-  background-color: #16697a;
+  /* background-color: #16697a; */
 }
 
 
@@ -17,5 +27,6 @@
 }
 
 .empty {
+  top: 50px;
   border-radius: 50%;
 }
