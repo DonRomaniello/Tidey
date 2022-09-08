@@ -1,12 +1,5 @@
 import React from "react";
 
-
-import { ReactComponent as Increment} from './assets/Increment.svg'
-
-import {ReactComponent as Empty} from './assets/Empty.svg'
-
-import { ReactComponent as Decrement} from './assets/Decrement.svg'
-
 import styles from './css/HarmonicsControl.module.css'
 
 export const HarmonicsController = () => {
@@ -14,9 +7,9 @@ export const HarmonicsController = () => {
   return (
     <>
     <div id={styles.container} >
-    <Empty className={styles.empty} />
-    <Decrement className={styles.decrement}/>
-    <Increment id={styles.increment}/>
+    <div id={styles.empty} />
+    <div id={styles.decrement}/>
+    <div id={styles.increment} />
     </div>
     </>
 

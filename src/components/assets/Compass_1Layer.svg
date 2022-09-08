@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.2" baseProfile="tiny" id="CompassOneLayer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" overflow="visible" xml:space="preserve">
-<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="33.3333321"/>
-<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="35.3333321"/>
-<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="28.666666"/>
-<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="30.666666"/>
-<circle fill="none" stroke="#7A7D7D" stroke-width="2" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="34.3333321"/>
-<circle fill="none" stroke="#7A7D7D" stroke-width="2" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="29.666666"/>
+<svg version="1.1" id="CompassOneLayer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="33.3333282"/>
+<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="35.3333282"/>
+<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="28.6666698"/>
+<circle fill="none" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="30.6666698"/>
+<circle fill="none" stroke="#7A7D7D" stroke-width="2" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="34.3333282"/>
+<circle fill="none" stroke="#7A7D7D" stroke-width="2" stroke-linecap="round" stroke-miterlimit="2.6666667" cx="100" cy="100" r="29.6666698"/>
 <path fill="#DB504A" stroke="#1A1A1A" stroke-width="0.2666667" stroke-linecap="round" stroke-miterlimit="2.6666667" d="
 	M79.6000061,149.2666779c5.3333282-9.2000122,6.3333282-11.444458,9.4888916-15.6666718
 	c-1.7555542-0.577774-3.4666672-1.2888947-5.1111145-2.1111145C83.1999969,136.7111206,82.3333359,139,79.6000061,149.2666779"/>

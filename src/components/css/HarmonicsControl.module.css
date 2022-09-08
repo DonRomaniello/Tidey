@@ -1,3 +1,13 @@
+:root {
+  --incDimension: 64px;
+  --empDimension: 36px;
+  --decDimension: 18px;
+  --incTop: 23px;
+  --empTop: calc(var(--incTop) + var(--incDimension) - (var(--empDimension) / 2) + 2.5px);
+  --decTop: calc(var(--empTop) + var(--empDimension) - (var(--decDimension) / 2) + 2.5px);
+
+}
+
 #container {
   height: 111px;
   position: relative;
@@ -11,22 +21,39 @@
   transition: background-color .2s;
   position: absolute;
   border-radius: 50%;
+  border: 4px solid;
+  background-color: rgba(255, 255, 255);
+  outline: black solid 1px;
 }
 
 
 #increment {
+  top: var(--incTop);
+  width: var(--incDimension);
+  height: var(--incDimension);
+  border-color: rgb(22, 105, 122);
 }
 
 #increment:hover {
-  /* background-color: #16697a; */
+  background-color: rgb(calc((255 + 22) / 2), calc((255 + 105) / 2), calc((255 + 122) / 2));
 }
 
-
-.decrement {
-  border-radius: 50%;
+#empty {
+  top: var(--empTop);
+  width: var(--empDimension);
+  height: var(--empDimension);
+  background-color: rgba(255, 255, 255, 0);
+  border-color: rgb(122, 125, 125);
 }
 
-.empty {
-  top: 50px;
-  border-radius: 50%;
+#decrement {
+  top: var(--decTop);
+  width: var(--decDimension);
+  height: var(--decDimension);
+  background-color: rgba(255, 255, 255);
+  border-color: rgb(219, 80, 74);
+}
+
+#decrement:hover {
+  background-color: rgb(calc((255 + 219) / 2), calc((255 + 80) / 2), calc((255 + 74) / 2));
 }
