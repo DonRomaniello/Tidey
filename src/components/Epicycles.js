@@ -27,6 +27,8 @@ const Epicycles = (props) => {
 
   const harmonics = useSelector((state) => state.harmonics)
 
+  const shown = useSelector((state) => state.harmonics.shownConstituents)
+
   const [couldOpen, setCouldOpen] = useState(false)
 
   const dispatch = useDispatch();
@@ -58,7 +60,7 @@ const Epicycles = (props) => {
   const stopLooping = () => {
     return {
       continue: couldOpen,
-      numOfConstituents: 5,
+      numOfConstituents: shown,
   }
 }
 

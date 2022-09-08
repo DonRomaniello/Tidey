@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const initialState = {
   harmonics: [],
+  shownConstituents: 3,
   loading: false,
   loaded: false,
   error: '',
@@ -26,6 +27,16 @@ export const harmonicsSlice = createSlice({
   name: 'harmonics',
   initialState,
   reducers: {
+    increment: (state) => {
+      if (state.shownConstituents < 20){
+        state.shownConstituents += 1;
+      }
+    },
+    decrement: state => {
+      if (state.shownConstituents > 1){
+        state.shownConstituents -= 1
+      }
+    }
   },
   extraReducers: builder => {
     builder.addCase(fetchHarmonics.pending, state => {
@@ -46,6 +57,8 @@ export const harmonicsSlice = createSlice({
     })
   },
 })
+
+export const { increment, decrement } = harmonicsSlice.actions;
 
 export default harmonicsSlice.reducer
 
