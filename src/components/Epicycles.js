@@ -68,8 +68,6 @@ const Epicycles = (props) => {
     }
   }, [canvasName, couldOpen, harmonics, shown])
 
-
-
   return (
     <>
     <Marker
