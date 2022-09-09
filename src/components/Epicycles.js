@@ -17,10 +17,6 @@ import drawVisualizer from './modules/drawHarmonicConstituents';
 
 import icon from './assets/pin.svg';
 
-// import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-// import styles from './css/Epicycles.module.css'
-
 const Epicycles = (props) => {
 
   const { stationInfo } = props
@@ -57,19 +53,24 @@ const Epicycles = (props) => {
     y: (window.innerHeight - 300) / 2,
  }
 
-  const stopLooping = () => {
-    return {
-      continue: couldOpen,
-      numOfConstituents: shown,
-  }
-}
+
 
   useEffect(() => {
+
+    const stopLooping = () => {
+      return {
+        continue: couldOpen,
+        numOfConstituents: shown,
+    }
+  }
+
     if (harmonics.loaded && couldOpen) {
       drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
         [400, 200], stopLooping)
     }
   }, [canvasName, couldOpen, harmonics])
+
+
 
   return (
     <>
@@ -84,16 +85,16 @@ const Epicycles = (props) => {
         dispatch(fetchHarmonics(stationInfo.harmonicConstituents))
         setCouldOpen(true);
       },
-      popupclose: () => {
+      popupclose: (e) => {
+        console.log('closed', e)
         setCouldOpen(false)
-      }
-    }}
+      }}}
     >
       <Popup
       autoPanPadding={autoPanPad}
       autoPan={true}
       >
-        {((harmonics.loaded) && couldOpen) ?
+      {((harmonics.loaded) && couldOpen) ?
           <canvas id={canvasName}/>
             :
           <div className='loading' >

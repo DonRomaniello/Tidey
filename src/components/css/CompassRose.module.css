@@ -14,6 +14,7 @@
 }
 
 .compass > * {
+  animation-play-state: inherit;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
@@ -67,7 +68,6 @@
 .oneLayer {
   z-index: calc(var(--base-z) + 3);
   animation-name: baseClockwise;
-  animation-play-state: running;
   pointer-events: none;
 
 }
@@ -81,13 +81,6 @@
 
 .topLayer{
   z-index: calc(var(--base-z) + 5);
-  animation-name: hoverSpin;
-  animation-play-state: inherit;
-  animation-duration: 2s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
-  animation-direction: alternate;
   transition: all 1s;
   /* pointer-events: none; */
 }
@@ -108,22 +101,6 @@
   to {
     transform: rotate(0deg);
   }
-}
-
-@keyframes hoverSpin {
-  0% {
-    transform: rotate(0deg);
-  }
-  5% {
-    transform: rotate(0deg);
-  }
-  95% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-
 }
 
 #twoLayer {
