@@ -37,7 +37,8 @@ const emptyFunction = () => {
 
 const init = () => {
   // this may change, will revisit
-  canvas = document.getElementById(canvasName);
+  // canvas = document.getElementById(canvasName);
+  canvas = canvasName.current;
 
   canvas.width = canvasSize[0];
   canvas.height = canvasSize[1];
@@ -86,6 +87,8 @@ const draw = () => {
   ctx.restore();
 
   callbackMessages = loopCallback()
+
+  console.log("still")
 
   if (callbackMessages.continue){
     setTimeout(draw, (1000 / frameRate));

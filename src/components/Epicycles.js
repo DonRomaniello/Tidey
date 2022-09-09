@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -46,29 +46,27 @@ const Epicycles = (props) => {
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
-  const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
+  // const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
+
+  const canvasName = useRef(null)
 
   const autoPanPad = {
     x: (window.innerWidth - 500) / 2,
     y: (window.innerHeight - 300) / 2,
  }
 
-
-
   useEffect(() => {
-
     const stopLooping = () => {
       return {
         continue: couldOpen,
         numOfConstituents: shown,
     }
   }
-
     if (harmonics.loaded && couldOpen) {
       drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
         [400, 200], stopLooping)
     }
-  }, [canvasName, couldOpen, harmonics])
+  }, [canvasName, couldOpen, harmonics, shown])
 
 
 
@@ -86,7 +84,6 @@ const Epicycles = (props) => {
         setCouldOpen(true);
       },
       popupclose: (e) => {
-        console.log('closed', e)
         setCouldOpen(false)
       }}}
     >
@@ -95,7 +92,7 @@ const Epicycles = (props) => {
       autoPan={true}
       >
       {((harmonics.loaded) && couldOpen) ?
-          <canvas id={canvasName}/>
+          <canvas ref={canvasName}/>
             :
           <div className='loading' >
             loading...
