@@ -66,6 +66,7 @@ const Epicycles = (props) => {
       drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
         [400, 200], stopLooping)
     }
+
   }, [canvasName, couldOpen, harmonics, shown])
 
   return (
