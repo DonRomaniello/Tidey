@@ -8,7 +8,9 @@ export const NewCanvas = (props) => {
 
   const {canvasName, canvasSize} = props
 
-  const shown = useSelector((state) => state.harmonics.shownConstituents)
+  const { harmonics, shownConstituents } = useSelector((state) => state.harmonics)
+
+  // const harmonics = useSelector((state) => state.harmonics)
 
   const canvasEl = useRef(null)
 
@@ -18,17 +20,12 @@ export const NewCanvas = (props) => {
 
   const frameDuration = 41;
 
-
   useEffect(() => {
-
-
-
       const draw = (ctx, canvas) => {
         ctx.clearRect(0,0,canvas.width,canvas.height)
-        ctx.fillStyle = `rgb(255,0,${shown * 30}, 1)`
+        ctx.fillStyle = `rgb(255,0,${shownConstituents * 30}, 1)`
         ctx.rect(frame,0,canvas.width,frame)
         ctx.fill()
-        console.log(shown)
       }
     const testFrame = () => {
       if (frame <= 30) {
@@ -50,7 +47,7 @@ export const NewCanvas = (props) => {
     return () => clearInterval(drawUpdate);
 
 
-  }, [frameDuration, shown])
+  }, [frameDuration, shownConstituents])
 
   return (
 
