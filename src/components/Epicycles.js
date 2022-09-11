@@ -22,6 +22,8 @@ const Epicycles = (props) => {
 
   const { stationInfo } = props
 
+  const canvasSize = [400, 200]
+
   const harmonics = useSelector((state) => state.harmonics)
 
   const shown = useSelector((state) => state.harmonics.shownConstituents)
@@ -92,7 +94,8 @@ const Epicycles = (props) => {
       autoPan={true}
       >
       {((harmonics.loaded) && couldOpen) ?
-          couldOpen && <NewCanvas canvasName={canvasName} />
+          couldOpen &&
+          <NewCanvas canvasName={canvasName} canvasSize={canvasSize} />
           // couldOpen && <canvas ref={canvasName}/>
 
             :
