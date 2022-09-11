@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const initialState = {
   harmonics: [],
-  shownConstituents: 3,
+  shownNumber: 3,
   loading: false,
   loaded: false,
   error: '',
@@ -28,13 +28,13 @@ export const harmonicsSlice = createSlice({
   initialState,
   reducers: {
     increment: (state) => {
-      if (state.shownConstituents < 20){
-        state.shownConstituents += 1;
+      if (state.shownNumber < 20){
+        state.shownNumber += 1;
       }
     },
     decrement: state => {
-      if (state.shownConstituents > 1){
-        state.shownConstituents -= 1
+      if (state.shownNumber > 1){
+        state.shownNumber -= 1
       }
     }
   },
