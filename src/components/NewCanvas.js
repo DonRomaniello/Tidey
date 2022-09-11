@@ -14,7 +14,6 @@ export const NewCanvas = (props) => {
 
   const canvasEl = useRef(null)
 
-
   const frameDuration = 41;
   const beadSize = 2
   const mainSpeed = 1
@@ -26,16 +25,41 @@ export const NewCanvas = (props) => {
     // doSomething
   }
 
-  const constituents = useMemo(() => [...harmonics].sort((a, b) => b.amplitude - a.amplitude).slice(0, shownNumber), [harmonics, shownNumber]);
+  const produceConstituentArray = (_harmonics, _shownNumber) => {
+    let a = [..._harmonics].sort((a, b) => b.amplitude - a.amplitude).slice(0, _shownNumber)
+    return a
+  }
+  const constituents = useMemo(() => produceConstituentArray(harmonics, shownNumber), [harmonics, shownNumber]);
 
-  const scale = useMemo(() => constituents.map((a) => a.amplitude).reduce((a, b) => a + b), [constituents])
+  const calcScale = (_constituents) => {
+    let s = _constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
+    return s
+  }
+  const scale = useMemo(() => calcScale(constituents), [constituents])
 
-  const unit = useMemo(() => ((canvasSize[1] / 2) / scale), [canvasSize, scale])
+  const calcUnit = (_canvasSize, _scale) => {
+    let u = ((canvasSize[1] / 2) / scale)
+    return u
+  }
+  const unit = useMemo(() => calcUnit(canvasSize, scale), [canvasSize, scale])
+
+  const calcXAxis = (_canvasSize) => {
+    let x = Math.floor(_canvasSize[1]/2)
+    return x
+  }
+  const xAxis = useMemo(() => calcXAxis(canvasSize), [canvasSize])
+
+  const calcYAxis = (_canvasSize, _scale) => {
+    let y = Math.floor(_canvasSize[1]/4 - _scale)
+    return y
+  }
+  const yAxis = useMemo(() => calcYAxis(canvasSize, scale), [canvasSize, scale])
 
   const timeSeriesChords = useMemo(() => updateTimeSeries(frame), [frame])
 
+  const [nextXCenter, setNextXCenter] = useState(yAxis)
 
-
+  const [nextYCenter, setNextYCenter] = useState(xAxis)
 
   const canvasSetup = useCallback(() => {
     const canvas = canvasEl.current
@@ -44,10 +68,9 @@ export const NewCanvas = (props) => {
     const ctx = canvas.getContext("2d")
     ctx.lineWidth = 1;
     ctx.lineJoin = 'round';
-    const xAxis = Math.floor(canvas.height/2);
-    const yAxis = Math.floor(canvas.width/4 - scale);
-      return [canvas, ctx, yAxis, xAxis]
-  }, [canvasEl, canvasSize, scale])
+    // console.log(yAxis, xAxis, unit, scale, constituents)
+    return [canvas, ctx]
+  }, [canvasEl, canvasSize])
 
 
 
@@ -60,23 +83,16 @@ export const NewCanvas = (props) => {
     return { r, g, b }
   }
 
-  // const getRadians = (angle) => {
-  //   return (angle * (Math.PI / 180))
-  // }
+  const getRadians = (angle) => {
+    return (angle * (Math.PI / 180))
+  }
 
   // const getPhasedXY = (time, radius, constituent) => {
   //   const { phase_GMT, speed} = constituent
   //   let phase = phase_GMT
   //   let phaseX = nextXCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
   //   let phaseY = nextYCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
-  //   return [phaseX, phaseY]
-  // }
-
-
-  // const getLocationOnCircle = (time, radius, constituent) => {
-  //   let nextCenters = getPhasedXY(time, radius, constituent)
-  //   nextXCenter = nextCenters[0]
-  //   nextYCenter = nextCenters[1]
+  //   return phaseX, phaseY
   // }
 
   // const drawEpicycles = (radius, ctx, idx) => {
