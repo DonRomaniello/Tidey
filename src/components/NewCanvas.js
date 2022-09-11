@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState, useRef} from "react";
+import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
 
 import { useSelector } from "react-redux";
 
@@ -37,7 +37,7 @@ export const NewCanvas = (props) => {
 
 
 
-  const canvasSetup = () => {
+  const canvasSetup = useCallback(() => {
     const canvas = canvasEl.current
     canvas.width = canvasSize[0]
     canvas.height = canvasSize[1]
@@ -47,18 +47,18 @@ export const NewCanvas = (props) => {
     const xAxis = Math.floor(canvas.height/2);
     const yAxis = Math.floor(canvas.width/4 - scale);
       return [canvas, ctx, yAxis, xAxis]
+  }, [canvasEl, canvasSize, scale])
+
+
+
+  const getSteppedColor = (idx) => {
+    let degreeB = idx / shownNumber
+    let degreeA = 1 - degreeB
+    let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
+    let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
+    let b = (colorRange.start.b * degreeA) + (colorRange.end.b * degreeB)
+    return { r, g, b }
   }
-
-
-
-  // const getSteppedColor = (idx) => {
-  //   let degreeB = idx / shownNumber
-  //   let degreeA = 1 - degreeB
-  //   let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
-  //   let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
-  //   let b = (colorRange.start.b * degreeA) + (colorRange.end.b * degreeB)
-  //   return { r, g, b }
-  // }
 
   // const getRadians = (angle) => {
   //   return (angle * (Math.PI / 180))
@@ -110,27 +110,20 @@ export const NewCanvas = (props) => {
         ctx.rect(frame,0,canvas.width,frame)
         ctx.fill()
       }
-
-
       window.requestAnimationFrame(draw);
-
-
     return () => {};
-
-  }, [frame, constituents, canvasEl])
+  }, [frame, constituents, canvasEl, canvasSetup, shownNumber])
 
   useEffect(() => {
     const frameUpdate = setInterval(() => {
         if (frame <= 30) {
           setFrame(frame + 1)
         } else {
-          console.log('limit!')
           setFrame(0)
         }
     }, frameDuration);
-
+    console.log('limit!')
     return () => clearInterval(frameUpdate)
-
   }, [frame])
 
   return (
