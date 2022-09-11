@@ -6,6 +6,13 @@ import {colorRange} from './css/NewCanvas.module.js'
 
 export const NewCanvas = (props) => {
 
+  const frameDuration = 41;
+  const beadSize = 2
+  const mainSpeed = 1
+  const axesStrokeColor = 'rgba(128, 128, 128, 1)'
+  const beadColor = 'rgba(219, 80, 74, 1)'
+  const wavePrecision = 10
+
   const {canvasName, canvasSize} = props
 
   const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
@@ -14,45 +21,33 @@ export const NewCanvas = (props) => {
 
   const canvasEl = useRef(null)
 
-  const frameDuration = 41;
-  const beadSize = 2
-  const mainSpeed = 1
-  const axesStrokeColor = 'rgba(128, 128, 128, 1)'
-  const beadColor = 'rgba(219, 80, 74, 1)'
-  const wavePrecision = 10
-
   const updateTimeSeries  = (frame) => {
     // doSomething
   }
 
   const produceConstituentArray = (_harmonics, _shownNumber) => {
     let a = [..._harmonics].sort((a, b) => b.amplitude - a.amplitude).slice(0, _shownNumber)
-    return a
-  }
+    return a}
   const constituents = useMemo(() => produceConstituentArray(harmonics, shownNumber), [harmonics, shownNumber]);
 
   const calcScale = (_constituents) => {
     let s = _constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
-    return s
-  }
+    return s}
   const scale = useMemo(() => calcScale(constituents), [constituents])
 
   const calcUnit = (_canvasSize, _scale) => {
-    let u = ((canvasSize[1] / 2) / scale)
-    return u
-  }
+    let u = ((_canvasSize[1] / 2) / _scale)
+    return u}
   const unit = useMemo(() => calcUnit(canvasSize, scale), [canvasSize, scale])
 
   const calcXAxis = (_canvasSize) => {
     let x = Math.floor(_canvasSize[1]/2)
-    return x
-  }
+    return x}
   const xAxis = useMemo(() => calcXAxis(canvasSize), [canvasSize])
 
   const calcYAxis = (_canvasSize, _scale) => {
     let y = Math.floor(_canvasSize[1]/4 - _scale)
-    return y
-  }
+    return y}
   const yAxis = useMemo(() => calcYAxis(canvasSize, scale), [canvasSize, scale])
 
   const timeSeriesChords = useMemo(() => updateTimeSeries(frame), [frame])
@@ -68,11 +63,8 @@ export const NewCanvas = (props) => {
     const ctx = canvas.getContext("2d")
     ctx.lineWidth = 1;
     ctx.lineJoin = 'round';
-    // console.log(yAxis, xAxis, unit, scale, constituents)
     return [canvas, ctx]
   }, [canvasEl, canvasSize])
-
-
 
   const getSteppedColor = (idx) => {
     let degreeB = idx / shownNumber
@@ -87,35 +79,49 @@ export const NewCanvas = (props) => {
     return (angle * (Math.PI / 180))
   }
 
-  // const getPhasedXY = (time, radius, constituent) => {
-  //   const { phase_GMT, speed} = constituent
-  //   let phase = phase_GMT
-  //   let phaseX = nextXCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
-  //   let phaseY = nextYCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
-  //   return phaseX, phaseY
-  // }
+  const getPhasedXY = (time, radius, constituent) => {
+    const { phase_GMT, speed} = constituent
+    let phase = phase_GMT
+    let phaseX = nextXCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
+    let phaseY = nextYCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
+    return phaseX, phaseY
+  }
 
-  // const drawEpicycles = (radius, ctx, idx) => {
-  //   let baseColor = getSteppedColor(idx)
-  //   ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
-  //   ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
-  //   ctx.beginPath()
-  //   ctx.arc(nextXCenter, nextYCenter, radius, 0, 2 * Math.PI, false);
-  //   // ctx.fill();
-  //   ctx.stroke();
-  // }
+  const drawEpicycles = (radius, ctx, idx) => {
+    let baseColor = getSteppedColor(idx)
+    ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
+    ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
+    ctx.beginPath()
+    ctx.arc(nextXCenter, nextYCenter, radius, 0, 2 * Math.PI, false);
+    // ctx.fill();
+    ctx.stroke();
+  }
 
-  // const runThroughConstituents = (time, drawFunction) => {
-  //   constituents.forEach((constituent, idx) => {
-  //     const radius = Math.floor(constituent.amplitude * unit)
-  //     drawFunction(radius, idx)
-  //     getLocationOnCircle(time, radius, constituent)
-  //     timeSeriesCounter++;
-  //     if (idx == (constituents.length - 1) && (timeSeriesCounter % wavePrecision == 0)) {
-  //       timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
-  //     }
-  //   })
-  // }
+  const drawBead = () => {
+    ctx.beginPath()
+        ctx.strokeStyle = beadColor;
+        ctx.fillStyle = beadColor;
+        ctx.arc(nextXCenter, nextYCenter, beadSize, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = featureStrokeColor; // restore color
+  }
+
+  const runThroughConstituents = (time, drawFunction) => {
+    constituents.forEach((constituent, idx) => {
+      const radius = Math.floor(constituent.amplitude * unit)
+      drawEpicycles(radius, idx)
+      if (idx === shownNumber) {
+        drawBead()
+      }
+
+      getLocationOnCircle(time, radius, constituent)
+      // timeSeriesCounter++;
+      // if (idx === (constituents.length - 1) && (timeSeriesCounter % wavePrecision === 0)) {
+      //   timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
+      // }
+    })
+  }
 
 
   useEffect(() => {
