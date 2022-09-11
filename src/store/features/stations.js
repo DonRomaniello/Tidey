@@ -32,7 +32,7 @@ export const stationsSlice = createSlice({
     })
     builder.addCase(fetchStations.fulfilled, (state, action) => {
       state.loading = false
-      state.stations = action.payload.stations.slice(30,60)
+      state.stations = action.payload.stations.slice(150,200)
       state.error = ''
     })
     builder.addCase(fetchStations.rejected, (state, action) => {

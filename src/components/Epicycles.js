@@ -49,7 +49,7 @@ const Epicycles = (props) => {
 
   const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
 
-
+  // const canvasName = useRef(null)
 
   const autoPanPad = {
     x: (window.innerWidth - 500) / 2,
@@ -63,10 +63,10 @@ const Epicycles = (props) => {
         numOfConstituents: shown,
     }
   }
-    // if (harmonics.loaded && couldOpen) {
-    //   drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
-    //     [400, 200], stopLooping)
-    // }
+    if (harmonics.loaded && couldOpen) {
+      // drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
+      //   [400, 200], stopLooping)
+    }
 
   }, [canvasName, couldOpen, harmonics, shown])
 
@@ -93,6 +93,8 @@ const Epicycles = (props) => {
       >
       {((harmonics.loaded) && couldOpen) ?
           couldOpen && <NewCanvas canvasName={canvasName} />
+          // couldOpen && <canvas ref={canvasName}/>
+
             :
           <div className='loading' >
             loading...
