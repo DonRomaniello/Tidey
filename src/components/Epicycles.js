@@ -12,6 +12,7 @@ import {
   Popup,
 } from 'react-leaflet'
 
+import { NewCanvas }  from './NewCanvas'
 
 import drawVisualizer from './modules/drawHarmonicConstituents';
 
@@ -46,9 +47,9 @@ const Epicycles = (props) => {
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
-  // const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
+  const canvasName = `epicycleCanvas + ${stationInfo.id + stationInfo.lat + stationInfo.lng}`
 
-  const canvasName = useRef(null)
+
 
   const autoPanPad = {
     x: (window.innerWidth - 500) / 2,
@@ -62,10 +63,10 @@ const Epicycles = (props) => {
         numOfConstituents: shown,
     }
   }
-    if (harmonics.loaded && couldOpen) {
-      drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
-        [400, 200], stopLooping)
-    }
+    // if (harmonics.loaded && couldOpen) {
+    //   drawVisualizer(harmonics.harmonics, canvasName, constituentColors,
+    //     [400, 200], stopLooping)
+    // }
 
   }, [canvasName, couldOpen, harmonics, shown])
 
@@ -91,7 +92,7 @@ const Epicycles = (props) => {
       autoPan={true}
       >
       {((harmonics.loaded) && couldOpen) ?
-          <canvas ref={canvasName}/>
+          couldOpen && <NewCanvas canvasName={canvasName} />
             :
           <div className='loading' >
             loading...
