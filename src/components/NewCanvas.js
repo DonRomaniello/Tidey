@@ -6,7 +6,7 @@ import {colorRange} from './css/NewCanvas.module.js'
 
 export const NewCanvas = (props) => {
 
-  const frameDuration = 100;
+  const frameDuration = 41;
   const beadSize = 2
   const mainSpeed = 1
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
@@ -48,10 +48,10 @@ export const NewCanvas = (props) => {
     return x}
   const xAxis = useMemo(() => calcXAxis(canvasSize), [canvasSize])
 
-  const calcYAxis = (_canvasSize, _scale) => {
-    let y = Math.floor(_canvasSize[1]/4 - _scale)
+  const calcYAxis = (_canvasSize) => {
+    let y = Math.floor(_canvasSize[0]/4)
     return y}
-  const yAxis = useMemo(() => calcYAxis(canvasSize, scale), [canvasSize, scale])
+  const yAxis = useMemo(() => calcYAxis(canvasSize, scale), [canvasSize])
 
   const timeSeriesChords = useMemo(() => updateTimeSeries(frame), [frame])
 
@@ -113,7 +113,7 @@ export const NewCanvas = (props) => {
   const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
     const radius = Math.floor(harmonics[depth].amplitude * unit)
     drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
-    if (depth === shownNumber) {
+    if (depth === shownNumber + 1) {
       drawBead(ctx, _xCenter, _yCenter)
       return
     } else {
