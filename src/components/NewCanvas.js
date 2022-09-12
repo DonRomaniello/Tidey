@@ -6,7 +6,7 @@ import {colorRange} from './css/NewCanvas.module.js'
 
 export const NewCanvas = (props) => {
 
-  const frameDuration = 400;
+  const frameDuration = 100;
   const beadSize = 2
   const mainSpeed = 1
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
@@ -59,15 +59,15 @@ export const NewCanvas = (props) => {
 
             // const [nextYCenter, setNextYCenter] = useState(xAxis)
 
-            const canvasSetup = useCallback(() => {
-              const canvas = canvasEl.current
-              canvas.width = canvasSize[0]
-              canvas.height = canvasSize[1]
-              const ctx = canvas.getContext("2d")
-              ctx.lineWidth = 1;
-              ctx.lineJoin = 'round';
-              return [canvas, ctx]
-            }, [canvasEl, canvasSize])
+  const canvasSetup = useCallback(() => {
+    const canvas = canvasEl.current
+    canvas.width = canvasSize[0]
+    canvas.height = canvasSize[1]
+    const ctx = canvas.getContext("2d")
+    ctx.lineWidth = 1;
+    ctx.lineJoin = 'round';
+    return [canvas, ctx]
+  }, [canvasEl, canvasSize])
 
   const getSteppedColor = (idx) => {
     let degreeB = idx / shownNumber
@@ -102,24 +102,24 @@ export const NewCanvas = (props) => {
     // ctx.strokeStyle = featureStrokeColor; // restore color
   }
 
-    const getPhasedXY = (xCenter, yCenter, time, radius, constituent) => {
+    const getPhasedXY = (_xCenter, _yCenter, time, radius, constituent) => {
       const { phase_GMT, speed} = constituent
       let phase = phase_GMT
-      let phaseX = xCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
-      let phaseY = yCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
+      let phaseX = _xCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
+      let phaseY = _yCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
       return [phaseX, phaseY]
     }
 
-  const runThroughConstituents = (ctx, xCenter, yCenter, time, depth) => {
-      const radius = Math.floor(harmonics[depth].amplitude * unit)
-      const [_xCenter, _yCenter] = getPhasedXY(xCenter, yCenter, time, radius, harmonics[depth])
-      drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
-      if (depth === shownNumber) {
-        drawBead(ctx, _xCenter, _yCenter)
-        return
-      } else {
+  const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
+    const radius = Math.floor(harmonics[depth].amplitude * unit)
+    drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
+    if (depth === shownNumber) {
+      drawBead(ctx, _xCenter, _yCenter)
+      return
+    } else {
+        [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, harmonics[depth])
         depth++
-        runThroughConstituents(ctx, xCenter, yCenter, time, depth)
+        runThroughConstituents(ctx, _xCenter, _yCenter, time, depth)
       }
 
       // timeSeriesCounter++;
@@ -146,7 +146,7 @@ export const NewCanvas = (props) => {
   useEffect(() => {
     const frameUpdate = setInterval(() => {
         if (frame <= 30) {
-          setFrame(frame + 1)
+          setFrame(frame + .001)
         } else {
           setFrame(0)
         }
