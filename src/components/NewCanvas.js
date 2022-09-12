@@ -6,12 +6,14 @@ import {colorRange} from './css/NewCanvas.module.js'
 
 export const NewCanvas = (props) => {
 
-  const frameDuration = 41;
-  const beadSize = 2
-  const speed = .001
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
-  // const beadStroke = `rgb(${colorRange.end.r},${colorRange.end.g},${colorRange.end.b})`
+
+  const frameDuration = 41;
+  const fadeTime = 1; // in secomds
+  const fadeIncrement = fadeTime / frameDuration;
+  const speed = .001
+  const beadSize = 2
   const waveRoughness = 10
   const waveScaling = .05
 
@@ -21,10 +23,11 @@ export const NewCanvas = (props) => {
 
   const [frame, setFrame] = useState(0);
 
-  const canvasEl = useRef(null)
-
   const [timeSeries, setTimeSeries] = useState([])
 
+  const [fadeProgress, setFadeProgess] = useState(0)
+
+  const canvasEl = useRef(null)
 
   const produceConstituentArray = (_harmonics, _shownNumber) => {
     let hc = [..._harmonics]
@@ -33,15 +36,15 @@ export const NewCanvas = (props) => {
 
   const calcScale = (_constituents) => {
     let s = _constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
-    console.log(_constituents.length, s)
     return s}
   const scale = useMemo(() => calcScale(constituents), [constituents])
 
-  const calcUnit = (_canvasSize, _scale) => {
-    let u = (((_canvasSize[1] / 2) - 2) / _scale)
-    console.log('unit:', u)
+  const [currentScale, setCurrentScale] = useState(scale)
+
+  const calcUnit = (_canvasSize, _currentScale) => {
+    let u = (((_canvasSize[1] / 2) - 2) / _currentScale)
     return u}
-  const unit = useMemo(() => calcUnit(canvasSize, scale), [canvasSize, scale])
+  const unit = useMemo(() => calcUnit(canvasSize, currentScale), [canvasSize, currentScale])
 
   const calcXAxis = (_canvasSize) => {
     let x = Math.floor(_canvasSize[1]/2)
@@ -59,13 +62,6 @@ export const NewCanvas = (props) => {
     return steps
   }
   const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness, waveScaling), [canvasSize, waveRoughness, waveScaling])
-
-
-
-
-            // const [xCenter, setXCenter] = useState(yAxis)
-
-            // const [nextYCenter, setNextYCenter] = useState(xAxis)
 
   const canvasSetup = useCallback(() => {
     const canvas = canvasEl.current
@@ -155,11 +151,21 @@ export const NewCanvas = (props) => {
       }
   }
 
+  const smoothScaling = (_currentScale, _scale) => {
+    if (_currentScale < _scale) {
+      setCurrentScale(Math.min(_currentScale + fadeIncrement, _scale))
+    } else if (_currentScale > _scale) {
+      setCurrentScale(Math.max(_currentScale - fadeIncrement, _scale))
+    }
+  }
 
   useEffect(() => {
     const draw = () => {
         let [canvas, ctx] = canvasSetup()
         ctx.clearRect(0,0,canvas.width,canvas.height)
+        if (currentScale !== scale){
+          smoothScaling(currentScale, scale)
+        }
         runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
       }
       window.requestAnimationFrame(draw);
@@ -169,7 +175,6 @@ export const NewCanvas = (props) => {
   useEffect(() => {
     const frameUpdate = setInterval(() => {
           setFrame(frame + 1)
-          console.log('still running')
     }, frameDuration);
     return () => clearInterval(frameUpdate)
   }, [frame])
