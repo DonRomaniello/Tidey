@@ -13,6 +13,7 @@ export const NewCanvas = (props) => {
   const beadColor = 'rgba(219, 80, 74, 1)'
   // const beadStroke = `rgb(${colorRange.end.r},${colorRange.end.g},${colorRange.end.b})`
   const waveRoughness = 1
+  // const waveScaling =
 
   const {canvasName, canvasSize} = props
 
@@ -106,7 +107,15 @@ export const NewCanvas = (props) => {
     ctx.arc(xCenter, yCenter, beadSize, 0, 2 * Math.PI, false);
     ctx.fill();
     ctx.stroke();
-    // ctx.strokeStyle = featureStrokeColor; // restore color
+  }
+
+  const drawArrow = (ctx, _xCenter, _yCenter) => {
+    ctx.lineWidth = 2;
+    ctx.beginPath()
+    ctx.setLineDash([2, 4]);
+    ctx.moveTo(yAxis, _yCenter)
+    ctx.lineTo(_xCenter, _yCenter)
+    ctx.stroke()
   }
 
     const getPhasedXY = (_xCenter, _yCenter, time, radius, constituent) => {
@@ -118,12 +127,15 @@ export const NewCanvas = (props) => {
     }
 
     function drawTideChart(ctx) {
+      ctx.strokeStyle = `rgba(${colorRange.end.r}, ${colorRange.end.g}, ${colorRange.end.b}, 1)`
+      ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(yAxis, timeSeries[0]);
-      timeSeries.slice(1).forEach((_yCoordinate, idx) => {
-          ctx.lineTo((yAxis + ((idx * waveRoughness))), _yCoordinate);
+      timeSeries.forEach((_yCoordinate, idx) => {
+          ctx.lineTo((yAxis + ((idx * waveRoughness)) + waveRoughness), _yCoordinate);
       })
       ctx.stroke();
+      ctx.lineWidth = 1;
     }
 
   const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
@@ -134,6 +146,8 @@ export const NewCanvas = (props) => {
       drawBead(ctx, _xCenter, _yCenter)
       setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
       drawTideChart(ctx, canvasSize)
+      drawArrow(ctx, _xCenter, _yCenter)
+      drawBead(ctx, yAxis, _yCenter)
       return
     } else {
         [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
