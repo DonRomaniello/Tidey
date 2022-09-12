@@ -8,11 +8,11 @@ export const NewCanvas = (props) => {
 
   const frameDuration = 41;
   const beadSize = 2
-  const speed = 2
+  const speed = .001
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
   // const beadStroke = `rgb(${colorRange.end.r},${colorRange.end.g},${colorRange.end.b})`
-  const wavePrecision = 10
+  const waveRoughness = 1
 
   const {canvasName, canvasSize} = props
 
@@ -22,11 +22,8 @@ export const NewCanvas = (props) => {
 
   const canvasEl = useRef(null)
 
+  const [timeSeries, setTimeSeries] = useState([])
 
-
-  const updateTimeSeries  = (frame) => {
-    // doSomething
-  }
 
   const produceConstituentArray = (_harmonics, _shownNumber) => {
     let hc = [..._harmonics]
@@ -35,11 +32,13 @@ export const NewCanvas = (props) => {
 
   const calcScale = (_constituents) => {
     let s = _constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
+    console.log(_constituents.length, s)
     return s}
   const scale = useMemo(() => calcScale(constituents), [constituents])
 
   const calcUnit = (_canvasSize, _scale) => {
-    let u = ((_canvasSize[1] / 2) / _scale)
+    let u = (((_canvasSize[1] / 2) - 2) / _scale)
+    console.log('unit:', u)
     return u}
   const unit = useMemo(() => calcUnit(canvasSize, scale), [canvasSize, scale])
 
@@ -51,9 +50,17 @@ export const NewCanvas = (props) => {
   const calcYAxis = (_canvasSize) => {
     let y = Math.floor(_canvasSize[0]/4)
     return y}
-  const yAxis = useMemo(() => calcYAxis(canvasSize, scale), [canvasSize])
+  const yAxis = useMemo(() => calcYAxis(canvasSize), [canvasSize])
 
-  const timeSeriesChords = useMemo(() => updateTimeSeries(frame), [frame])
+  const calcTimeSeriesSteps = (_canvasSize, _waveRoughness) => {
+    let steps = Math.floor((canvasSize[0] - yAxis) / waveRoughness) + 50
+    console.log(steps)
+    return steps
+  }
+  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness), [canvasSize, waveRoughness])
+
+
+
 
             // const [xCenter, setXCenter] = useState(yAxis)
 
@@ -69,8 +76,8 @@ export const NewCanvas = (props) => {
     return [canvas, ctx]
   }, [canvasEl, canvasSize])
 
-  const getSteppedColor = (idx) => {
-    let degreeB = idx / shownNumber
+  const getSteppedColor = (depth) => {
+    let degreeB = depth / (shownNumber + 1)
     let degreeA = 1 - degreeB
     let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
     let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
@@ -82,8 +89,8 @@ export const NewCanvas = (props) => {
     return (angle * (Math.PI / 180))
   }
 
-  const drawEpicycle = (xCenter, yCenter, radius, ctx, idx) => {
-    let baseColor = getSteppedColor(idx)
+  const drawEpicycle = (xCenter, yCenter, radius, ctx, depth) => {
+    let baseColor = getSteppedColor(depth)
     ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
     ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
     ctx.beginPath()
@@ -110,24 +117,29 @@ export const NewCanvas = (props) => {
       return [phaseX, phaseY]
     }
 
+    function drawTideChart(ctx) {
+      ctx.beginPath();
+      ctx.moveTo(yAxis, timeSeries[0]);
+      timeSeries.slice(1).forEach((_yCoordinate, idx) => {
+          ctx.lineTo((yAxis + ((idx * waveRoughness))), _yCoordinate);
+      })
+      ctx.stroke();
+    }
+
   const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
-    const radius = Math.floor(harmonics[depth].amplitude * unit)
+    const radius = Math.floor(constituents[depth].amplitude * unit)
     drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
-    if (depth === shownNumber + 1) {
-      [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, harmonics[depth])
+    if (depth === shownNumber) {
+      [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
       drawBead(ctx, _xCenter, _yCenter)
+      setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
+      drawTideChart(ctx, canvasSize)
       return
     } else {
-        [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, harmonics[depth])
+        [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
         depth++
         runThroughConstituents(ctx, _xCenter, _yCenter, time, depth)
       }
-
-      // timeSeriesCounter++;
-      // if (idx === (constituents.length - 1) && (timeSeriesCounter % wavePrecision === 0)) {
-      //   timeSeriesChords = [...timeSeriesChords, nextYCenter].slice(-timeSeriesLength)
-      // }rr
-
   }
 
 
@@ -135,9 +147,6 @@ export const NewCanvas = (props) => {
     const draw = () => {
         let [canvas, ctx] = canvasSetup()
         ctx.clearRect(0,0,canvas.width,canvas.height)
-        // ctx.fillStyle = `rgb(255,0,${shownNumber * 30}, 1)`
-        // ctx.rect(frame,0,canvas.width,frame)
-        // ctx.fill()
         runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
       }
       window.requestAnimationFrame(draw);
@@ -146,13 +155,9 @@ export const NewCanvas = (props) => {
 
   useEffect(() => {
     const frameUpdate = setInterval(() => {
-        if (frame <= 30) {
-          setFrame(frame + .001)
-        } else {
-          setFrame(0)
-        }
+          setFrame(frame + 1)
+          console.log('still running')
     }, frameDuration);
-    console.log('limit!')
     return () => clearInterval(frameUpdate)
   }, [frame])
 

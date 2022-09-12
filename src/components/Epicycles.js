@@ -14,9 +14,9 @@ import {
 
 import { NewCanvas }  from './NewCanvas'
 
-import drawVisualizer from './modules/drawHarmonicConstituents';
-
 import icon from './assets/pin.svg';
+
+import styles from './css/Epicycles.module.css'
 
 const Epicycles = (props) => {
 
@@ -72,6 +72,7 @@ const Epicycles = (props) => {
       <Popup
       autoPanPadding={autoPanPad}
       autoPan={true}
+      className={styles.popup}
       >
       {((harmonics.loaded) && couldOpen) ?
           couldOpen &&
