@@ -11,7 +11,7 @@ export const NewCanvas = (props) => {
 
   const frameDuration = 41;
   const fadeTime = 1; // in secomds
-  const fadeIncrement = fadeTime / frameDuration;
+  const fadeIncrement = 1 / (fadeTime * frameDuration);
   const speed = .001
   const beadSize = 2
   const waveRoughness = 10
@@ -134,7 +134,7 @@ export const NewCanvas = (props) => {
     }
 
   const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
-    const radius = Math.floor(constituents[depth].amplitude * unit)
+    const radius = constituents[depth].amplitude * unit
     drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
     if (depth === shownNumber) {
       [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
@@ -164,6 +164,7 @@ export const NewCanvas = (props) => {
         let [canvas, ctx] = canvasSetup()
         ctx.clearRect(0,0,canvas.width,canvas.height)
         if (currentScale !== scale){
+          setTimeSeries([])
           smoothScaling(currentScale, scale)
         }
         runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
