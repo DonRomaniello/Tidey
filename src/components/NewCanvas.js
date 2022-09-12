@@ -12,8 +12,8 @@ export const NewCanvas = (props) => {
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
   // const beadStroke = `rgb(${colorRange.end.r},${colorRange.end.g},${colorRange.end.b})`
-  const waveRoughness = 1
-  // const waveScaling =
+  const waveRoughness = 10
+  const waveScaling = .05
 
   const {canvasName, canvasSize} = props
 
@@ -54,11 +54,11 @@ export const NewCanvas = (props) => {
   const yAxis = useMemo(() => calcYAxis(canvasSize), [canvasSize])
 
   const calcTimeSeriesSteps = (_canvasSize, _waveRoughness) => {
-    let steps = Math.floor((canvasSize[0] - yAxis) / waveRoughness) + 50
+    let steps = Math.floor((canvasSize[0] - yAxis) / (waveRoughness * waveScaling)) + 50
     console.log(steps)
     return steps
   }
-  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness), [canvasSize, waveRoughness])
+  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness, waveScaling), [canvasSize, waveRoughness, waveScaling])
 
 
 
@@ -106,7 +106,6 @@ export const NewCanvas = (props) => {
     ctx.fillStyle = beadColor;
     ctx.arc(xCenter, yCenter, beadSize, 0, 2 * Math.PI, false);
     ctx.fill();
-    ctx.stroke();
   }
 
   const drawArrow = (ctx, _xCenter, _yCenter) => {
@@ -132,7 +131,7 @@ export const NewCanvas = (props) => {
       ctx.beginPath();
       ctx.moveTo(yAxis, timeSeries[0]);
       timeSeries.forEach((_yCoordinate, idx) => {
-          ctx.lineTo((yAxis + ((idx * waveRoughness)) + waveRoughness), _yCoordinate);
+          ctx.lineTo((yAxis + ((idx * (waveRoughness * waveScaling)))), _yCoordinate);
       })
       ctx.stroke();
       ctx.lineWidth = 1;
@@ -143,10 +142,10 @@ export const NewCanvas = (props) => {
     drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
     if (depth === shownNumber) {
       [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
-      drawBead(ctx, _xCenter, _yCenter)
       setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
       drawTideChart(ctx, canvasSize)
       drawArrow(ctx, _xCenter, _yCenter)
+      drawBead(ctx, _xCenter, _yCenter)
       drawBead(ctx, yAxis, _yCenter)
       return
     } else {
