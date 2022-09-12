@@ -38,6 +38,10 @@
   background-color: rgb(calc((255 + 22) / 2), calc((255 + 105) / 2), calc((255 + 122) / 2));
 }
 
+#increment:active {
+  background-color: rgba(22, 105, 122, 1);
+}
+
 #empty {
   top: var(--empTop);
   width: var(--empDimension);
@@ -56,4 +60,8 @@
 
 #decrement:hover {
   background-color: rgb(calc((255 + 219) / 2), calc((255 + 80) / 2), calc((255 + 74) / 2));
+}
+
+#decrement:active {
+  background-color: rgba(219, 80, 74, 1);
 }
