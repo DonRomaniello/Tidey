@@ -8,7 +8,7 @@ export const NewCanvas = (props) => {
 
   const frameDuration = 41;
   const beadSize = 2
-  const mainSpeed = 1
+  const speed = 2
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
   // const beadStroke = `rgb(${colorRange.end.r},${colorRange.end.g},${colorRange.end.b})`
@@ -29,8 +29,9 @@ export const NewCanvas = (props) => {
   }
 
   const produceConstituentArray = (_harmonics, _shownNumber) => {
-    let a = [..._harmonics].sort((a, b) => b.amplitude - a.amplitude).slice(0, _shownNumber)
-    return a}
+    let hc = [..._harmonics]
+    hc.sort((a, b) => b.amplitude - a.amplitude)
+    return hc.slice(0, _shownNumber + 1)}
   const constituents = useMemo(() => produceConstituentArray(harmonics, shownNumber), [harmonics, shownNumber]);
 
   const calcScale = (_constituents) => {
@@ -137,7 +138,7 @@ export const NewCanvas = (props) => {
         // ctx.fillStyle = `rgb(255,0,${shownNumber * 30}, 1)`
         // ctx.rect(frame,0,canvas.width,frame)
         // ctx.fill()
-        runThroughConstituents(ctx, yAxis, xAxis, frame, 0)
+        runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
       }
       window.requestAnimationFrame(draw);
     return () => {};
