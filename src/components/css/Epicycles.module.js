@@ -1,21 +1,20 @@
-const popupContent = {
-    background: 'purple',
-    // border-width: 10px,
-    // border-color: black;
+export const colorRange = {
+  start : {
+    r: 22,
+    g: 105,
+    b: 122
+  },
+  // end : {
+  //   r: 110,
+  //   g: 184,
+  //   b: 173
+  // },
+  end : {
+    r: 134,
+    g: 216,
+    b: 154
   }
+}
 
-// const popupHead = {
-//   fontWeight: "bold",
-//   fontSize: "22px"
-// };
-
-// const popupText = {
-//   fontSize: "15px",
-//   marginBottom: "20px"
-// };
-
-// const okText = {
-//   fontSize: "15px"
-// };
-
-export { popupContent };
+// 110, 184, 173
+// 134, 216, 154

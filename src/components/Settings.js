@@ -16,6 +16,7 @@ export const Settings = () => {
     <HarmonicsController className={styles.controller} />
     <Questions className={styles.icons}/>
     <Credits className={styles.icons}/>
+    <div className={styles.empty} />
     </div>
     </>
 

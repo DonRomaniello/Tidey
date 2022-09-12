@@ -6,7 +6,7 @@ import {
   ZoomControl,
 } from 'react-leaflet'
 
-import Epicycles from './Epicycles';
+import MarkerAndPopup from './MarkerAndPopup'
 
 import { useMedia } from 'tiny-use-media-esm';
 
@@ -17,8 +17,6 @@ import "./css/timeMarker.css";
 import "./css/TopLevelSupplement.css"
 
 import { styling } from './css/Map.module.js'
-
-// import styles from './css/Map.module.css'
 
 const ReactLeaflet = (props) => {
 
@@ -61,7 +59,7 @@ const ReactLeaflet = (props) => {
         <ZoomControl position='topleft' zoomInText='' zoomOutText='' />
       {stations.map((stationInfo, idx) => {
         if (stationInfo.lat & stationInfo.lng & stationInfo.id) {
-          return <Epicycles
+          return <MarkerAndPopup
                   key={stationInfo.id + stationInfo.lat + stationInfo.lng}
                   stationInfo={stationInfo}
                   />

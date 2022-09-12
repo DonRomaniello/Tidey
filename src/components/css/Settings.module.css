@@ -8,7 +8,14 @@
 }
 
 .icons {
+  display: flex;
+  /* width: calc(61.8% / 2 + 8%); */
+  width: 40%;
+}
+
+.empty{
   width: 61.8%;
+  height: 80px;
 }
 
 #settings#child {
