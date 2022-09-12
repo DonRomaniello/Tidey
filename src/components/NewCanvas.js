@@ -58,7 +58,6 @@ export const NewCanvas = (props) => {
 
   const calcTimeSeriesSteps = (_canvasSize, _waveRoughness) => {
     let steps = Math.floor((canvasSize[0] - yAxis) / (waveRoughness * waveScaling)) + 50
-    console.log(steps)
     return steps
   }
   const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness, waveScaling), [canvasSize, waveRoughness, waveScaling])
@@ -127,7 +126,9 @@ export const NewCanvas = (props) => {
       ctx.beginPath();
       ctx.moveTo(yAxis, timeSeries[0]);
       timeSeries.forEach((_yCoordinate, idx) => {
+        if (idx % waveRoughness){
           ctx.lineTo((yAxis + ((idx * (waveRoughness * waveScaling)))), _yCoordinate);
+        }
       })
       ctx.stroke();
       ctx.lineWidth = 1;
