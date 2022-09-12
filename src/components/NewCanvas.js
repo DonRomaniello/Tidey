@@ -30,7 +30,6 @@ export const NewCanvas = (props) => {
 
   const produceConstituentArray = (_harmonics, _shownNumber) => {
     let hc = [..._harmonics]
-    hc.sort((a, b) => b.amplitude - a.amplitude)
     return hc.slice(0, _shownNumber + 1)}
   const constituents = useMemo(() => produceConstituentArray(harmonics, shownNumber), [harmonics, shownNumber]);
 
@@ -115,6 +114,7 @@ export const NewCanvas = (props) => {
     const radius = Math.floor(harmonics[depth].amplitude * unit)
     drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
     if (depth === shownNumber + 1) {
+      [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, harmonics[depth])
       drawBead(ctx, _xCenter, _yCenter)
       return
     } else {

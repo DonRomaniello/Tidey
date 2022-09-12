@@ -45,7 +45,7 @@ export const harmonicsSlice = createSlice({
     })
     builder.addCase(fetchHarmonics.fulfilled, (state, action) => {
       state.loading = false
-      state.harmonics = action.payload.HarmonicConstituents
+      state.harmonics = action.payload.HarmonicConstituents.sort((a, b) => b.amplitude - a.amplitude)
       state.loaded = true
       state.error = ''
     })
