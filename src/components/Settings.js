@@ -16,12 +16,17 @@ export const Settings = () => {
 
   const dispatch = useDispatch();
 
+  const helpClickHandler = (e) => {
+    e.stopPropagation();
+    dispatch(toggleHelp())
+  }
+
   return (
     <>
     <div id={styles.settings} >
       <HarmonicsController className={styles.controller} />
     <div id={styles.info}
-    onClick={() => dispatch(toggleHelp())}
+    onClick={(e) => helpClickHandler(e)}
     >
       <Credits className={styles.icons} />
       <Questions className={styles.icons}/>

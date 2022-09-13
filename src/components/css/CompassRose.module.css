@@ -53,11 +53,6 @@
 
 .menuOpen {
   height: 388px;
-  width: 120px;
-  bottom: 112px;
-  right: 112px;
-  border-radius: 60px;
-  background-color: rgba(255,255,255, 1);
 }
 
 .menuOpen:hover {

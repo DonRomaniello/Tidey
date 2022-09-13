@@ -1,0 +1,57 @@
+:root {
+  --base-z: 1000;
+  /* transform-origin: 50%, 50%;
+  transition: all 1s; */
+  color: rgb(70, 70, 85);
+  text-align: center;
+}
+
+
+#helpContainer {
+  position: fixed;
+  justify-content: center;
+  overflow: hidden;
+  z-index: calc(var(--base-z) + 1);
+  top: 10vh;
+  left: calc((100vw - 400px) / 2);
+  width: 400px;
+  height: 80vh;
+  background-color: rgb(255, 255, 255, .8);
+  backdrop-filter: blur(10px);
+  border-radius: 70px;
+}
+
+#helpContent {
+  height: 100%;
+  width: 110%;
+  margin-right: -5%;
+  margin-left: -5%;
+  overflow-y: auto;
+}
+
+
+h1 {
+  /* color: rgb(122, 125, 125); */
+  /* color: rgb(22, 105, 122); */
+  /* color: rgb(70, 70, 85); */
+  font-size: 3em;
+  /* text-align: center; */
+}
+
+p {
+  font-size: 1.4em;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  margin-top: 1vh;
+}
+
+.red {
+ color: rgb(219, 80, 74);
+}
+
+.blues {
+  background: linear-gradient(to right, rgb(22, 105, 122), rgb(134,216,154));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

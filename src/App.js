@@ -8,9 +8,10 @@ import Map from './components/Map';
 
 import CompassRose from './components/CompassRose';
 
-import {
-  fetchStations,
-} from './store/features/stations';
+import { fetchStations } from './store/features/stations';
+
+import { closeHelp } from './store/features/help';
+
 import { HelpAndCredits } from './components/HelpAndCredits';
 
 
@@ -20,6 +21,8 @@ function App() {
 
   const stations = useSelector((state) => state.stations.stations)
 
+  const {helpOpen} = useSelector((state) => state.help)
+
   useEffect(() => {
     dispatch(fetchStations())
   }, [dispatch])
@@ -27,10 +30,12 @@ function App() {
 
   return (
     <>
+    <div onClick={() => dispatch(closeHelp())}>
+    {helpOpen && <HelpAndCredits />}
     <CompassRose />
-    <HelpAndCredits />
     <div style={mapDivStyle}>
       <Map stations={stations} />
+    </div>
     </div>
     </>
   );
