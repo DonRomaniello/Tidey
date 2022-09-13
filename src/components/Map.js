@@ -60,9 +60,7 @@ const Map = (props) => {
     >
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
-        // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors |
-        // Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-        />
+      />
         <ZoomControl position='topleft' zoomInText='' zoomOutText='' />
       {stations.map((stationInfo, idx) => {
         if (stationInfo.lat & stationInfo.lng & stationInfo.id) {
