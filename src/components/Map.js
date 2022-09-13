@@ -1,14 +1,21 @@
 import React, {useState} from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import { closeHelp } from '../store/features/help';
+
 import {
   MapContainer,
+  Popup,
   TileLayer,
+  useMap,
   ZoomControl,
 } from 'react-leaflet'
 
 import MarkerAndPopup from './MarkerAndPopup'
 
 import { useMedia } from 'tiny-use-media-esm';
+
 
 import "leaflet/dist/leaflet.css";
 
@@ -18,9 +25,11 @@ import "./css/TopLevelSupplement.css"
 
 import { styling } from './css/Map.module.js'
 
-const ReactLeaflet = (props) => {
+const Map = (props) => {
 
   const { stations } = props;
+
+
 
   const position = [40.778041, -73.921264]
 
@@ -66,9 +75,15 @@ const ReactLeaflet = (props) => {
             }
           return null
       })}
+      <Popup
+      position={position}
+
+      >
+        Hello
+      </Popup>
   </MapContainer>
 </>
 )
 }
 
-export default ReactLeaflet
+export default Map

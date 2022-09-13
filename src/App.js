@@ -23,11 +23,12 @@ function App() {
     dispatch(fetchStations())
   }, [dispatch])
 
+
   return (
     <>
     <CompassRose />
     <div style={mapDivStyle}>
-      <Map stations={stations}/>
+      <Map stations={stations} />
     </div>
     </>
   );
