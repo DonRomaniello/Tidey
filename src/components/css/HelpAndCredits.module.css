@@ -20,7 +20,14 @@
   background-color: rgb(255, 255, 255, .8);
   backdrop-filter: blur(10px);
   border-radius: 70px;
+  animation: enterAnimation ease 1000ms;
+  animation-fill-mode: forwards;
 }
+
+#helpContainerExit {
+
+}
+
 
 #helpContent {
   height: 100%;
@@ -32,11 +39,7 @@
 
 
 h1 {
-  /* color: rgb(122, 125, 125); */
-  /* color: rgb(22, 105, 122); */
-  /* color: rgb(70, 70, 85); */
   font-size: 3em;
-  /* text-align: center; */
 }
 
 a:link {
@@ -64,3 +67,11 @@ p {
   -webkit-text-fill-color: transparent;
 }
 
+@keyframes enterAnimation {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}

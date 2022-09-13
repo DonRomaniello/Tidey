@@ -15,7 +15,6 @@ export const helpSlice = createSlice({
       state.helpOpen = true;
     },
     closeHelp: (state) => {
-      console.log('ru')
       state.helpOpen = false;
     },
     toggleHelp: (state) => {
