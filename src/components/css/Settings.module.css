@@ -5,12 +5,25 @@
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
+  animation: enterAnimation ease 1000ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 .icons {
+  width: 50%;
+}
+
+#info{
+  position: absolute;
+  top: 43%;
   display: flex;
-  /* width: calc(61.8% / 2 + 8%); */
-  width: 40%;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 94px;
+  border-radius: 50px;
+  border: 3px solid rgb(122, 125, 125);
 }
 
 .empty{
@@ -23,4 +36,13 @@
 }
 
 .controller {
+}
+
+@keyframes enterAnimation {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
 }

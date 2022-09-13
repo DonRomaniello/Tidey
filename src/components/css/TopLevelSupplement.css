@@ -46,5 +46,6 @@
 }
 
 .leaflet-control-attribution {
-  opacity: 0;
+  /* opacity: 0;
+  pointer: none; */
 }

@@ -13,10 +13,12 @@ export const Settings = () => {
   return (
     <>
     <div id={styles.settings} >
-    <HarmonicsController className={styles.controller} />
-    <Questions className={styles.icons}/>
-    <Credits className={styles.icons}/>
-    <div className={styles.empty} />
+      <HarmonicsController className={styles.controller} />
+    <div id={styles.info}>
+      <Credits className={styles.icons}/>
+      <Questions className={styles.icons}/>
+    </div>
+      <div className={styles.empty} />
     </div>
     </>
 
