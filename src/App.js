@@ -11,6 +11,7 @@ import CompassRose from './components/CompassRose';
 import {
   fetchStations,
 } from './store/features/stations';
+import { HelpAndCredits } from './components/HelpAndCredits';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
   return (
     <>
     <CompassRose />
+    <HelpAndCredits />
     <div style={mapDivStyle}>
       <Map stations={stations} />
     </div>
