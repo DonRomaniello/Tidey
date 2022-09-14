@@ -32,7 +32,7 @@ export const stationsSlice = createSlice({
     })
     builder.addCase(fetchStations.fulfilled, (state, action) => {
       state.loading = false
-      state.stations = action.payload.stations.filter(stn => ((stn.lat & stn.lng & stn.id)))
+      state.stations = action.payload.stations.filter(stn => ((stn.lat & stn.lng & stn.id))).sort((a, b) => a.lng - b.lng)
       state.error = ''
     })
     builder.addCase(fetchStations.rejected, (state, action) => {

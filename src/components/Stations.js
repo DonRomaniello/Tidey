@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react"
+import React, {useEffect, useMemo, useState} from "react"
 
 import { useSelector } from "react-redux"
 
@@ -11,27 +11,31 @@ export const Stations = () => {
 
   const [bounds, setBounds] = useState(useMap().getBounds())
 
-  // const [zoom, ]
+  const [zoom, setZoom] = useState(useMap().getZoom())
 
-  const map = useMapEvent('moveend', () => {
-    setBounds(map.getBounds())
-    console.log(map.getZoom())
-  })
+  const map = useMapEvents({
+    moveend: () => {
+      setBounds(map.getBounds())
+    },
+    zoomend: () => {
+      setZoom(map.getZoom())
+    }
+  }, [bounds, zoom])
 
-  const filterStations = (_stations, _bounds) => {
-    const stationFilter = (station) => {
+  const filterStations = (_stations, _bounds, _zoom) => {
+    const stationFilter = (station, idx) => {
       let northEast = _bounds._northEast
       let southWest = _bounds._southWest
-      if ((station.lat < northEast.lat) && (station.lat > southWest.lat)){
-        if ((station.lng < northEast.lng) && (station.lng > southWest.lng)){
-          return true}}
-        }
-
+      /* This prevents crowding, while still keeping already shown markers
+       on map as zoom level changes. */
+      if (idx % (64 / Math.pow(2, (_zoom - 2))) === 0){
+        if ((station.lat < northEast.lat) && (station.lat > southWest.lat)){
+          if ((station.lng < northEast.lng) && (station.lng > southWest.lng)){
+            return true}}}}
     return _stations.filter(stationFilter)
   }
 
-
-  const filteredStations = useMemo(() => filterStations(stations, bounds), [stations, bounds])
+  const filteredStations = useMemo(() => filterStations(stations, bounds, zoom), [stations, bounds, zoom])
 
   return (
     <>

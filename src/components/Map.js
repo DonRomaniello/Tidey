@@ -61,7 +61,11 @@ const Map = () => {
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
       />
-      <ZoomControl position='topleft' zoomInText='' zoomOutText='' />
+      <ZoomControl
+      position='topleft'
+      zoomInText=''
+      zoomOutText=''
+      />
       <Stations />
   </MapContainer>
 </>
