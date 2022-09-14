@@ -11,23 +11,31 @@ export const Stations = () => {
 
   const [bounds, setBounds] = useState(useMap().getBounds())
 
+  // const [zoom, ]
+
   const map = useMapEvent('moveend', () => {
     setBounds(map.getBounds())
+    console.log(map.getZoom())
   })
 
-  const stationFilter = (station) => {
-    let northEast = bounds._northEast
-    let southWest = bounds._southWest
-    if ((station.lat < northEast.lat) && (station.lat > southWest.lat)) {
-      if ((station.lng < northEast.lng) && (station.lng > southWest.lng)) {
-        return true
-      }
-    }
+  const filterStations = (_stations, _bounds) => {
+    const stationFilter = (station) => {
+      let northEast = _bounds._northEast
+      let southWest = _bounds._southWest
+      if ((station.lat < northEast.lat) && (station.lat > southWest.lat)){
+        if ((station.lng < northEast.lng) && (station.lng > southWest.lng)){
+          return true}}
+        }
+
+    return _stations.filter(stationFilter)
   }
+
+
+  const filteredStations = useMemo(() => filterStations(stations, bounds), [stations, bounds])
 
   return (
     <>
-    {stations.filter(stationFilter).map((stationInfo, idx) => {
+    {filteredStations.map((stationInfo, idx) => {
       return <MarkerAndPopup
               key={stationInfo.id + stationInfo.lat + stationInfo.lng}
               stationInfo={stationInfo}
