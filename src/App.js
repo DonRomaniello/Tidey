@@ -10,7 +10,7 @@ import CompassRose from './components/CompassRose';
 
 import { fetchStations } from './store/features/stations';
 
-import { closeHelp } from './store/features/help';
+import { initiateHelpClose } from './store/features/help';
 
 import { HelpAndCredits } from './components/HelpAndCredits';
 
@@ -30,8 +30,10 @@ function App() {
 
   return (
     <>
-    <div onClick={() => dispatch(closeHelp())}>
-    {helpOpen && <HelpAndCredits />}
+    <div
+    onClick={() => dispatch(initiateHelpClose())}
+    >
+    <HelpAndCredits />
     <CompassRose />
     <div style={mapDivStyle}>
       <Map stations={stations} />

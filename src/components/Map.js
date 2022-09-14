@@ -1,21 +1,14 @@
-import React, {useState} from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
-
-import { closeHelp } from '../store/features/help';
+import React from 'react';
 
 import {
   MapContainer,
-  Popup,
   TileLayer,
-  useMap,
   ZoomControl,
 } from 'react-leaflet'
 
 import MarkerAndPopup from './MarkerAndPopup'
 
 import { useMedia } from 'tiny-use-media-esm';
-
 
 import "leaflet/dist/leaflet.css";
 

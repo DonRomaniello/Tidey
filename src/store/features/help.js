@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   helpOpen : false,
+  helpClosing: false,
 }
 
 export const helpSlice = createSlice({
@@ -13,17 +14,29 @@ export const helpSlice = createSlice({
   reducers: {
     openHelp: (state) => {
       state.helpOpen = true;
+      state.helpClosing = false;
     },
     closeHelp: (state) => {
       state.helpOpen = false;
+      state.helpClosing = false;
+    },
+    initiateHelpClose: (state) => {
+      if (state.helpOpen){
+        state.helpClosing = true;
+      }
     },
     toggleHelp: (state) => {
-      state.helpOpen = !state.helpOpen;
+      if (!state.helpOpen) {
+        state.helpOpen = true
+        state.helpClosing = false;
+      } else {
+        state.helpClosing = true;
+      }
     }
  }
 })
 
-export const { openHelp, closeHelp, toggleHelp } = helpSlice.actions;
+export const { openHelp, closeHelp, toggleHelp, initiateHelpClose } = helpSlice.actions;
 
 export default helpSlice.reducer
 

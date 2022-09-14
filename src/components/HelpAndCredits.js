@@ -1,12 +1,28 @@
 import React from "react";
 
+import { useSelector, useDispatch } from 'react-redux';
+import { closeHelp } from "../store/features/help";
+
 import styles from './css/HelpAndCredits.module.css'
 
 export const HelpAndCredits = () => {
 
+  const dispatch = useDispatch()
+
+  const {helpOpen, helpClosing} = useSelector((state) => state.help)
+
+  const handleClose = () => {
+    if (helpOpen && helpClosing){
+      dispatch(closeHelp())
+    }
+  }
+
+  if (helpOpen) {
   return (
     <>
-    <div id={styles.helpContainer}>
+    <div
+    className={`${styles.helpContainer} ${helpClosing ? styles.helpContainerClosing : styles.helpContainerOpening}`}
+    onAnimationEnd={() => handleClose()}>
       <div id={styles.helpContent}>
       <h1>Tidey</h1>
       <p>Tidey is art, a toy, in the form of a tool. Tidey visualizes how the Earth’s tides work.</p>
@@ -37,5 +53,9 @@ export const HelpAndCredits = () => {
       </div>
     </div>
     </>
-  )
+  )} else {
+    return null
+  }
+
+
 }
