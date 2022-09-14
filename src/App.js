@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Map from './components/Map';
 
@@ -20,10 +20,6 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const stations = useSelector((state) => state.stations.stations)
-
-  const {helpOpen} = useSelector((state) => state.help)
-
   useEffect(() => {
     dispatch(fetchStations())
   }, [dispatch])
@@ -36,7 +32,7 @@ function App() {
     <HelpAndCredits />
     <CompassRose />
     <div style={mapDivStyle}>
-      <Map stations={stations} />
+      <Map />
     </div>
     </div>
     </>
