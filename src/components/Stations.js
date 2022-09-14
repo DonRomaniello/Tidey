@@ -10,7 +10,6 @@ export const Stations = () => {
 
   const {stations, selected} = useSelector((state) => state.stations);
 
-
   const [bounds, setBounds] = useState(useMap().getBounds())
 
   const [zoom, setZoom] = useState(useMap().getZoom())
@@ -18,16 +17,18 @@ export const Stations = () => {
   const map = useMapEvents({
     moveend: () => {
       setBounds(map.getBounds())
+      console.log(map.getCenter())
     },
     zoomend: () => {
       setZoom(map.getZoom())
+      console.log(zoom)
     }
   }, [bounds, zoom])
 
   const filterStations = (_stations, _bounds, _zoom) => {
     const stationFilter = (station, idx) => {
       // First, check for selected station
-      if (station.id == selected) { return true }
+      if (station.id === selected) { return true }
       let northEast = _bounds._northEast
       let southWest = _bounds._southWest
       /* This prevents crowding, while still keeping already shown markers

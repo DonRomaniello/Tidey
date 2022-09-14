@@ -47,10 +47,10 @@ const MarkerAndPopup = (props) => {
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
-  const autoPanPad = {
-    x: (window.innerWidth - 500) / 2,
-    y: (window.innerHeight - 300) / 2,
- }
+//   const autoPanPad = {
+//     x: (window.innerWidth / 2) - canvasSize[0],
+//     y: (window.innerHeight / 2) + canvasSize[1],
+//  }
 
   return (
     <>
@@ -71,7 +71,7 @@ const MarkerAndPopup = (props) => {
       }}}
     >
       <Popup
-      autoPanPadding={autoPanPad}
+      // autoPanPadding={autoPanPad}
       autoPan={true}
       >
       {((harmonics.loaded) && couldOpen) ?

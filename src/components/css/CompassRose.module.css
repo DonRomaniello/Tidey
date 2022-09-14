@@ -23,14 +23,12 @@
 
 #compassHolder {
   z-index: var(--base-z);
-  margin: -50px;
-  padding: 50px;
   border-radius: 50%;
 }
 
 #compassHolder:hover {
-  bottom: 50px;
-  right:  50px;
+  bottom: 0px;
+  right:  0px;
   filter: drop-shadow(0 0 4px rgba(0,0,0,.4));
 }
 

@@ -23,9 +23,9 @@ import { styling } from './css/Map.module.js'
 
 const Map = () => {
 
-  const position = [40.778041, -73.921264]
+  const position = [41.640078, -124.453125]
 
-  const bounds = L.latLngBounds(L.latLng(90, -180), L.latLng(-90, 180));
+  const bounds = L.latLngBounds(L.latLng(90, -360), L.latLng(-90, 360));
 
   const sizeStyle = {
     desktop: {
@@ -43,7 +43,7 @@ const Map = () => {
     desktop: 800,
   })
 
-  window.scrollTo(50, 50)
+  window.scrollTo(50, 50) // For iPad problems.
 
   return (
     <>
@@ -54,7 +54,7 @@ const Map = () => {
     maxZoom={13}
     maxBounds={bounds}
     maxBoundsViscosity={1.0}
-    zoom={7}
+    zoom={2}
     scrollWheelZoom={true}
     style={{...sizeStyle[current], ...styling[current]}}
     >
