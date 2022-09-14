@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchHarmonics } from '../store/features/harmonics';
 
+import { updateSelected } from '../store/features/stations';
+
 import L from 'leaflet';
 
 import {
@@ -61,6 +63,7 @@ const MarkerAndPopup = (props) => {
     eventHandlers={{
       popupopen: () => {
         dispatch(fetchHarmonics(stationInfo.harmonicConstituents))
+        dispatch(updateSelected(stationInfo.id))
         setCouldOpen(true);
       },
       popupclose: (e) => {
@@ -74,8 +77,6 @@ const MarkerAndPopup = (props) => {
       {((harmonics.loaded) && couldOpen) ?
           couldOpen &&
           <Epicycles canvasSize={canvasSize} />
-          // couldOpen && <canvas ref={canvasName}/>
-
             :
           <div className='loading' >
             loading...

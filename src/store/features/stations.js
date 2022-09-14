@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const initialState = {
   stations: [],
+  selected: 0,
   loading: false,
   error: '',
 }
@@ -25,6 +26,9 @@ export const stationsSlice = createSlice({
   name: 'stations',
   initialState,
   reducers: {
+    updateSelected: (state, action) => {
+      state.selected = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchStations.pending, state => {
@@ -42,6 +46,8 @@ export const stationsSlice = createSlice({
     })
   },
 })
+
+export const { updateSelected } = stationsSlice.actions;
 
 export default stationsSlice.reducer
 

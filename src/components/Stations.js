@@ -3,11 +3,13 @@ import React, {useEffect, useMemo, useState} from "react"
 import { useSelector } from "react-redux"
 
 import MarkerAndPopup from "./MarkerAndPopup";
+
 import { useMap, useMapEvent, useMapEvents } from 'react-leaflet';
 
 export const Stations = () => {
 
-  const {stations} = useSelector((state) => state.stations);
+  const {stations, selected} = useSelector((state) => state.stations);
+
 
   const [bounds, setBounds] = useState(useMap().getBounds())
 
@@ -24,6 +26,8 @@ export const Stations = () => {
 
   const filterStations = (_stations, _bounds, _zoom) => {
     const stationFilter = (station, idx) => {
+      // First, check for selected station
+      if (station.id == selected) { return true }
       let northEast = _bounds._northEast
       let southWest = _bounds._southWest
       /* This prevents crowding, while still keeping already shown markers
