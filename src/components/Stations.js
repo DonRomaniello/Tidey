@@ -17,11 +17,9 @@ export const Stations = () => {
   const map = useMapEvents({
     moveend: () => {
       setBounds(map.getBounds())
-      console.log(map.getCenter())
     },
     zoomend: () => {
       setZoom(map.getZoom())
-      console.log(zoom)
     }
   }, [bounds, zoom])
 

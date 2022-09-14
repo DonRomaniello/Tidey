@@ -48,6 +48,10 @@ h1 {
   font-size: 3em;
 }
 
+a {
+  text-decoration: none;
+}
+
 a:link {
  color: rgb(22, 105, 122);
 }

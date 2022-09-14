@@ -41,8 +41,8 @@ export const HelpAndCredits = () => {
       <p>Tidey is a greatly simplified representation of the actual calculations required to predict the tides.</p>
       <p>Do not try to use Tidey to make any sort of predictions or plans.</p>
       <h2>Credits</h2>
-      <p>Tidey is the work of Don Romaniello.</p>
-      <p>The code for Tidey can be found here.</p>
+      <p>Tidey is the work of <a href="https://www.linkedin.com/in/don-romaniello" target="_blank">Don Romaniello.</a></p>
+      <p>The code for Tidey <a href="https://github.com/DonRomaniello/Tidey" target="_blank">can be found here.</a></p>
       <p>The underlying map data comes from <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>, used according to a <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_blank">CC BY SA</a> license.</p>
       <p> The watercolor rendition of the map is by  <a href="http://stamen.com" target="_blank">Stamen Design</a>, released under a <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a> license.</p>
       <p>The Compass Rose is derived from <a href="https://commons.wikimedia.org/wiki/File:WInd_Rose_Aguiar.png" target="_blank">this source</a>, converted to SVG by <a href="https://commons.wikimedia.org/wiki/User:Alvesgaspar" target="_blank">Alvesgaspar</a> and released under a <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC BY-SA 3.0</a> license via Wikimedia Commons.</p>
