@@ -6,11 +6,12 @@ import {
   ZoomControl,
 } from 'react-leaflet'
 
-import MarkerAndPopup from './MarkerAndPopup'
+import L from 'leaflet';
 
 import { Stations } from './Stations'
 
 import { useMedia } from 'tiny-use-media-esm';
+
 
 import "leaflet/dist/leaflet.css";
 
@@ -23,6 +24,8 @@ import { styling } from './css/Map.module.js'
 const Map = () => {
 
   const position = [40.778041, -73.921264]
+
+  const bounds = L.latLngBounds(L.latLng(90, -180), L.latLng(-90, 180));
 
   const sizeStyle = {
     desktop: {
@@ -47,6 +50,10 @@ const Map = () => {
     <MapContainer
     center={position}
     zoomControl={false}
+    minZoom={2}
+    maxZoom={13}
+    maxBounds={bounds}
+    maxBoundsViscosity={1.0}
     zoom={7}
     scrollWheelZoom={true}
     style={{...sizeStyle[current], ...styling[current]}}
