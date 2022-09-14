@@ -14,13 +14,13 @@ export const HelpAndCredits = () => {
       <p>For each pin, there is a tide chart.</p>
       <h2>Circles and Dots</h2>
       <p>The <span className={styles.blues}>rotating circles</span> correspond to the major influences on the tide for that location. The wider the circle, the more that circle affects the water level.</p>
-      <p>The vertical location of the <span className={styles.red}>red dots</span> align with the rising and falling tide.</p>
+      <p>The vertical location of the <span className={styles.red}>red dots</span> aligns with the rising and falling tide.</p>
       <p>The speed at which the circles rotate is how quickly that influence, or constituent, ebbs and flows.</p>
       <h2>Constituents</h2>
       <p>Circles, which represent tidal constituents, can be added or removed using the controls at the top of the expanded Compass Rose Menu.</p>
       <p>The ultimate sources of the constituents are the Moon and the Sun, which create regular tidal pulses.</p>
       <p>These pulses then reflect and interact with the shore and underwater geography.</p>
-      <p>The result is that from those two ultimate sources, dozens of pulses of varying intensities and tempos are created.</p>
+      <p>From those two ultimate sources, dozens of pulses of varying intensities and tempos are created.</p>
       <h2>Caveats</h2>
       <p>Tidey is a greatly simplified representation of the actual calculations required to predict the tides.</p>
       <p>Do not try to use Tidey to make any sort of predictions or plans.</p>
