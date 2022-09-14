@@ -33,7 +33,7 @@ export const HelpAndCredits = () => {
       <p>The vertical location of the <span className={styles.red}>red dots</span> aligns with the rising and falling tide.</p>
       <p>The speed at which the circles rotate is how quickly that influence, or constituent, ebbs and flows.</p>
       <h2>Constituents</h2>
-      <p>Circles, which represent tidal constituents, can be added or removed using the controls at the top of the expanded Compass Rose Menu.</p>
+      <p>Circles, which represent tidal constituents, can be <span className={styles.increment}>added</span> or <span className={styles.red}>removed</span> using the controls at the top of the expanded Compass Rose Menu.</p>
       <p>The ultimate sources of the constituents are the Moon and the Sun, which create regular tidal pulses.</p>
       <p>These pulses then reflect and interact with the shore and underwater geography.</p>
       <p>From those two ultimate sources, dozens of pulses of varying intensities and tempos are created.</p>

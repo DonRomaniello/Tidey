@@ -20,6 +20,7 @@
   background-color: rgb(255, 255, 255, .8);
   backdrop-filter: blur(10px);
   border-radius: 70px;
+  border: 2px solid rgb(122, 125, 125);
   transition: all 1s ease-out;
 }
 
@@ -65,6 +66,10 @@ p {
 
 .red {
  color: rgb(219, 80, 74);
+}
+
+.increment {
+ color:  rgb(22, 105, 122);
 }
 
 .blues {
