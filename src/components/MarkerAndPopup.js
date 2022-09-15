@@ -21,7 +21,7 @@ import icon from './assets/pin.svg';
 const MarkerAndPopup = (props) => {
 
   const { stationInfo } = props
-  const canvasSize = [800, 200]
+  const canvasSize = [400, 200]
 
   const [couldOpen, setCouldOpen] = useState(false)
 
@@ -32,7 +32,7 @@ const MarkerAndPopup = (props) => {
   const DefaultIcon = L.icon({
     iconUrl: icon,
     iconAnchor: [16, 42],
-    popupAnchor: [-50, 0],// this should be half width, full height of popup
+    popupAnchor: [0, 0],// this should be half width, full height of popup
   });
 
   L.Marker.prototype.options.icon = DefaultIcon;
@@ -47,7 +47,6 @@ const MarkerAndPopup = (props) => {
     <Marker
     autoPan={true}
     autoPanOnFocus={true}
-    maxWidth='400px'
     position={position}
     riseOnHover={true}
     eventHandlers={{
@@ -63,8 +62,9 @@ const MarkerAndPopup = (props) => {
       <Popup
       // autoPanPadding={autoPanPad}
       autoPan={true}
+      autoPanOnFocus={true}
       >
-      {((harmonics.loaded) && couldOpen) ?
+      {(harmonics.loaded && couldOpen) ?
           couldOpen &&
           <Epicycles canvasSize={canvasSize} />
             :

@@ -1,4 +1,4 @@
-.mapContainer {
+/* .mapContainer {
   display: 'flex';
   height: 'calc(100dvh - 100px)';
   width: 'calc(100dvw - 100px)';
@@ -7,4 +7,32 @@
   border-radius:'30px';
   overflow: 'hidden';
   -webkit-mask-image: '-webkit-radial-gradient(white, black)';
+} */
+
+.blue{
+  background-color: blue;
 }
+
+.mapCont {
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
+  overflow: 'hidden';
+}
+
+
+@media (max-width: 800px ){
+    .mapCont {
+    height: '100%';
+    width: '100%';
+  }
+}
+/*
+@media (min-width: 801px){
+  .mapCont {
+    height:  'calc(100vh - 100px)';
+    width: 'calc(100vw - 100px)';
+    border-radius:'30px';
+    -webkit-mask-image: '-webkit-radial-gradient(white, black)';
+    }
+} */

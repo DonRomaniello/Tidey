@@ -1,8 +1,8 @@
 export const styling = {
   desktop : {
     display: 'flex',
-    // height: 'calc(100% - 100px)',
-    // width: 'calc(100% - 100px)',
+    height: 'calc(100vh - 100px)',
+    width: 'calc(100vw - 100px)',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:'30px',

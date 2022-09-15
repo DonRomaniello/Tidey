@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   MapContainer,
@@ -21,6 +21,8 @@ import "./css/TopLevelSupplement.css"
 
 import { styling } from './css/Map.module.js'
 
+import style from './css/Map.module.css'
+
 const Map = () => {
 
   const position = [41.640078, -124.453125]
@@ -29,14 +31,9 @@ const Map = () => {
 
   const sizeStyle = {
     desktop: {
-      height: `${window.innerHeight - 100}px`,
-      width: `${window.innerWidth - 100}px`,
-    },
-    mobile: {
-      // height: `${window.innerHeight - 50}px`,
-      // width: `${window.innerWidth - 50}px`,
-    },
-  }
+          height: `${window.innerHeight - 100}px`,
+          width: `${window.innerWidth - 100}px`,
+        }}
 
   const { current } = useMedia({
     mobile: 0,
