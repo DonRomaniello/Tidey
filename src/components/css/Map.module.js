@@ -1,22 +1,20 @@
 export const styling = {
-  desktop : {
+  common: {
     display: 'flex',
-    height: 'calc(100vh - 100px)',
-    width: 'calc(100vw - 100px)',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:'30px',
+  },
+  desktop : {
+    height: 'calc(100vh - 100px)',
+    width: 'calc(100vw - 100px)',
+    justifyContent: 'center',
     overflow: 'hidden',
     'WebkitMaskImage': '-webkit-radial-gradient(white, black)',
   },
   mobile : {
-    display: 'flex',
     height: '100%',
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius:'30px',
-    overflow: 'hidden',
     // 'WebkitMaskImage': '-webkit-radial-gradient(white, black)',
   }
 }
