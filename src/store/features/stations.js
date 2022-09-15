@@ -12,7 +12,6 @@ const initialState = {
   error: '',
 }
 
-
 export const fetchStations = createAsyncThunk(
   'stations/fetchStations',
   () => {

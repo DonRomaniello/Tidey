@@ -6,6 +6,9 @@ import {colorRange} from './css/Epicycles.module.js'
 
 export const Epicycles = (props) => {
 
+  const {canvasName, canvasSize} = props
+  const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
+
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
 
@@ -16,10 +19,6 @@ export const Epicycles = (props) => {
   const beadSize = 2
   const waveRoughness = 10
   const waveScaling = .05
-
-  const {canvasName, canvasSize} = props
-
-  const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
 
   const [frame, setFrame] = useState(0);
 
@@ -52,7 +51,7 @@ export const Epicycles = (props) => {
   const xAxis = useMemo(() => calcXAxis(canvasSize), [canvasSize])
 
   const calcYAxis = (_canvasSize) => {
-    let y = Math.floor(_canvasSize[0]/4)
+    let y = Math.floor(_canvasSize[0]/(2 * (canvasSize[0]/canvasSize[1])))
     return y}
   const yAxis = useMemo(() => calcYAxis(canvasSize), [canvasSize])
 

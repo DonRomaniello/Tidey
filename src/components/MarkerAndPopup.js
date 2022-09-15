@@ -21,8 +21,7 @@ import icon from './assets/pin.svg';
 const MarkerAndPopup = (props) => {
 
   const { stationInfo } = props
-
-  const canvasSize = [400, 200]
+  const canvasSize = [800, 200]
 
   const [couldOpen, setCouldOpen] = useState(false)
 
@@ -32,33 +31,24 @@ const MarkerAndPopup = (props) => {
 
   const DefaultIcon = L.icon({
     iconUrl: icon,
-    // shadowUrl: iconShadow,
     iconAnchor: [16, 42],
     popupAnchor: [-50, 0],// this should be half width, full height of popup
   });
 
-  L.Popup.prototype.options.offset = [0,0] // look here
-
   L.Marker.prototype.options.icon = DefaultIcon;
-
+  L.Popup.prototype.options.offset = [0,0] // look here
   L.Popup.prototype.options.maxWidth = '1000%'
-
   L.Popup.prototype.options.className = 'popuply'
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
-//   const autoPanPad = {
-//     x: (window.innerWidth / 2) - canvasSize[0],
-//     y: (window.innerHeight / 2) + canvasSize[1],
-//  }
-
   return (
     <>
     <Marker
-    maxWidth='400px'
-    position={position}
     autoPan={true}
     autoPanOnFocus={true}
+    maxWidth='400px'
+    position={position}
     riseOnHover={true}
     eventHandlers={{
       popupopen: () => {

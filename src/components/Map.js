@@ -51,7 +51,7 @@ const Map = () => {
     center={position}
     zoomControl={false}
     minZoom={2}
-    maxZoom={13}
+    maxZoom={8}
     maxBounds={bounds}
     maxBoundsViscosity={1.0}
     zoom={2}
