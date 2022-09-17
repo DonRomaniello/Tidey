@@ -16,26 +16,33 @@
 
 #info{
   position: absolute;
-  top: 43%;
+
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
-  width: 94px;
   border-radius: 50px;
-  border: 3px solid rgb(122, 125, 125);
+}
+
+@media (min-width: 800px ){
+  #info{
+    top: 43%;
+    width: 94px;
+    border: 3px solid rgb(122, 125, 125);
+  }
+}
+
+@media (max-width: 800px ){
+  #info{
+    top: 46%;
+    width: 60px;
+    border: 2px solid rgb(122, 125, 125);
+  }
 }
 
 .empty{
   width: 61.8%;
   height: 80px;
-}
-
-#settings#child {
-
-}
-
-.controller {
 }
 
 @keyframes enterAnimation {

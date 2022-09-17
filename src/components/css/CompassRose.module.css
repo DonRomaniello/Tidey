@@ -4,15 +4,57 @@
   transition: all 1s;
 }
 
-.compass {
-  position: fixed;
-  bottom: 100px;
-  right: 100px;
-  height: 150px;
-  width: 150px;
-  /* pointer-events: none; */
+@media (min-width: 800px ){
+  .compass {
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    height: 150px;
+    width: 150px;
+    /* pointer-events: none; */
+  }
+  .menu {
+    position: fixed;
+    bottom: 113px;
+    right: 113px;
+    height: 120px;
+    width: 120px;
+    background-color: rgba(255,255,255, 1);
+    border-radius: 70px;
+    border: 2.666px solid rgb(122, 125, 125);
+    transition: all .5s;
+  }
+
+  .menuOpen {
+    height: 388px;
+  }
 }
 
+@media (max-width: 800px ){
+  .compass {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    height: 100px;
+    width: 100px;
+    /* pointer-events: none; */
+  }
+  .menu {
+    position: fixed;
+    bottom: 33.5px;
+    right: 33.5px;
+    height: 80px;
+    width: 80px;
+    background-color: rgba(255,255,255, 1);
+    border-radius: 70px;
+    border: 1.777px solid rgb(122, 125, 125);
+    transition: all .5s;
+  }
+
+  .menuOpen {
+    height: 258px;
+  }
+}
 .compass > * {
   animation-play-state: inherit;
   animation-timing-function: linear;
@@ -37,21 +79,6 @@
   pointer-events: none;
 }
 
-.menu {
-  position: fixed;
-  height: 120px;
-  width: 120px;
-  bottom: 113px;
-  right: 113px;
-  background-color: rgba(255,255,255, 1);
-  border-radius: 70px;
-  border: 2.666px solid rgb(122, 125, 125);
-  transition: all .5s;
-}
-
-.menuOpen {
-  height: 388px;
-}
 
 .menuOpen:hover {
   filter: none;
