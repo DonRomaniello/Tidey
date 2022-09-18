@@ -15,8 +15,6 @@ import { useMedia } from 'tiny-use-media-esm';
 
 import "leaflet/dist/leaflet.css";
 
-import "./css/timeMarker.css";
-
 import "./css/TopLevelSupplement.css"
 
 import { styling } from './css/Map.module.js'

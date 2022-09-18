@@ -12,13 +12,14 @@ export const Epicycles = (props) => {
 
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
-  const frameDuration = 41;
+  const frameDuration = 16;
   const fadeTime = 1; // in secomds
-  const fadeIncrement = 1 / (fadeTime * frameDuration);
-  const speed = .001
+  const scaleIncrement = 1 / (fadeTime * frameDuration);
+  const canvasIncrement = (platform === 'desktop') ? 30 : 10
+  const speed = 0.0004
   const beadSize = 2
   const waveRoughness = 10
-  const waveScaling = .05
+  const waveScaling = .0125
 
   const [frame, setFrame] = useState(0);
 
@@ -27,30 +28,23 @@ export const Epicycles = (props) => {
   const canvasSizer = useCallback(() => {
     switch (platform) {
       case 'desktop':
-        return [400, 200]
+        return [200, 400]
       case 'mobile':
-        return [250, 125]
+        return [125, 250]
       default:
-        return [400, 200]
+        return [200, 400]
     }
-  })
+  }, [platform])
 
-  const [canvasSize, setCanvasSize] = useState(canvasSizer)
+  const [currentCanvasSize, setCurrentCanvasSize] = useState(canvasSizer())
+
+  const [canvasSize, setCanvasSize] = useState(currentCanvasSize)
 
   const [zooming, setZooming] = useState(0)
 
   useEffect(() => {
-    let [maxWidth, maxHeight] = canvasSizer();
-    switch (zooming % 3) {
-      case 2:
-        if (platform === 'desktop') {
-          maxWidth = Math.floor(window.innerWidth * .8)
-          maxHeight = Math.min((window.innerHeight * .8), (maxWidth / 2))
-        } else if (platform === 'mobile'){
-          maxWidth = window.innerWidth - 50
-          maxHeight = Math.min((window.innerHeight - 50), (maxWidth / 2))
-        }
-        break
+    let [maxHeight, maxWidth] = canvasSizer();
+    switch (zooming % 2) {
       case 1:
         if (platform === 'desktop') {
           maxWidth = Math.floor(window.innerWidth * .8)
@@ -63,14 +57,8 @@ export const Epicycles = (props) => {
       default:
           break
     }
-    setCanvasSize([maxWidth, maxHeight])
+    setCanvasSize([maxHeight, maxWidth])
   }, [zooming, platform, canvasSizer])
-
-
-  const handleClicks = (e) => {
-    setZooming(zooming + 1)
-    setTimeSeries([])
-  }
 
 
   const canvasEl = useRef(null)
@@ -84,54 +72,54 @@ export const Epicycles = (props) => {
     let s = _constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
     return s}
   const scale = useMemo(() => calcScale(constituents), [constituents])
-
   const [currentScale, setCurrentScale] = useState(scale)
 
-  const calcUnit = (_canvasSize, _currentScale) => {
-    let u = (((_canvasSize[1] / 2) - 2) / _currentScale)
+
+  const calcUnit = (_currentCanvasSize, _currentScale) => {
+    let u = (((_currentCanvasSize[0] / 2) - 2) / _currentScale)
     return u}
-  const unit = useMemo(() => calcUnit(canvasSize, currentScale), [canvasSize, currentScale])
+  const unit = useMemo(() => calcUnit(currentCanvasSize, currentScale), [currentCanvasSize, currentScale])
 
-  const calcXAxis = (_canvasSize) => {
-    let x = Math.floor(_canvasSize[1]/2)
+  const calcXAxis = (_currentCanvasSize) => {
+    let x = Math.floor(_currentCanvasSize[0]/2)
     return x}
-  const xAxis = useMemo(() => calcXAxis(canvasSize), [canvasSize])
+  const xAxis = useMemo(() => calcXAxis(currentCanvasSize), [currentCanvasSize])
 
-  const calcYAxis = (_canvasSize) => {
-    let y = Math.floor(_canvasSize[0]/(2 * (canvasSize[0]/canvasSize[1])))
+  const calcYAxis = (_currentCanvasSize) => {
+    let y = Math.floor(_currentCanvasSize[1]/(2 * (_currentCanvasSize[1]/_currentCanvasSize[0])))
     return y}
-  const yAxis = useMemo(() => calcYAxis(canvasSize), [canvasSize])
+  const yAxis = useMemo(() => calcYAxis(currentCanvasSize), [currentCanvasSize])
 
-  const calcTimeSeriesSteps = (_canvasSize, _waveRoughness) => {
-    let steps = Math.floor((canvasSize[0] - yAxis) / (waveRoughness * waveScaling)) + 50
+  const calcTimeSeriesSteps = (_currentCanvasSize, _waveRoughness, _waveScaling, _yAxis) => {
+    let steps = Math.floor((_currentCanvasSize[1] - _yAxis) / (_waveRoughness * _waveScaling)) + 50
     return steps
   }
-  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness, waveScaling), [canvasSize, waveRoughness, waveScaling])
+  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(currentCanvasSize, waveRoughness, waveScaling, yAxis), [currentCanvasSize, waveRoughness, waveScaling, yAxis])
 
-  const canvasSetup = useCallback(() => {
+  const canvasSetup = useCallback((_currentCanvasSize) => {
     const canvas = canvasEl.current
-    canvas.width = canvasSize[0]
-    canvas.height = canvasSize[1]
+    canvas.height = _currentCanvasSize[0]
+    canvas.width = _currentCanvasSize[1]
     const ctx = canvas.getContext("2d")
     ctx.lineWidth = 1;
     ctx.lineJoin = 'round';
     return [canvas, ctx]
-  }, [canvasEl, canvasSize])
+  }, [canvasEl])
 
-  const getSteppedColor = (depth) => {
+  const getSteppedColor = useCallback((depth) => {
     let degreeB = depth / (shownNumber + 1)
     let degreeA = 1 - degreeB
     let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
     let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
     let b = (colorRange.start.b * degreeA) + (colorRange.end.b * degreeB)
     return { r, g, b }
-  }
+  },[shownNumber] )
 
   const getRadians = (angle) => {
     return (angle * (Math.PI / 180))
   }
 
-  const drawEpicycle = (xCenter, yCenter, radius, ctx, depth) => {
+  const drawEpicycle = useCallback((xCenter, yCenter, radius, ctx, depth) => {
     let baseColor = getSteppedColor(depth)
     ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
     ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
@@ -139,7 +127,7 @@ export const Epicycles = (props) => {
     ctx.arc(xCenter, yCenter, radius, 0, 2 * Math.PI, false);
     ctx.fill();
     ctx.stroke();
-  }
+  }, [getSteppedColor])
 
   const drawBead = (ctx, xCenter, yCenter) => {
     ctx.beginPath()
@@ -149,24 +137,24 @@ export const Epicycles = (props) => {
     ctx.fill();
   }
 
-  const drawArrow = (ctx, _xCenter, _yCenter) => {
+  const drawArrow = useCallback((ctx, _xCenter, _yCenter) => {
     ctx.lineWidth = 2;
     ctx.beginPath()
     ctx.setLineDash([2, 4]);
     ctx.moveTo(yAxis, _yCenter)
     ctx.lineTo(_xCenter, _yCenter)
     ctx.stroke()
-  }
+  }, [yAxis])
 
-    const getPhasedXY = (_xCenter, _yCenter, time, radius, constituent) => {
+    const getPhasedXY = useCallback((_xCenter, _yCenter, time, radius, constituent) => {
       const { phase_GMT, speed} = constituent
       let phase = phase_GMT
       let phaseX = _xCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
       let phaseY = _yCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
       return [phaseX, phaseY]
-    }
+    }, [])
 
-    function drawTideChart(ctx) {
+    const drawTideChart = useCallback((ctx) => {
       ctx.strokeStyle = `rgba(${colorRange.end.r}, ${colorRange.end.g}, ${colorRange.end.b}, 1)`
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -178,47 +166,63 @@ export const Epicycles = (props) => {
       })
       ctx.stroke();
       ctx.lineWidth = 1;
-    }
+    }, [yAxis, timeSeries, waveRoughness, waveScaling])
 
-  const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
-    const radius = constituents[depth].amplitude * unit
-    drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
-    if (depth === shownNumber) {
-      [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
-      setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
-      drawTideChart(ctx, canvasSize)
-      drawArrow(ctx, _xCenter, _yCenter)
-      drawBead(ctx, _xCenter, _yCenter)
-      drawBead(ctx, yAxis, _yCenter)
-      return
-    } else {
-        [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
-        depth++
-        runThroughConstituents(ctx, _xCenter, _yCenter, time, depth)
-      }
-  }
 
-  const smoothScaling = (_currentScale, _scale) => {
-    if (_currentScale < _scale) {
-      setCurrentScale(Math.min(_currentScale + fadeIncrement, _scale))
-    } else if (_currentScale > _scale) {
-      setCurrentScale(Math.max(_currentScale - fadeIncrement, _scale))
+  const fadeStep = (current, target, increment) => {
+    if (current < target) {
+      // console.log('ran', current, target, Math.min(current + increment, target))
+      return Math.min(current + increment, target)
+    } else if (current > target){
+      return Math.max(current - increment, target)
     }
   }
 
   useEffect(() => {
+    const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
+      const radius = constituents[depth].amplitude * unit
+      drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
+      if (depth === shownNumber) {
+        [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
+        setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
+        drawTideChart(ctx, currentCanvasSize)
+        drawArrow(ctx, _xCenter, _yCenter)
+        drawBead(ctx, _xCenter, _yCenter)
+        drawBead(ctx, yAxis, _yCenter)
+        return
+      } else {
+          [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
+          depth++
+          runThroughConstituents(ctx, _xCenter, _yCenter, time, depth)
+        }
+    }
+
+    const smoothScaling = (_currentScale, _scale, _currentCanvasSize, _canvasSize, _scaleIncrement, _canvasIncrement) => {
+      if (_currentScale !== _scale) {
+        setCurrentScale(fadeStep(_currentScale, _scale, _scaleIncrement))
+      }
+      if (_currentCanvasSize[1] !== _canvasSize[1]) {
+        let [height, width] = _currentCanvasSize
+        if (_currentCanvasSize[1] !== _canvasSize[1]) {
+          width = fadeStep(_currentCanvasSize[1], _canvasSize[1], _canvasIncrement)
+        }
+        setCurrentCanvasSize([height, width])
+    }
+  }
+
     const draw = () => {
-        let [canvas, ctx] = canvasSetup()
+        let [canvas, ctx] = canvasSetup(currentCanvasSize)
         ctx.clearRect(0,0,canvas.width,canvas.height)
-        if (currentScale !== scale){
-          setTimeSeries([])
-          smoothScaling(currentScale, scale)
+        if ((currentScale != scale) || (currentCanvasSize[1] != canvasSize[1])){
+          smoothScaling(currentScale, scale,
+             currentCanvasSize, canvasSize,
+              scaleIncrement, canvasIncrement)
         }
         runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
       }
       window.requestAnimationFrame(draw);
     return () => {};
-  }, [frame])
+  }, [frame, canvasSize, currentCanvasSize, scale, currentScale, xAxis, yAxis, canvasSetup, scaleIncrement, canvasIncrement, constituents, drawArrow, drawEpicycle, drawTideChart, getPhasedXY, shownNumber, timeSeries, timeSeriesSteps, unit])
 
   useEffect(() => {
     const frameUpdate = setInterval(() => {
@@ -228,13 +232,11 @@ export const Epicycles = (props) => {
   }, [frame])
 
   return (
-
     <div>
       <canvas
       ref={canvasEl}
-      // id={canvasName}
-      onClick={(e) => {
-        handleClicks(e)
+      onClick={() => {
+        setZooming(zooming + 1)
       }} />
     </div>
   )
