@@ -43,7 +43,7 @@ const Map = () => {
     maxZoom={8}
     maxBounds={bounds}
     maxBoundsViscosity={1.0}
-    zoom={2}
+    zoom={3}
     scrollWheelZoom={true}
     style={{...styling[current], ...styling.common}}
     >

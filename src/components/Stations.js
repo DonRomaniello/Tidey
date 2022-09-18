@@ -19,6 +19,7 @@ export const Stations = () => {
       setBounds(map.getBounds())
     },
     zoomend: () => {
+      console.log(map.getZoom())
       setZoom(map.getZoom())
     }
   }, [bounds, zoom])

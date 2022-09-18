@@ -20,11 +20,10 @@
     height: 120px;
     width: 120px;
     background-color: rgba(255,255,255, 1);
-    border-radius: 70px;
+    border-radius: 100px;
     border: 2.666px solid rgb(122, 125, 125);
     transition: all .5s;
   }
-
   .menuOpen {
     height: 388px;
   }
@@ -46,13 +45,12 @@
     height: 80px;
     width: 80px;
     background-color: rgba(255,255,255, 1);
-    border-radius: 70px;
     border: 1.777px solid rgb(122, 125, 125);
     transition: all .5s;
   }
 
   .menuOpen {
-    height: 258px;
+    height: 240px;
   }
 }
 .compass > * {
@@ -64,6 +62,7 @@
 }
 
 #compassHolder {
+  border-radius: 100px;
   z-index: var(--base-z);
   border-radius: 50%;
 }
