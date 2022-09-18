@@ -2,15 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState, useRef } from "react"
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { zoomToggle } from "../store/features/harmonics.js";
+import { wideToggle } from "../store/features/harmonics.js";
 
 import {colorRange} from './css/Epicycles.module.js'
 
 export const Epicycles = (props) => {
 
-  const {platform} = props
+  const {platform, canvasSize} = props
 
-  const { harmonics, shownNumber, zoom } = useSelector((state) => state.harmonics)
+  const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
 
 
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
@@ -28,24 +28,7 @@ export const Epicycles = (props) => {
 
   const [timeSeries, setTimeSeries] = useState([])
 
-  const canvasSizer = useCallback(() => {
-    switch (platform) {
-      case 'desktop':
-        return [200, zoom ? Math.floor(window.innerWidth * .8) : 400]
-      case 'mobile':
-        return [125, zoom ? window.innerWidth - 50 : 250]
-      default:
-        return [200, 400]
-    }
-  }, [platform, zoom])
-
-  const [currentCanvasSize, setCurrentCanvasSize] = useState(canvasSizer())
-
-  const [canvasSize, setCanvasSize] = useState(currentCanvasSize)
-
-  useEffect(() => {
-    setCanvasSize(canvasSizer)
-  }, [zoom, platform, canvasSizer])
+  const [currentCanvasSize, setCurrentCanvasSize] = useState(canvasSize)
 
   const canvasEl = useRef(null)
 
@@ -133,7 +116,7 @@ export const Epicycles = (props) => {
   }, [yAxis])
 
     const getPhasedXY = useCallback((_xCenter, _yCenter, time, radius, constituent) => {
-      const { phase_GMT, speed} = constituent
+      const { phase_GMT, speed } = constituent
       let phase = phase_GMT
       let phaseX = _xCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
       let phaseY = _yCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
@@ -224,7 +207,7 @@ export const Epicycles = (props) => {
       <canvas
       ref={canvasEl}
       onClick={() => {
-        dispatch(zoomToggle())
+        dispatch(wideToggle())
       }} />
     </div>
   )
