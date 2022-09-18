@@ -78,13 +78,6 @@ const canvasSize = useMemo(() => canvasSizer(current, wide), [current, wide])
 
   const dispatch = useDispatch();
 
-  const map = useMap()
-
-  console.log(L.Marker.prototype)
-
-
-
-
 
   return (
     <>
@@ -104,7 +97,7 @@ const canvasSize = useMemo(() => canvasSizer(current, wide), [current, wide])
     >
       <Popup
       autoPan={true}
-      autoPanPaddingBottomRight={[10, 10]}
+      autoPanPadding={[10, 10]}
       // keepInView={true}
       >
       {(harmonics.loaded && couldOpen) ?
@@ -114,7 +107,9 @@ const canvasSize = useMemo(() => canvasSizer(current, wide), [current, wide])
           canvasSize={canvasSize}
            />
             :
-          <div className='loading' >
+          <div className='loading'
+          style={{width: canvasSize[1], height:canvasSize[0]}}
+          >
             loading...
             </div>}
       </Popup>
