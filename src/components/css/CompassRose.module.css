@@ -10,7 +10,7 @@
 
 
 
-@media (min-width: 800px ){
+@media (min-width: 959px ){
   .compass {
     position: fixed;
     bottom: 100px;
@@ -34,7 +34,7 @@
   }
 }
 
-@media (max-width: 800px ){
+@media (max-width: 959px ){
   .compass {
     position: fixed;
     bottom: 25px;

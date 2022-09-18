@@ -3,9 +3,12 @@ import React, {useState, useRef, useEffect} from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+
 import { fetchHarmonics } from '../store/features/harmonics';
 
 import { updateSelected } from '../store/features/stations';
+
+import { useMedia } from 'tiny-use-media-esm';
 
 import L from 'leaflet';
 
@@ -21,7 +24,15 @@ import icon from './assets/pin.svg';
 const MarkerAndPopup = (props) => {
 
   const { stationInfo } = props
-  const canvasSize = [400, 200]
+
+  const { current } = useMedia({
+    mobile: 0,
+    desktop: 960,
+  })
+
+  const canvasSize = canvasSizing[current]
+
+  console.log(canvasSize)
 
   const [couldOpen, setCouldOpen] = useState(false)
 
@@ -77,7 +88,10 @@ const MarkerAndPopup = (props) => {
 )
 }
 
-
+const canvasSizing = {
+  mobile: [250, 125],
+  desktop: [400, 200]
+}
 
 
 export default MarkerAndPopup

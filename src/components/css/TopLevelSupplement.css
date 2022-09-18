@@ -15,7 +15,7 @@
   opacity: 0;
 }
 
-@media (min-width: 800px ){
+@media (min-width: 959px ){
   .leaflet-control-zoom {
     padding: 30px;
   }
@@ -27,15 +27,16 @@
   }
 }
 
-@media (max-width: 800px ){
+@media (max-width: 959px ){
   .leaflet-control-zoom {
-    padding: 5px;
+    padding: 15px;
+    padding-top: 45px;
   }
   .leaflet-control-zoom-in {
-  padding-bottom: 0px;
+  padding-bottom: 30px;
   }
   .leaflet-control-zoom-out {
-  padding-top: 30px;
+  padding-top: 0px;
   }
 }
 

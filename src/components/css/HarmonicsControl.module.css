@@ -1,4 +1,4 @@
-@media (max-width: 800px ){
+@media (max-width: 959px ){
   :root {
     --incDimension: 48px;
     --empDimension: 27px;
@@ -13,7 +13,7 @@
   }
 }
 
-@media (min-width: 800px ){
+@media (min-width: 959px ){
   :root {
     --incDimension: 64px;
     --empDimension: 36px;

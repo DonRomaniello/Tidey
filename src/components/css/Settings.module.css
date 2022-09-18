@@ -24,7 +24,7 @@
   border-radius: 50px;
 }
 
-@media (min-width: 800px ){
+@media (min-width: 959px ){
   #info{
     top: 43%;
     width: 94px;
@@ -32,7 +32,7 @@
   }
 }
 
-@media (max-width: 800px ){
+@media (max-width: 959px ){
   #info{
     top: 45%;
     width: 60px;

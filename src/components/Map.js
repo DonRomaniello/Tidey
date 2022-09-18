@@ -29,7 +29,7 @@ const Map = () => {
 
   const { current } = useMedia({
     mobile: 0,
-    desktop: 800,
+    desktop: 960,
   })
 
   window.scrollTo(50, 50) // For iPad problems.

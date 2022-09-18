@@ -19,12 +19,9 @@ export const Stations = () => {
       setBounds(map.getBounds())
     },
     zoomend: () => {
-      console.log(map.getZoom())
       setZoom(map.getZoom())
     }
   }, [bounds, zoom])
-
-
 
   const filteredStations = useMemo(() => {
     const filterStations = (_stations, _bounds, _zoom) => {
