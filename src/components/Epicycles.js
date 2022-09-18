@@ -6,12 +6,12 @@ import {colorRange} from './css/Epicycles.module.js'
 
 export const Epicycles = (props) => {
 
-  const {canvasName, canvasSize} = props
+  const {platform} = props
+
   const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
 
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
-
   const frameDuration = 41;
   const fadeTime = 1; // in secomds
   const fadeIncrement = 1 / (fadeTime * frameDuration);
@@ -24,7 +24,54 @@ export const Epicycles = (props) => {
 
   const [timeSeries, setTimeSeries] = useState([])
 
-  const [fadeProgress, setFadeProgess] = useState(0)
+  const canvasSizer = useCallback(() => {
+    switch (platform) {
+      case 'desktop':
+        return [400, 200]
+      case 'mobile':
+        return [250, 125]
+      default:
+        return [400, 200]
+    }
+  })
+
+  const [canvasSize, setCanvasSize] = useState(canvasSizer)
+
+  const [zooming, setZooming] = useState(0)
+
+  useEffect(() => {
+    let [maxWidth, maxHeight] = canvasSizer();
+    switch (zooming % 3) {
+      case 2:
+        if (platform === 'desktop') {
+          maxWidth = Math.floor(window.innerWidth * .8)
+          maxHeight = Math.min((window.innerHeight * .8), (maxWidth / 2))
+        } else if (platform === 'mobile'){
+          maxWidth = window.innerWidth - 50
+          maxHeight = Math.min((window.innerHeight - 50), (maxWidth / 2))
+        }
+        break
+      case 1:
+        if (platform === 'desktop') {
+          maxWidth = Math.floor(window.innerWidth * .8)
+          } else if (platform === 'mobile') {
+          maxWidth = window.innerWidth - 50
+          }
+        break
+      case 0:
+        break
+      default:
+          break
+    }
+    setCanvasSize([maxWidth, maxHeight])
+  }, [zooming, platform, canvasSizer])
+
+
+  const handleClicks = (e) => {
+    setZooming(zooming + 1)
+    setTimeSeries([])
+  }
+
 
   const canvasEl = useRef(null)
 
@@ -183,7 +230,12 @@ export const Epicycles = (props) => {
   return (
 
     <div>
-      <canvas ref={canvasEl} id={canvasName} />
+      <canvas
+      ref={canvasEl}
+      // id={canvasName}
+      onClick={(e) => {
+        handleClicks(e)
+      }} />
     </div>
   )
 }

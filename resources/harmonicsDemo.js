@@ -342,7 +342,7 @@ const harcon = {
 const timeSubtract = new Date().getTime()
 // This is how much to scale by
 const unit = 10
-const canvasSize = [500, 500]
+const canvasBaseSize = [500, 500]
 // The amplitude indicators on the harmonics are called beads
 const beadSize = 2
 const speed = 1

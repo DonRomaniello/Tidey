@@ -30,10 +30,6 @@ const MarkerAndPopup = (props) => {
     desktop: 960,
   })
 
-  const canvasSize = canvasSizing[current]
-
-  console.log(canvasSize)
-
   const [couldOpen, setCouldOpen] = useState(false)
 
   const harmonics = useSelector((state) => state.harmonics)
@@ -77,7 +73,8 @@ const MarkerAndPopup = (props) => {
       >
       {(harmonics.loaded && couldOpen) ?
           couldOpen &&
-          <Epicycles canvasSize={canvasSize} />
+          <Epicycles
+          platform={current} />
             :
           <div className='loading' >
             loading...
@@ -87,12 +84,6 @@ const MarkerAndPopup = (props) => {
     </>
 )
 }
-
-const canvasSizing = {
-  mobile: [250, 125],
-  desktop: [400, 200]
-}
-
 
 export default MarkerAndPopup
 

@@ -10,7 +10,7 @@ import Epicycles from '../Epicycles';
 const DrawHarmonics = (props) => {
 
 
-  const { harcon, canvasName, colorRange, canvasSize, loopCallback, numOfConstituents } = props
+  const { harcon, canvasName, colorRange, canvasBaseSize, loopCallback, numOfConstituents } = props
 
 
 // Record the initial time so the delta can be calculated later
@@ -25,8 +25,8 @@ const wavePrecision = 10 // How smooth the tide chart curves should be
 let constituents = [...harcon]
 constituents.sort((a, b) => b.amplitude - a.amplitude)
 constituents = constituents.slice(0, numOfConstituents)
-let width = canvasSize[0]
-let height = canvasSize[1]
+let width = canvasBaseSize[0]
+let height = canvasBaseSize[1]
 // This is how much to scale by
 const scale = constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
 
@@ -47,8 +47,8 @@ const init = () => {
   // this may change, will revisit
   canvas = document.getElementById(canvasName);
 
-  canvas.width = canvasSize[0];
-  canvas.height = canvasSize[1];
+  canvas.width = canvasBaseSize[0];
+  canvas.height = canvasBaseSize[1];
 
   ctx = canvas.getContext("2d");
   ctx.lineJoin = 'round';
