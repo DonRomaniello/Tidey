@@ -23,7 +23,7 @@ const Map = () => {
 
   const position = [41.640078, -124.453125]
 
-  const bounds = L.latLngBounds(L.latLng(90, -360), L.latLng(-90, 360));
+  const bounds = L.latLngBounds(L.latLng(90, -7200), L.latLng(-90, 7200));
 
   const { current } = useMedia({
     mobile: 0,

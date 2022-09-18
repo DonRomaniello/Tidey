@@ -38,7 +38,6 @@ const MarkerAndPopup = (props) => {
   const { wide } = harmonics
 
 const canvasSizer = (_current, _wide) => {
-  console.log('run', _wide, _current)
   switch (_current) {
     case 'desktop':
       return [200, _wide ? Math.floor(window.innerWidth * .8) : 400]
@@ -52,7 +51,7 @@ const canvasSize = useMemo(() => canvasSizer(current, wide), [current, wide])
 
   const calcPadding = (_current, _wide) => {
     const getPad = (dimWin, dimPop) => {
-      return Math.floor(((dimWin = dimPop) / 2))
+      return Math.floor(((dimWin - dimPop) / 3))
     }
     switch (_current) {
       case 'desktop':
@@ -63,36 +62,33 @@ const canvasSize = useMemo(() => canvasSizer(current, wide), [current, wide])
         return [getPad(window.innerHeight, 200), getPad(window.innerWidth, 400)]
   }
   }
-  const padding = useMemo(() => calcPadding(current, wide), [wide, current])
-
-  const dispatch = useDispatch();
+  const offset = useMemo(() => calcPadding(current, wide), [wide, current])
 
   const DefaultIcon = L.icon({
     iconUrl: icon,
     iconAnchor: [16, 42],
+    popupAnchor: [0, 0],
   });
 
   L.Marker.prototype.options.icon = DefaultIcon;
-  L.Popup.prototype.options.maxWidth = '1000%'
+  L.Popup.prototype.options.maxWidth = '100%'
   L.Popup.prototype.options.className = 'popuply'
-  L.Popup.prototype.options.offset = [0,0] // look here
 
   const position = [stationInfo?.lat, stationInfo?.lng]
 
+  const dispatch = useDispatch();
+
   const map = useMap()
 
-  useEffect(() => {
-    // L.Popup.update()
+  console.log(L.Marker.prototype)
 
 
-    map.panTo(position)
-  }, [wide])
+
+
 
   return (
     <>
     <Marker
-    autoPan={true}
-    autoPanOnFocus={true}
     position={position}
     riseOnHover={true}
     eventHandlers={{
@@ -103,13 +99,13 @@ const canvasSize = useMemo(() => canvasSizer(current, wide), [current, wide])
       },
       popupclose: (e) => {
         setCouldOpen(false)
-      }}}
+      },
+    }}
     >
       <Popup
       autoPan={true}
-      autoPanOnFocus={true}
-      // autoPanPadding={padding}
-      // autoPanPadding={[window.innerHeight / 10,window.innerWidth / 10]}
+      autoPanPaddingBottomRight={[10, 10]}
+      // keepInView={true}
       >
       {(harmonics.loaded && couldOpen) ?
           couldOpen &&
