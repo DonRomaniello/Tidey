@@ -4,6 +4,12 @@
   transition: all 1s;
 }
 
+.menu {
+  border-radius: 100px;
+}
+
+
+
 @media (min-width: 800px ){
   .compass {
     position: fixed;
@@ -20,8 +26,7 @@
     height: 120px;
     width: 120px;
     background-color: rgba(255,255,255, 1);
-    border-radius: 100px;
-    border: 2.666px solid rgb(122, 125, 125);
+    border: 2px solid rgb(122, 125, 125);
     transition: all .5s;
   }
   .menuOpen {
@@ -40,12 +45,12 @@
   }
   .menu {
     position: fixed;
-    bottom: 33.5px;
-    right: 33.5px;
+    bottom: 33px;
+    right: 33px;
     height: 80px;
     width: 80px;
     background-color: rgba(255,255,255, 1);
-    border: 1.777px solid rgb(122, 125, 125);
+    border: 2px solid rgb(122, 125, 125);
     transition: all .5s;
   }
 
@@ -53,6 +58,7 @@
     height: 240px;
   }
 }
+
 .compass > * {
   animation-play-state: inherit;
   animation-timing-function: linear;
@@ -62,9 +68,8 @@
 }
 
 #compassHolder {
-  border-radius: 100px;
   z-index: var(--base-z);
-  border-radius: 50%;
+  border-radius: 100px;
 }
 
 #compassHolder:hover {
@@ -73,16 +78,16 @@
   filter: drop-shadow(0 0 4px rgba(0,0,0,.4));
 }
 
-.zeroLayer {
-  z-index: calc(var(--base-z) + 2);
-  pointer-events: none;
-}
-
 
 .menuOpen:hover {
   filter: none;
 }
 
+
+.zeroLayer {
+  z-index: calc(var(--base-z) + 2);
+  pointer-events: none;
+}
 
 .oneLayer {
   z-index: calc(var(--base-z) + 3);
@@ -120,12 +125,4 @@
   to {
     transform: rotate(0deg);
   }
-}
-
-#twoLayer {
-  z-index: calc(var(--base-z) + 4);
-}
-
-#topLayer {
-  z-index: calc(var(--base-z) + 10);
 }
