@@ -67,9 +67,9 @@ const MarkerAndPopup = (props) => {
       }}}
     >
       <Popup
-      // autoPanPadding={autoPanPad}
       autoPan={true}
       autoPanOnFocus={true}
+      autoPanPadding={[window.innerHeight / 10,window.innerWidth / 10]}
       >
       {(harmonics.loaded && couldOpen) ?
           couldOpen &&

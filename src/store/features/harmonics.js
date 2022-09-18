@@ -8,6 +8,7 @@ import axios from 'axios';
 const initialState = {
   harmonics: [],
   shownNumber: 2,
+  zoom: false,
   loading: false,
   loaded: false,
   error: '',
@@ -36,6 +37,10 @@ export const harmonicsSlice = createSlice({
       if (state.shownNumber > 0){
         state.shownNumber -= 1
       }
+    },
+    zoomToggle: state => {
+      console.log('ran')
+      state.zoom = !state.zoom;
     }
   },
   extraReducers: builder => {
@@ -58,7 +63,7 @@ export const harmonicsSlice = createSlice({
   },
 })
 
-export const { increment, decrement } = harmonicsSlice.actions;
+export const { increment, decrement, zoomToggle } = harmonicsSlice.actions;
 
 export default harmonicsSlice.reducer
 

@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { zoomToggle } from "../store/features/harmonics.js";
 
 import {colorRange} from './css/Epicycles.module.js'
 
@@ -8,7 +10,8 @@ export const Epicycles = (props) => {
 
   const {platform} = props
 
-  const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
+  const { harmonics, shownNumber, zoom } = useSelector((state) => state.harmonics)
+
 
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
@@ -28,38 +31,21 @@ export const Epicycles = (props) => {
   const canvasSizer = useCallback(() => {
     switch (platform) {
       case 'desktop':
-        return [200, 400]
+        return [200, zoom ? Math.floor(window.innerWidth * .8) : 400]
       case 'mobile':
-        return [125, 250]
+        return [125, zoom ? window.innerWidth - 50 : 250]
       default:
         return [200, 400]
     }
-  }, [platform])
+  }, [platform, zoom])
 
   const [currentCanvasSize, setCurrentCanvasSize] = useState(canvasSizer())
 
   const [canvasSize, setCanvasSize] = useState(currentCanvasSize)
 
-  const [zooming, setZooming] = useState(0)
-
   useEffect(() => {
-    let [maxHeight, maxWidth] = canvasSizer();
-    switch (zooming % 2) {
-      case 1:
-        if (platform === 'desktop') {
-          maxWidth = Math.floor(window.innerWidth * .8)
-          } else if (platform === 'mobile') {
-          maxWidth = window.innerWidth - 50
-          }
-        break
-      case 0:
-        break
-      default:
-          break
-    }
-    setCanvasSize([maxHeight, maxWidth])
-  }, [zooming, platform, canvasSizer])
-
+    setCanvasSize(canvasSizer)
+  }, [zoom, platform, canvasSizer])
 
   const canvasEl = useRef(null)
 
@@ -231,12 +217,14 @@ export const Epicycles = (props) => {
     return () => clearInterval(frameUpdate)
   }, [frame])
 
+  const dispatch = useDispatch()
+
   return (
     <div>
       <canvas
       ref={canvasEl}
       onClick={() => {
-        setZooming(zooming + 1)
+        dispatch(zoomToggle())
       }} />
     </div>
   )
