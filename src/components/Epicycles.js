@@ -11,8 +11,6 @@ export const Epicycles = (props) => {
   const {platform, canvasSize} = props
 
   const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
-
-
   const axesStrokeColor = 'rgba(128, 128, 128, 1)'
   const beadColor = 'rgba(219, 80, 74, 1)'
   const frameDuration = 16;
@@ -140,7 +138,6 @@ export const Epicycles = (props) => {
 
   const fadeStep = (current, target, increment) => {
     if (current < target) {
-      // console.log('ran', current, target, Math.min(current + increment, target))
       return Math.min(current + increment, target)
     } else if (current > target){
       return Math.max(current - increment, target)
@@ -200,15 +197,11 @@ export const Epicycles = (props) => {
     return () => clearInterval(frameUpdate)
   }, [frame])
 
-  const dispatch = useDispatch()
-
   return (
     <div>
       <canvas
       ref={canvasEl}
-      onClick={() => {
-        dispatch(wideToggle())
-      }} />
+      />
     </div>
   )
 }

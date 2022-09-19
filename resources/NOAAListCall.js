@@ -39,8 +39,6 @@ let errorIds = []
 
 const queryAllStations = () => {
 
-// console.log(stations[stationIdx].id)
-
 url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?'
 
 // https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/8410834/harcon.json

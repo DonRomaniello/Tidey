@@ -15,7 +15,6 @@ import L from 'leaflet';
 import {
   Marker,
   Popup,
-  useMap,
 } from 'react-leaflet'
 
 import { Epicycles } from './Epicycles';
@@ -35,34 +34,17 @@ const MarkerAndPopup = (props) => {
 
   const harmonics = useSelector((state) => state.harmonics)
 
-  const { wide } = harmonics
-
-const canvasSizer = (_current, _wide) => {
+const canvasSizer = (_current) => {
   switch (_current) {
     case 'desktop':
-      return [200, _wide ? Math.floor(window.innerWidth * .8) : 400]
+      return [200, 400]
     case 'mobile':
-      return [125, _wide ? window.innerWidth - 50 : 250]
+      return [125, 250]
     default:
       return [200, 400]
 }
 }
-const canvasSize = useMemo(() => canvasSizer(current, wide), [current, wide])
-
-  const calcPadding = (_current, _wide) => {
-    const getPad = (dimWin, dimPop) => {
-      return Math.floor(((dimWin - dimPop) / 3))
-    }
-    switch (_current) {
-      case 'desktop':
-        return [getPad(window.innerHeight, 200), _wide ? getPad(window.innerWidth, (window.innerWidth * .8)): getPad(window.innerHeight, 400)]
-      case 'mobile':
-        return [getPad(window.innerHeight, 125), _wide ? getPad(window.innerWidth, (window.innerWidth - 50)) : getPad(window.innerWidth, 250)]
-      default:
-        return [getPad(window.innerHeight, 200), getPad(window.innerWidth, 400)]
-  }
-  }
-  const offset = useMemo(() => calcPadding(current, wide), [wide, current])
+const canvasSize = useMemo(() => canvasSizer(current), [current])
 
   const DefaultIcon = L.icon({
     iconUrl: icon,

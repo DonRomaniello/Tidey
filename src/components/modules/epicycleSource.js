@@ -88,8 +88,6 @@ const draw = () => {
 
   callbackMessages = loopCallback()
 
-  console.log("still")
-
   if (callbackMessages.continue){
     setTimeout(draw, (1000 / frameRate));
   }
