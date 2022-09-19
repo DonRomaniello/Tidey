@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 
 import { useSelector, useDispatch } from 'react-redux';
+
 import { closeHelp } from "../store/features/help";
 
 import styles from './css/HelpAndCredits.module.css'
@@ -11,10 +12,18 @@ export const HelpAndCredits = () => {
 
   const {helpOpen, helpClosing} = useSelector((state) => state.help)
 
+  const [fullyScrolled, setFullyScrolled] = useState(false);
+
   const handleClose = () => {
     if (helpOpen && helpClosing){
       dispatch(closeHelp())
     }
+  }
+
+  const scrollTestAndSet = (e) => {
+    let targetDiv = document.getElementById(e.target.id);
+    setFullyScrolled((targetDiv.scrollHeight - (targetDiv.clientHeight + targetDiv.scrollTop) <= 10))
+    console.log('runs', fullyScrolled)
   }
 
   if (helpOpen) {
@@ -23,7 +32,12 @@ export const HelpAndCredits = () => {
     <div
     className={`${styles.helpContainer} ${helpClosing ? styles.helpContainerClosing : styles.helpContainerOpening}`}
     onAnimationEnd={() => handleClose()}>
-      <div id={styles.helpContent}>
+      <div
+      id={styles.helpContent}
+      onScroll={(e) => {
+        scrollTestAndSet(e)
+      }}
+      >
       <h1>Tidey</h1>
       <p>Tidey is art, a toy, in the form of a tool. Tidey visualizes how the Earth’s tides work.</p>
       <p>Each pin on the map is a station.</p>
@@ -51,6 +65,8 @@ export const HelpAndCredits = () => {
       <p>All station data used in this project is the public domain.</p>
       <p>For useable tide predictions, observations, and more information, try <a href="https://tidesandcurrents.noaa.gov/map/index.html?type=TidePredictions" target="_blank">this NOAA resource.</a></p>
       </div>
+      <div id={styles.more}
+      style={{opacity: fullyScrolled ? 0 : 1}}>...</div>
     </div>
     </>
   )} else {
