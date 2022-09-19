@@ -140,7 +140,7 @@ export const Epicycles = () => {
     const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
       const radius = constituents[depth].amplitude * unit
       drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
-      if (depth === shownNumber) {
+      if ((depth === shownNumber) || (constituents[depth].amplitude === 0)) {
         [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
         setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
         drawTideChart(ctx, canvasSize)
@@ -164,10 +164,8 @@ export const Epicycles = () => {
     const draw = () => {
         let [canvas, ctx] = canvasSetup(canvasSize)
         ctx.clearRect(0,0,canvas.width,canvas.height)
-        if ((currentScale !== scale) || (canvasSize[1] !== canvasSize[1])){
-          smoothScaling(currentScale, scale,
-             canvasSize, canvasSize,
-              scaleIncrement)
+        if ((currentScale !== scale)){
+          smoothScaling(currentScale, scale,scaleIncrement)
         }
         runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
       }
