@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/Tidey/static/css/main.603f67de.css",
+    "main.js": "/Tidey/static/js/main.09928462.js",
+    "static/js/787.5539bc7f.chunk.js": "/Tidey/static/js/787.5539bc7f.chunk.js",
+    "static/media/Compass_0Layer.svg": "/Tidey/static/media/Compass_0Layer.82e7c42be78530bace388262b8fe630f.svg",
+    "static/media/Compass_2Layer.svg": "/Tidey/static/media/Compass_2Layer.c0a684fc7c6cbf66b47bd35f208b668c.svg",
+    "static/media/Compass_1Layer.svg": "/Tidey/static/media/Compass_1Layer.cef15d68ac4d1c4555b54a2cbe701648.svg",
+    "static/media/pin.svg": "/Tidey/static/media/pin.8c88119e47ec706e72e4a85e4713a389.svg",
+    "static/media/Questions.svg": "/Tidey/static/media/Questions.a43bc3e7e99e5ba3deaf5f66dc11b1c6.svg",
+    "static/media/Credits.svg": "/Tidey/static/media/Credits.d5f6c7ac17e011985e0f5fac90a68e2b.svg",
+    "static/media/zoomOut.svg": "/Tidey/static/media/zoomOut.f82162de17207bbfb833.svg",
+    "static/media/zoomIn.svg": "/Tidey/static/media/zoomIn.9503f7c3b4d476ea4575.svg",
+    "index.html": "/Tidey/index.html",
+    "static/media/Compass_TopLayer.svg": "/Tidey/static/media/Compass_TopLayer.81f84485704e6423fb05a5d930f89b27.svg",
+    "main.603f67de.css.map": "/Tidey/static/css/main.603f67de.css.map",
+    "main.09928462.js.map": "/Tidey/static/js/main.09928462.js.map",
+    "787.5539bc7f.chunk.js.map": "/Tidey/static/js/787.5539bc7f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.603f67de.css",
+    "static/js/main.09928462.js"
+  ]
+}
