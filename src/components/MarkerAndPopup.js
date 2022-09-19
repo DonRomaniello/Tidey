@@ -67,10 +67,8 @@ const MarkerAndPopup = (props) => {
            />
             :
           <div className='loading'
-          style={{width: harmonics.canvasSize[1], height: harmonics.canvasSize[0]}}
-          >
-            loading...
-            </div>}
+          style={{width: harmonics.canvasSize[1], height: harmonics.canvasSize[0]}} />
+          }
       </Popup>
     </Marker>
     </>
