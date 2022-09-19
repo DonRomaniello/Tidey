@@ -16,12 +16,16 @@
 
 #info{
   position: absolute;
-
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
   border-radius: 50px;
+  background-color: rgba(255, 255, 255);
+}
+
+#info:hover {
+  background-color: rgb(calc((255 + 122) / 2), calc((255 + 125) / 2), calc((255 + 125) / 2))
 }
 
 @media (min-width: 959px ){
