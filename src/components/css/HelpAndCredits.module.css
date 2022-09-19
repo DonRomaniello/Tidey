@@ -1,70 +1,88 @@
 :root {
   --base-z: 1000;
-  /* transform-origin: 50%, 50%;
-  transition: all 1s; */
   color: rgb(70, 70, 85);
   text-align: center;
+  font-size: 16px;
 }
-
-
 
 .helpContainer {
   position: fixed;
   justify-content: center;
   overflow: hidden;
   z-index: calc(var(--base-z) + 1);
-  top: 10vh;
-  left: calc((100vw - 400px) / 2);
-  width: 400px;
-  height: 80vh;
   background-color: rgb(255, 255, 255, .8);
   backdrop-filter: blur(10px);
-  border-radius: 70px;
   border: 2px solid rgb(122, 125, 125);
   transition: all 1s ease-out;
 }
 
+@media (min-width: 959px ){
+  .helpContainer {
+    top: 10vh;
+    left: calc((100vw - 400px) / 2);
+    width: 400px;
+    height: 80vh;
+    border-radius: 70px;
+  }
+  h1 {
+    font-size: 3em;
+  }
+  p {
+    font-size: 1.4em;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-top: 1em;
+  }
+}
+
+@media (max-width: 959px ){
+  .helpContainer {
+    top: 5vh;
+    left: 10vw;
+    right: 10vw;
+    width: 80vw;
+    height: 80vh;
+    border-radius: 30px;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  p {
+    font-size: 1.2em;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 1em;
+  }
+}
+
+#helpContent {
+  margin-right: -5%;
+  margin-left: -5%;
+}
+
 .helpContainerOpening {
-  /* opacity: 1; */
   animation: 1s 1 forwards enterAnimation;
 }
 
 .helpContainerClosing {
-  /* opacity: 0; */
   animation: 1s 1 forwards exitAnimation;
-  /* animation: 0s linear 1s forwards running oneSecond; */
 }
 
 #helpContent {
   height: 100%;
   width: 110%;
-  margin-right: -5%;
-  margin-left: -5%;
   overflow-y: auto;
-}
-
-
-h1 {
-  font-size: 3em;
 }
 
 a {
   text-decoration: none;
 }
-
 a:link {
  color: rgb(22, 105, 122);
 }
 
 a:visited {
   color: rgb(110, 184, 173);
-}
-
-p {
-  font-size: 1.4em;
-  margin-left: 3vw;
-  margin-right: 3vw;
-  margin-top: 1vh;
 }
 
 .red {
