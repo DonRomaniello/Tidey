@@ -1,22 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
-
-import { wideToggle } from "../store/features/harmonics.js";
+import { useSelector } from "react-redux";
 
 import {colorRange} from './css/Epicycles.module.js'
 
-export const Epicycles = (props) => {
+export const Epicycles = () => {
 
-  const {platform, canvasSize} = props
-
-  const { harmonics, shownNumber } = useSelector((state) => state.harmonics)
-  const axesStrokeColor = 'rgba(128, 128, 128, 1)'
+  const { harmonics, shownNumber, canvasSize } = useSelector((state) => state.harmonics)
   const beadColor = 'rgba(219, 80, 74, 1)'
   const frameDuration = 16;
   const fadeTime = 1; // in secomds
   const scaleIncrement = 1 / (fadeTime * frameDuration);
-  const canvasIncrement = (platform === 'desktop') ? 30 : 10
   const speed = 0.0004
   const beadSize = 2
   const waveRoughness = 10
@@ -25,8 +19,6 @@ export const Epicycles = (props) => {
   const [frame, setFrame] = useState(0);
 
   const [timeSeries, setTimeSeries] = useState([])
-
-  const [currentCanvasSize, setCurrentCanvasSize] = useState(canvasSize)
 
   const canvasEl = useRef(null)
 
@@ -42,31 +34,31 @@ export const Epicycles = (props) => {
   const [currentScale, setCurrentScale] = useState(scale)
 
 
-  const calcUnit = (_currentCanvasSize, _currentScale) => {
-    let u = (((_currentCanvasSize[0] / 2) - 2) / _currentScale)
+  const calcUnit = (_canvasSize, _currentScale) => {
+    let u = (((_canvasSize[0] / 2) - 2) / _currentScale)
     return u}
-  const unit = useMemo(() => calcUnit(currentCanvasSize, currentScale), [currentCanvasSize, currentScale])
+  const unit = useMemo(() => calcUnit(canvasSize, currentScale), [canvasSize, currentScale])
 
-  const calcXAxis = (_currentCanvasSize) => {
-    let x = Math.floor(_currentCanvasSize[0]/2)
+  const calcXAxis = (_canvasSize) => {
+    let x = Math.floor(_canvasSize[0]/2)
     return x}
-  const xAxis = useMemo(() => calcXAxis(currentCanvasSize), [currentCanvasSize])
+  const xAxis = useMemo(() => calcXAxis(canvasSize), [canvasSize])
 
-  const calcYAxis = (_currentCanvasSize) => {
-    let y = Math.floor(_currentCanvasSize[1]/(2 * (_currentCanvasSize[1]/_currentCanvasSize[0])))
+  const calcYAxis = (_canvasSize) => {
+    let y = Math.floor(_canvasSize[1]/(2 * (_canvasSize[1]/_canvasSize[0])))
     return y}
-  const yAxis = useMemo(() => calcYAxis(currentCanvasSize), [currentCanvasSize])
+  const yAxis = useMemo(() => calcYAxis(canvasSize), [canvasSize])
 
-  const calcTimeSeriesSteps = (_currentCanvasSize, _waveRoughness, _waveScaling, _yAxis) => {
-    let steps = Math.floor((_currentCanvasSize[1] - _yAxis) / (_waveRoughness * _waveScaling)) + 50
+  const calcTimeSeriesSteps = (_canvasSize, _waveRoughness, _waveScaling, _yAxis) => {
+    let steps = Math.floor((_canvasSize[1] - _yAxis) / (_waveRoughness * _waveScaling)) + 50
     return steps
   }
-  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(currentCanvasSize, waveRoughness, waveScaling, yAxis), [currentCanvasSize, waveRoughness, waveScaling, yAxis])
+  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness, waveScaling, yAxis), [canvasSize, waveRoughness, waveScaling, yAxis])
 
-  const canvasSetup = useCallback((_currentCanvasSize) => {
+  const canvasSetup = useCallback((_canvasSize) => {
     const canvas = canvasEl.current
-    canvas.height = _currentCanvasSize[0]
-    canvas.width = _currentCanvasSize[1]
+    canvas.height = _canvasSize[0]
+    canvas.width = _canvasSize[1]
     const ctx = canvas.getContext("2d")
     ctx.lineWidth = 1;
     ctx.lineJoin = 'round';
@@ -151,7 +143,7 @@ export const Epicycles = (props) => {
       if (depth === shownNumber) {
         [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
         setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
-        drawTideChart(ctx, currentCanvasSize)
+        drawTideChart(ctx, canvasSize)
         drawArrow(ctx, _xCenter, _yCenter)
         drawBead(ctx, _xCenter, _yCenter)
         drawBead(ctx, yAxis, _yCenter)
@@ -163,32 +155,25 @@ export const Epicycles = (props) => {
         }
     }
 
-    const smoothScaling = (_currentScale, _scale, _currentCanvasSize, _canvasSize, _scaleIncrement, _canvasIncrement) => {
+    const smoothScaling = (_currentScale, _scale, _scaleIncrement) => {
       if (_currentScale !== _scale) {
         setCurrentScale(fadeStep(_currentScale, _scale, _scaleIncrement))
       }
-      if (_currentCanvasSize[1] !== _canvasSize[1]) {
-        let [height, width] = _currentCanvasSize
-        if (_currentCanvasSize[1] !== _canvasSize[1]) {
-          width = fadeStep(_currentCanvasSize[1], _canvasSize[1], _canvasIncrement)
-        }
-        setCurrentCanvasSize([height, width])
-    }
   }
 
     const draw = () => {
-        let [canvas, ctx] = canvasSetup(currentCanvasSize)
+        let [canvas, ctx] = canvasSetup(canvasSize)
         ctx.clearRect(0,0,canvas.width,canvas.height)
-        if ((currentScale != scale) || (currentCanvasSize[1] != canvasSize[1])){
+        if ((currentScale !== scale) || (canvasSize[1] !== canvasSize[1])){
           smoothScaling(currentScale, scale,
-             currentCanvasSize, canvasSize,
-              scaleIncrement, canvasIncrement)
+             canvasSize, canvasSize,
+              scaleIncrement)
         }
         runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
       }
       window.requestAnimationFrame(draw);
     return () => {};
-  }, [frame, canvasSize, currentCanvasSize, scale, currentScale, xAxis, yAxis, canvasSetup, scaleIncrement, canvasIncrement, constituents, drawArrow, drawEpicycle, drawTideChart, getPhasedXY, shownNumber, timeSeries, timeSeriesSteps, unit])
+  }, [frame, canvasSize, canvasSize, scale, currentScale, xAxis, yAxis, canvasSetup, scaleIncrement, constituents, drawArrow, drawEpicycle, drawTideChart, getPhasedXY, shownNumber, timeSeries, timeSeriesSteps, unit])
 
   useEffect(() => {
     const frameUpdate = setInterval(() => {

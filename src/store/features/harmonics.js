@@ -8,6 +8,7 @@ import axios from 'axios';
 const initialState = {
   harmonics: [],
   shownNumber: 4,
+  canvasSize: [200, 400],
   loading: false,
   loaded: false,
   error: '',
@@ -32,13 +33,16 @@ export const harmonicsSlice = createSlice({
         state.shownNumber += 1;
       }
     },
-    decrement: state => {
+    decrement: (state) => {
       if (state.shownNumber > 0){
         state.shownNumber -= 1
       }
     },
-    wideToggle: state => {
+    wideToggle: (state) => {
       state.wide = !state.wide;
+    },
+    setCanvasSize: (state, action) => {
+      state.canvasSize = action.payload
     }
   },
   extraReducers: builder => {
@@ -61,7 +65,7 @@ export const harmonicsSlice = createSlice({
   },
 })
 
-export const { increment, decrement, wideToggle } = harmonicsSlice.actions;
+export const { increment, decrement, wideToggle, setCanvasSize } = harmonicsSlice.actions;
 
 export default harmonicsSlice.reducer
 
