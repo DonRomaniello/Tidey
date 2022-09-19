@@ -171,7 +171,7 @@ export const Epicycles = () => {
       }
       window.requestAnimationFrame(draw);
     return () => {};
-  }, [frame, canvasSize, canvasSize, scale, currentScale, xAxis, yAxis, canvasSetup, scaleIncrement, constituents, drawArrow, drawEpicycle, drawTideChart, getPhasedXY, shownNumber, timeSeries, timeSeriesSteps, unit])
+  }, [frame, canvasSize, scale, currentScale, xAxis, yAxis, canvasSetup, scaleIncrement, constituents, drawArrow, drawEpicycle, drawTideChart, getPhasedXY, shownNumber, timeSeries, timeSeriesSteps, unit])
 
   useEffect(() => {
     const frameUpdate = setInterval(() => {
