@@ -8,7 +8,6 @@ import axios from 'axios';
 const initialState = {
   harmonics: [],
   shownNumber: 4,
-  wide: false,
   loading: false,
   loaded: false,
   error: '',
