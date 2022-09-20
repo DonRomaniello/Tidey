@@ -1,4 +1,4 @@
-###Tidey
+### Tidey
 
 [Tidey is live here.](https://donromaniello.github.io/Tidey/)
 
