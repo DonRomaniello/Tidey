@@ -10,7 +10,9 @@ The first step was to find tide information for various stations around the plan
 would require was a map layer with a completely transparent ocean on top of a CSS gradient background. Each gradient point would be a tide station, 
 and the intensity of blue would indicate the height of the tide. Chart that over time, and boom!
 
-Yeah, boom. Charting the stations on a map revealed a fundamental problem: the publicly available tide data is from stations where the tide bears 
+## Boom
+
+Charting the stations on a map revealed a fundamental problem: the publicly available tide data is from stations where the tide bears 
 on human activity. Not, for example, the open ocean, where the half meter of tide is on top of four kilometers of water.
 
 For most of the area of the ocean, there is no station data. The colors representing the depth of the water between, say, Ecuador and Indonesia, 
@@ -18,6 +20,8 @@ would be a smooth gradient the entire span of the Pacific. The pulse would be wa
 
 Perhaps I could generate the data points from first principles. I began researching how tide predictions are made. Before giving a rough explanation 
 of how the tides do work, first imagine a world where they work differently.
+
+## How Tides Do Not Work
 
 Imagine that the tide, perfectly correlated with the rotation of the Earth, rises and falls the same amount, at the same times, every day. Think of 
 the technologies that would be built around such a routine, regular, and reliable pulse of water. 
@@ -31,6 +35,8 @@ Freight shipping in estuaries and bays would be as simple as dropping anchor at 
 the rest of the time.
 
 When you realize that none of these practices or technologies exist, it becomes obvious that the tides do not work as simple, regular waves.
+
+## How Tides Work
 
 While gravity from our moon and sun do generate the underlying pulses of rising and falling water that produce the tides, those pulses are reflected,
 funneled, amplified, attenuated, and combined in dozens of ways.
@@ -50,6 +56,8 @@ meets a parameter of your choosing. For example, all stations where the harmonic
 At this point it looked pretty simple. Plot the stations, have an animation of interconnected circles stacked on top of each other attached to each
 station, and you’re good.
 
+## The Importance of Reading Before Writing
+
 I spent a few hours trying to learn how to write and animate SVGs in JavaScript before learning that SVG animation would soon be deprecated. 
 The next step was to try HTML5 Canvas, which is the approach implemented in the final version.
 
@@ -61,7 +69,7 @@ My first beta tester couldn’t make hide nor tails of it. Not having been steep
 they were truly and justifiably confused. I didn’t want to release a project that required me to stand there saying, ‘No, the level of the tide 
 is the red dot’s y axis value. That isn’t the moon.’
 
-I realized what was in order was the classic demonstration of a rotating circle generating a sine wave. Easy.
+I realized what was in order was the classic demonstration of a [rotating circle generating a sine wave.](https://jackschaedler.github.io/circles-sines-signals/sincos.html) Easy.
 
 Except, of course, the canvas logic included changing the actual origin of the canvas after drawing each circle. This meant that every subsequent
 position of where the center of the next circle was going to be was irrelevant to the global view.
