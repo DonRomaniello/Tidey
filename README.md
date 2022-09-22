@@ -15,7 +15,7 @@ and the intensity of blue would indicate the height of the tide. Chart that over
 Charting the stations on a map revealed a fundamental problem: the publicly available tide data is from stations where the tide bears 
 on human activity. Not, for example, the open ocean, where the half meter of tide is on top of four kilometers of water.
 
-For most of the area of the ocean, there is no station data. The colors representing the depth of the water between, say, Ecuador and Indonesia, 
+For most of the area of the ocean, there is no station data. The colors representing the depth of the water between, say, Ecuador and Indonesia 
 would be a smooth gradient the entire span of the Pacific. The pulse would be washed out.
 
 Perhaps I could generate the data points from first principles. I began researching how tide predictions are made. Before giving a rough explanation 
