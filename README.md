@@ -4,7 +4,7 @@
 
 My original goal with Tidey was simple: I wanted to watch the tide rise and fall as it traveled up the Hudson. Once I had decided to do that,
 it seemed like doing it for the entire planet would just be more of the same. In my mind there was a single pulse circling the globe like 
-the solar terminator.
+daybreak.
 
 The first step was to find tide information for various stations around the planet. This was straightforward. At this point I assumed all the project 
 would require was a map layer with a completely transparent ocean on top of a CSS gradient background. Each gradient point would be a tide station, 
