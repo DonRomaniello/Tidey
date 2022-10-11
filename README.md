@@ -46,7 +46,7 @@ than if you drop it in the center.
 
 If instead of being a cylinder, the walls of the bucket instead resembled the world’s coastlines, the patterns would become very complicated indeed.
 
-Thankfully, determining when all those reflections are going to reach a specific point doesn’t require modeling the world’s oceans. At least a year 
+Thankfully, determining when all those reflections are going to reach a specific point doesn’t require modeling the world’s oceans. At least a month 
 of observations from a single station, coupled with the mathematical techniques of Fourier Analysis will produce all the information you need 
 to visualize the tides.
 
