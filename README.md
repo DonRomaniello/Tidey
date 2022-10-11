@@ -61,7 +61,7 @@ station, and you’re good.
 I spent a few hours trying to learn how to write and animate SVGs in JavaScript before learning that SVG animation would soon be deprecated. 
 The next step was to try HTML5 Canvas, which is the approach implemented in the final version.
 
-As luck would have it, the MDN HTML5 Canvas examples include a small planet-moon system. An orrery or sorts, which is what I needed to build. 
+As luck would have it, the MDN HTML5 Canvas examples include a small planet-moon system. An orrery of sorts, which is what I needed to build. 
 Keeping the rotation logic but stripping out the images and replacing them with simple rings, I soon had a working demonstration of the
 harmonic constituents that compose the tides.
 
