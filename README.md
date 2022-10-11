@@ -65,7 +65,7 @@ As luck would have it, the MDN HTML5 Canvas examples include a small planet-moon
 Keeping the rotation logic but stripping out the images and replacing them with simple rings, I soon had a working demonstration of the
 harmonic constituents that compose the tides.
 
-My first beta tester couldn’t make hide nor tails of it. Not having been steeped in the sweet mysteries that taught me the music of the spheres,
+My first beta tester couldn’t make hide nor tail of it. Not having been steeped in the sweet mysteries that taught me the music of the spheres,
 they were truly and justifiably confused. I didn’t want to release a project that required me to stand there saying, ‘No, the level of the tide 
 is the red dot’s y axis value. That isn’t the moon.’
 
