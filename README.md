@@ -44,7 +44,7 @@ funneled, amplified, attenuated, and combined in dozens of ways.
 To take a simple example, imagine dropping a small stone into a bucket of water. If you drop it near the edge, the pattern of waves will be different
 than if you drop it in the center. 
 
-If instead of being a cylinder, the walls of the bucket instead resembled the world’s coastlines, the patterns would become very complicated indeed.
+If instead of being a cylinder, the walls of the bucket resembled the world’s coastlines, the patterns would become very complicated indeed.
 
 Thankfully, determining when all those reflections are going to reach a specific point doesn’t require modeling the world’s oceans. At least a month 
 of observations from a single station, coupled with the mathematical techniques of Fourier Analysis will produce all the information you need 
