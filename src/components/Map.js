@@ -69,7 +69,7 @@ const Map = () => {
     style={{...styling[current], ...styling.common}}
     >
       <TileLayer
-        url="https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
+        url="https://watercolormaps.collection.cooperhewitt.org/tile/watercolor/{z}/{x}/{y}.jpg"
       />
       <ZoomControl
       position='topleft'
