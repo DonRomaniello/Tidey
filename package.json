@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.27.2",
+    "axios": "^1.7.0",
     "fast-csv": "^4.3.6",
     "leaflet": "^1.8.0",
     "leaflet-providers": "^1.13.0",
@@ -35,6 +35,11 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios|react-leaflet|@react-leaflet|leaflet|tiny-use-media-esm)/)"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -48,6 +53,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^6.3.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

@@ -1,10 +1,10 @@
-import React, {useEffect, useMemo, useState} from "react"
+import React, {useMemo, useState} from "react"
 
 import { useSelector } from "react-redux"
 
 import MarkerAndPopup from "./MarkerAndPopup";
 
-import { useMap, useMapEvent, useMapEvents } from 'react-leaflet';
+import { useMap, useMapEvents } from 'react-leaflet';
 
 export const Stations = () => {
 

@@ -2,6 +2,23 @@
 
 [Tidey is live here.](https://donromaniello.github.io/Tidey/)
 
+## Development Setup
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Copy `.env.example` to `.env` and add your NOAA API token
+4. Start development server: `npm start`
+5. Build for production: `npm run build`
+6. Run tests: `npm test`
+
+## Environment Variables
+
+- `noaaToken`: Your NOAA API token for fetching tide data
+- `DEBUG`: Enable debug mode (true/false)
+- `DEBUGLEVEL`: Debug level (1-5)
+
+## About the Project
+
 My original goal with Tidey was simple: I wanted to watch the tide rise and fall as it traveled up the Hudson. Once I had decided to do that,
 it seemed like doing it for the entire planet would just be more of the same. In my mind there was a single pulse circling the globe like 
 daybreak.
