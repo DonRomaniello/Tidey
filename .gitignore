@@ -25,6 +25,10 @@ yarn-error.log*
 # secrets
 .env
 
+# macOS system files
+.DS_Store
+**/.DS_Store
+
 # test data
 /resources/data.csv
 resources/epicycle/animatedBezier.js
