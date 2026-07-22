@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { useSelector } from "react-redux";
 
@@ -9,7 +9,7 @@ const beadSize = 2
 const timeRate = 0.000025 // animation time units per millisecond
 const timePerPixel = 0.0032 // animation time represented by one pixel of the tide chart
 const chartStep = 0.25 // tide chart sample spacing, in CSS pixels
-const scaleRate = 1 / 256 // scale units per millisecond when easing between totals
+const amplitudeRate = 1 / 256 // amplitude units per millisecond when easing constituents in or out
 
 export const Epicycles = () => {
 
@@ -18,20 +18,18 @@ export const Epicycles = () => {
   const canvasEl = useRef(null)
   const timeOriginRef = useRef(null)
   const lastTimestampRef = useRef(null)
-  // Eased copy of the total scale, kept in a ref so transitions survive re-renders
-  const currentScaleRef = useRef(null)
-
-  const constituents = useMemo(
-    () => harmonics.slice(0, shownNumber + 1),
-    [harmonics, shownNumber])
-
-  const scale = useMemo(
-    () => constituents.reduce((sum, c) => sum + c.amplitude, 0),
-    [constituents])
+  /*
+  Each constituent's on-screen amplitude eases toward its target (its real
+  amplitude when shown, zero when hidden) at amplitudeRate. The overall
+  scale is the sum of these eased amplitudes, so the circles, the tide
+  line, and the vertical zoom all transition together on the same clock.
+  Kept in a ref so transitions survive re-renders.
+  */
+  const shownAmplitudesRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasEl.current
-    if (!canvas || constituents.length === 0) { return }
+    if (!canvas || harmonics.length === 0) { return }
 
     const height = canvasSize[0]
     const width = canvasSize[1]
@@ -51,14 +49,26 @@ export const Epicycles = () => {
     const centerY = height / 2
     const chartStartX = height / 2
 
-    const phased = constituents.map((constituent) => ({
-      amplitude: constituent.amplitude,
+    const phased = harmonics.map((constituent, idx) => ({
+      key: constituent.name || String(idx),
+      target: idx <= shownNumber ? constituent.amplitude : 0,
       speed: constituent.speed,
       phase: constituent.phase_GMT * (Math.PI / 180),
     }))
 
-    const getSteppedColor = (depth) => {
-      let degreeB = depth / phased.length
+    // On the first frame after a popup opens, start at the targets outright.
+    if (shownAmplitudesRef.current === null) {
+      shownAmplitudesRef.current = new Map(phased.map((c) => [c.key, c.target]))
+    }
+
+    const stepToward = (current, target, increment) => {
+      if (current < target) { return Math.min(current + increment, target) }
+      if (current > target) { return Math.max(current - increment, target) }
+      return current
+    }
+
+    const getSteppedColor = (depth, count) => {
+      let degreeB = depth / count
       let degreeA = 1 - degreeB
       let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
       let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
@@ -69,22 +79,22 @@ export const Epicycles = () => {
     // The tide height is just the sum of every constituent's vertical
     // component, so the whole chart can be recomputed each frame instead of
     // accumulating samples; the line stays smooth when constituents change.
-    const tideY = (time, unit) => {
+    const tideY = (active, time, unit) => {
       let y = centerY
-      phased.forEach((constituent) => {
+      active.forEach((constituent) => {
         y += (constituent.amplitude * unit) *
           Math.cos((time + constituent.phase) * constituent.speed)
       })
       return y
     }
 
-    const drawEpicycles = (ctx, time, unit) => {
+    const drawEpicycles = (ctx, active, time, unit) => {
       let xCenter = chartStartX
       let yCenter = centerY
-      phased.forEach((constituent, depth) => {
+      active.forEach((constituent, depth) => {
         const radius = constituent.amplitude * unit
         if (radius > 0) {
-          const baseColor = getSteppedColor(depth)
+          const baseColor = getSteppedColor(depth, active.length)
           ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
           ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
           ctx.beginPath()
@@ -99,13 +109,13 @@ export const Epicycles = () => {
       return [xCenter, yCenter]
     }
 
-    const drawTideChart = (ctx, time, unit) => {
+    const drawTideChart = (ctx, active, time, unit) => {
       ctx.strokeStyle = `rgba(${colorRange.end.r}, ${colorRange.end.g}, ${colorRange.end.b}, 1)`
       ctx.lineWidth = 2
       ctx.beginPath()
-      ctx.moveTo(chartStartX, tideY(time, unit))
+      ctx.moveTo(chartStartX, tideY(active, time, unit))
       for (let x = chartStartX + chartStep; x <= width; x += chartStep) {
-        ctx.lineTo(x, tideY(time - ((x - chartStartX) * timePerPixel), unit))
+        ctx.lineTo(x, tideY(active, time - ((x - chartStartX) * timePerPixel), unit))
       }
       ctx.stroke()
       ctx.lineWidth = 1
@@ -140,30 +150,37 @@ export const Epicycles = () => {
       const delta = Math.min(timestamp - lastTimestamp, 100)
       lastTimestampRef.current = timestamp
 
-      if (currentScaleRef.current === null) {
-        currentScaleRef.current = scale
-      } else if (currentScaleRef.current < scale) {
-        currentScaleRef.current = Math.min(currentScaleRef.current + (scaleRate * delta), scale)
-      } else if (currentScaleRef.current > scale) {
-        currentScaleRef.current = Math.max(currentScaleRef.current - (scaleRate * delta), scale)
-      }
+      const shownAmplitudes = shownAmplitudesRef.current
+      const active = []
+      phased.forEach((constituent) => {
+        const eased = stepToward(shownAmplitudes.get(constituent.key) ?? 0,
+          constituent.target, amplitudeRate * delta)
+        shownAmplitudes.set(constituent.key, eased)
+        if (eased > 0) {
+          active.push({ ...constituent, amplitude: eased })
+        }
+      })
 
-      const unit = ((height / 2) - 2) / currentScaleRef.current
+      const scale = active.reduce((sum, c) => sum + c.amplitude, 0)
       const time = (timestamp - timeOriginRef.current) * timeRate
 
       ctx.clearRect(0, 0, width, height)
-      const [xCenter, yCenter] = drawEpicycles(ctx, time, unit)
-      drawTideChart(ctx, time, unit)
-      drawArrow(ctx, xCenter, yCenter)
-      drawBead(ctx, xCenter, yCenter)
-      drawBead(ctx, chartStartX, yCenter)
+
+      if (scale > 0) {
+        const unit = ((height / 2) - 2) / scale
+        const [xCenter, yCenter] = drawEpicycles(ctx, active, time, unit)
+        drawTideChart(ctx, active, time, unit)
+        drawArrow(ctx, xCenter, yCenter)
+        drawBead(ctx, xCenter, yCenter)
+        drawBead(ctx, chartStartX, yCenter)
+      }
 
       rafId = window.requestAnimationFrame(draw)
     }
 
     rafId = window.requestAnimationFrame(draw)
     return () => window.cancelAnimationFrame(rafId)
-  }, [constituents, scale, canvasSize])
+  }, [harmonics, shownNumber, canvasSize])
 
   return (
     <div>
