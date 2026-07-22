@@ -82,4 +82,15 @@ Also, every one of these calculations includes multiplying by the current frame.
 
 With that, all that was left was the aesthetics.
 
+## Worldwide Stations
+
+United States stations come from the [NOAA CO-OPS API](https://tidesandcurrents.noaa.gov/), fetched live.
+Stations for the rest of the world come from the [TICON-4 dataset](https://www.seanoe.org/data/00980/109129/)
+of harmonic constituents, republished as per-station JSON files by the
+[Neaps tide database](https://github.com/neaps/tide-database) (CC BY-NC 4.0) and served from the jsDelivr CDN.
+
+A compact index of the worldwide stations lives at `public/data/worldStations.json`; regenerate it with
+`npm run build-world-stations`. Constituent speeds (which TICON-4 does not include, being universal
+constants) are looked up by name in `src/constituentSpeeds.json`.
+
 Enjoy

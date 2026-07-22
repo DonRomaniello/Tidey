@@ -8,7 +8,7 @@ import Map from './components/Map';
 
 import CompassRose from './components/CompassRose';
 
-import { fetchStations } from './store/features/stations';
+import { fetchStations, fetchWorldStations } from './store/features/stations';
 
 import { initiateHelpClose } from './store/features/help';
 
@@ -22,6 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchStations())
+    dispatch(fetchWorldStations())
   }, [dispatch])
 
   return (

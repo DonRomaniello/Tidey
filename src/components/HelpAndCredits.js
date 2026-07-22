@@ -62,7 +62,8 @@ export const HelpAndCredits = () => {
       <p>The Compass Rose is a simplified and recolored version of <a href="https://commons.wikimedia.org/wiki/File:WInd_Rose_Aguiar.png" target="_blank" rel="noreferrer">this source</a>, converted to SVG by <a href="https://commons.wikimedia.org/wiki/User:Alvesgaspar" target="_blank" rel="noreferrer">Alvesgaspar</a> and released under a <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer">CC BY-SA 3.0</a> license via Wikimedia Commons.</p>
       <p>The harmonic constituent method of calculating the tides was independently determined by <a href="http://www.ccpo.odu.edu/~klinck/Reprints/PDF/foremanAvWR1989.pdf" target="_blank" rel="noreferrer">William Ferrel and Lord Kelvin.</a></p>
       <p>Tide station data, in the form of harmonic constituents, is provided by relevant agencies in various states with funding from taxpayers.</p>
-      <p>All station data used in this project is the public domain.</p>
+      <p>United States station data comes from <a href="https://tidesandcurrents.noaa.gov/" target="_blank" rel="noreferrer">NOAA</a> and is in the public domain.</p>
+      <p>Worldwide station data comes from the <a href="https://www.seanoe.org/data/00980/109129/" target="_blank" rel="noreferrer">TICON-4 dataset</a>, republished by the <a href="https://github.com/neaps/tide-database" target="_blank" rel="noreferrer">Neaps tide database</a> under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noreferrer">CC BY-NC 4.0</a> license.</p>
       <p>For useable tide predictions, observations, and more information, try <a href="https://tidesandcurrents.noaa.gov/map/index.html?type=TidePredictions" target="_blank" rel="noreferrer">this NOAA resource.</a></p>
       </div>
       <div id={styles.more}

@@ -5,6 +5,26 @@ import {
 
 import axios from 'axios';
 
+import constituentSpeeds from '../../constituentSpeeds.json'
+
+/*
+NOAA returns {HarmonicConstituents: [{amplitude, phase_GMT, speed}]}.
+TICON-4 stations (via the Neaps tide database) return
+{harmonic_constituents: [{name, amplitude, phase}]} — no speed, but
+constituent speeds are universal constants, so they are looked up by name.
+*/
+const normalizeConstituents = (data) => {
+  const constituents = data.HarmonicConstituents ||
+    (data.harmonic_constituents || []).map((constituent) => ({
+      ...constituent,
+      phase_GMT: constituent.phase,
+      speed: constituentSpeeds[constituent.name.toUpperCase()],
+    }))
+  return constituents
+    .filter((constituent) => (constituent.amplitude > 0) && (constituent.speed > 0))
+    .sort((a, b) => b.amplitude - a.amplitude)
+}
+
 const initialState = {
   harmonics: [],
   shownNumber: 4,
@@ -52,7 +72,7 @@ export const harmonicsSlice = createSlice({
     })
     builder.addCase(fetchHarmonics.fulfilled, (state, action) => {
       state.loading = false
-      state.harmonics = action.payload.HarmonicConstituents.sort((a, b) => b.amplitude - a.amplitude)
+      state.harmonics = normalizeConstituents(action.payload)
       state.loaded = true
       state.error = ''
     })
