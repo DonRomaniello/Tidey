@@ -1,184 +1,169 @@
-import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 import { useSelector } from "react-redux";
 
 import {colorRange} from './css/Epicycles.module.js'
 
+const beadColor = 'rgba(219, 80, 74, 1)'
+const beadSize = 2
+const timeRate = 0.000025 // animation time units per millisecond
+const timePerPixel = 0.0032 // animation time represented by one pixel of the tide chart
+const chartStep = 0.25 // tide chart sample spacing, in CSS pixels
+const scaleRate = 1 / 256 // scale units per millisecond when easing between totals
+
 export const Epicycles = () => {
 
   const { harmonics, shownNumber, canvasSize } = useSelector((state) => state.harmonics)
-  const beadColor = 'rgba(219, 80, 74, 1)'
-  const frameDuration = 16;
-  const fadeTime = 1; // in secomds
-  const scaleIncrement = 1 / (fadeTime * frameDuration);
-  const speed = 0.0004
-  const beadSize = 2
-  const waveRoughness = 10
-  const waveScaling = .0125
-
-  const [frame, setFrame] = useState(0);
-
-  const [timeSeries, setTimeSeries] = useState([])
 
   const canvasEl = useRef(null)
+  const timeOriginRef = useRef(null)
+  const lastTimestampRef = useRef(null)
+  // Eased copy of the total scale, kept in a ref so transitions survive re-renders
+  const currentScaleRef = useRef(null)
 
-  const produceConstituentArray = (_harmonics, _shownNumber) => {
-    let hc = [..._harmonics]
-    return hc.slice(0, _shownNumber + 1)}
-  const constituents = useMemo(() => produceConstituentArray(harmonics, shownNumber), [harmonics, shownNumber]);
+  const constituents = useMemo(
+    () => harmonics.slice(0, shownNumber + 1),
+    [harmonics, shownNumber])
 
-  const calcScale = (_constituents) => {
-    let s = _constituents.map((a) => a.amplitude).reduce((a, b) => a + b)
-    return s}
-  const scale = useMemo(() => calcScale(constituents), [constituents])
-  const [currentScale, setCurrentScale] = useState(scale)
+  const scale = useMemo(
+    () => constituents.reduce((sum, c) => sum + c.amplitude, 0),
+    [constituents])
 
-
-  const calcUnit = (_canvasSize, _currentScale) => {
-    let u = (((_canvasSize[0] / 2) - 2) / _currentScale)
-    return u}
-  const unit = useMemo(() => calcUnit(canvasSize, currentScale), [canvasSize, currentScale])
-
-  const calcXAxis = (_canvasSize) => {
-    let x = Math.floor(_canvasSize[0]/2)
-    return x}
-  const xAxis = useMemo(() => calcXAxis(canvasSize), [canvasSize])
-
-  const calcYAxis = (_canvasSize) => {
-    let y = Math.floor(_canvasSize[1]/(2 * (_canvasSize[1]/_canvasSize[0])))
-    return y}
-  const yAxis = useMemo(() => calcYAxis(canvasSize), [canvasSize])
-
-  const calcTimeSeriesSteps = (_canvasSize, _waveRoughness, _waveScaling, _yAxis) => {
-    let steps = Math.floor((_canvasSize[1] - _yAxis) / (_waveRoughness * _waveScaling)) + 50
-    return steps
-  }
-  const timeSeriesSteps = useMemo(() => calcTimeSeriesSteps(canvasSize, waveRoughness, waveScaling, yAxis), [canvasSize, waveRoughness, waveScaling, yAxis])
-
-  const canvasSetup = useCallback((_canvasSize) => {
+  useEffect(() => {
     const canvas = canvasEl.current
-    canvas.height = _canvasSize[0]
-    canvas.width = _canvasSize[1]
+    if (!canvas || constituents.length === 0) { return }
+
+    const height = canvasSize[0]
+    const width = canvasSize[1]
+
+    // Size the backing store for the device's pixel density so lines stay
+    // sharp on high resolution displays, while CSS keeps the layout size.
+    const dpr = window.devicePixelRatio || 1
+    canvas.width = Math.round(width * dpr)
+    canvas.height = Math.round(height * dpr)
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
+
     const ctx = canvas.getContext("2d")
-    ctx.lineWidth = 1;
-    ctx.lineJoin = 'round';
-    return [canvas, ctx]
-  }, [canvasEl])
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.lineJoin = 'round'
 
-  const getSteppedColor = useCallback((depth) => {
-    let degreeB = depth / (shownNumber + 1)
-    let degreeA = 1 - degreeB
-    let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
-    let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
-    let b = (colorRange.start.b * degreeA) + (colorRange.end.b * degreeB)
-    return { r, g, b }
-  },[shownNumber] )
+    const centerY = height / 2
+    const chartStartX = height / 2
 
-  const getRadians = (angle) => {
-    return (angle * (Math.PI / 180))
-  }
+    const phased = constituents.map((constituent) => ({
+      amplitude: constituent.amplitude,
+      speed: constituent.speed,
+      phase: constituent.phase_GMT * (Math.PI / 180),
+    }))
 
-  const drawEpicycle = useCallback((xCenter, yCenter, radius, ctx, depth) => {
-    let baseColor = getSteppedColor(depth)
-    ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
-    ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
-    ctx.beginPath()
-    ctx.arc(xCenter, yCenter, radius, 0, 2 * Math.PI, false);
-    ctx.fill();
-    ctx.stroke();
-  }, [getSteppedColor])
+    const getSteppedColor = (depth) => {
+      let degreeB = depth / phased.length
+      let degreeA = 1 - degreeB
+      let r = (colorRange.start.r * degreeA) + (colorRange.end.r * degreeB)
+      let g = (colorRange.start.g * degreeA) + (colorRange.end.g * degreeB)
+      let b = (colorRange.start.b * degreeA) + (colorRange.end.b * degreeB)
+      return { r, g, b }
+    }
 
-  const drawBead = (ctx, xCenter, yCenter) => {
-    ctx.beginPath()
-    ctx.strokeStyle = beadColor;
-    ctx.fillStyle = beadColor;
-    ctx.arc(xCenter, yCenter, beadSize, 0, 2 * Math.PI, false);
-    ctx.fill();
-  }
-
-  const drawArrow = useCallback((ctx, _xCenter, _yCenter) => {
-    ctx.lineWidth = 2;
-    ctx.beginPath()
-    ctx.setLineDash([2, 4]);
-    ctx.moveTo(yAxis, _yCenter)
-    ctx.lineTo(_xCenter, _yCenter)
-    ctx.stroke()
-  }, [yAxis])
-
-    const getPhasedXY = useCallback((_xCenter, _yCenter, time, radius, constituent) => {
-      const { phase_GMT, speed } = constituent
-      let phase = phase_GMT
-      let phaseX = _xCenter + (radius * Math.sin(((time + getRadians(phase)) * speed)))
-      let phaseY = _yCenter + (radius * Math.cos(((time + getRadians(phase)) * speed)))
-      return [phaseX, phaseY]
-    }, [])
-
-    const drawTideChart = useCallback((ctx) => {
-      ctx.strokeStyle = `rgba(${colorRange.end.r}, ${colorRange.end.g}, ${colorRange.end.b}, 1)`
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(yAxis, timeSeries[0]);
-      timeSeries.forEach((_yCoordinate, idx) => {
-        if (idx % waveRoughness){
-          ctx.lineTo((yAxis + ((idx * (waveRoughness * waveScaling)))), _yCoordinate);
-        }
+    // The tide height is just the sum of every constituent's vertical
+    // component, so the whole chart can be recomputed each frame instead of
+    // accumulating samples; the line stays smooth when constituents change.
+    const tideY = (time, unit) => {
+      let y = centerY
+      phased.forEach((constituent) => {
+        y += (constituent.amplitude * unit) *
+          Math.cos((time + constituent.phase) * constituent.speed)
       })
-      ctx.stroke();
-      ctx.lineWidth = 1;
-    }, [yAxis, timeSeries, waveRoughness, waveScaling])
-
-
-  const fadeStep = (current, target, increment) => {
-    if (current < target) {
-      return Math.min(current + increment, target)
-    } else if (current > target){
-      return Math.max(current - increment, target)
-    }
-  }
-
-  useEffect(() => {
-    const runThroughConstituents = (ctx, _xCenter, _yCenter, time, depth) => {
-      const radius = constituents[depth].amplitude * unit
-      drawEpicycle(_xCenter, _yCenter, radius, ctx, depth)
-      if ((depth === shownNumber) || (constituents[depth].amplitude === 0)) {
-        [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
-        setTimeSeries([_yCenter, ...timeSeries].slice(0, timeSeriesSteps + 1))
-        drawTideChart(ctx, canvasSize)
-        drawArrow(ctx, _xCenter, _yCenter)
-        drawBead(ctx, _xCenter, _yCenter)
-        drawBead(ctx, yAxis, _yCenter)
-        return
-      } else {
-          [_xCenter, _yCenter] = getPhasedXY(_xCenter, _yCenter, time, radius, constituents[depth])
-          depth++
-          runThroughConstituents(ctx, _xCenter, _yCenter, time, depth)
-        }
+      return y
     }
 
-    const smoothScaling = (_currentScale, _scale, _scaleIncrement) => {
-      if (_currentScale !== _scale) {
-        setCurrentScale(fadeStep(_currentScale, _scale, _scaleIncrement))
-      }
-  }
-
-    const draw = () => {
-        let [canvas, ctx] = canvasSetup(canvasSize)
-        ctx.clearRect(0,0,canvas.width,canvas.height)
-        if ((currentScale !== scale)){
-          smoothScaling(currentScale, scale,scaleIncrement)
+    const drawEpicycles = (ctx, time, unit) => {
+      let xCenter = chartStartX
+      let yCenter = centerY
+      phased.forEach((constituent, depth) => {
+        const radius = constituent.amplitude * unit
+        if (radius > 0) {
+          const baseColor = getSteppedColor(depth)
+          ctx.strokeStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 1)`
+          ctx.fillStyle = `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, .2)`
+          ctx.beginPath()
+          ctx.arc(xCenter, yCenter, radius, 0, 2 * Math.PI, false)
+          ctx.fill()
+          ctx.stroke()
         }
-        runThroughConstituents(ctx, yAxis, xAxis, frame * speed, 0)
-      }
-      window.requestAnimationFrame(draw);
-    return () => {};
-  }, [frame, canvasSize, scale, currentScale, xAxis, yAxis, canvasSetup, scaleIncrement, constituents, drawArrow, drawEpicycle, drawTideChart, getPhasedXY, shownNumber, timeSeries, timeSeriesSteps, unit])
+        const angle = (time + constituent.phase) * constituent.speed
+        xCenter += radius * Math.sin(angle)
+        yCenter += radius * Math.cos(angle)
+      })
+      return [xCenter, yCenter]
+    }
 
-  useEffect(() => {
-    const frameUpdate = setInterval(() => {
-          setFrame(frame + 1)
-    }, frameDuration);
-    return () => clearInterval(frameUpdate)
-  }, [frame])
+    const drawTideChart = (ctx, time, unit) => {
+      ctx.strokeStyle = `rgba(${colorRange.end.r}, ${colorRange.end.g}, ${colorRange.end.b}, 1)`
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      ctx.moveTo(chartStartX, tideY(time, unit))
+      for (let x = chartStartX + chartStep; x <= width; x += chartStep) {
+        ctx.lineTo(x, tideY(time - ((x - chartStartX) * timePerPixel), unit))
+      }
+      ctx.stroke()
+      ctx.lineWidth = 1
+    }
+
+    const drawArrow = (ctx, xCenter, yCenter) => {
+      ctx.lineWidth = 2
+      ctx.setLineDash([2, 4])
+      ctx.beginPath()
+      ctx.moveTo(chartStartX, yCenter)
+      ctx.lineTo(xCenter, yCenter)
+      ctx.stroke()
+      ctx.setLineDash([])
+      ctx.lineWidth = 1
+    }
+
+    const drawBead = (ctx, xCenter, yCenter) => {
+      ctx.beginPath()
+      ctx.strokeStyle = beadColor
+      ctx.fillStyle = beadColor
+      ctx.arc(xCenter, yCenter, beadSize, 0, 2 * Math.PI, false)
+      ctx.fill()
+    }
+
+    let rafId
+
+    const draw = (timestamp) => {
+      if (timeOriginRef.current === null) {
+        timeOriginRef.current = timestamp
+      }
+      const lastTimestamp = lastTimestampRef.current ?? timestamp
+      const delta = Math.min(timestamp - lastTimestamp, 100)
+      lastTimestampRef.current = timestamp
+
+      if (currentScaleRef.current === null) {
+        currentScaleRef.current = scale
+      } else if (currentScaleRef.current < scale) {
+        currentScaleRef.current = Math.min(currentScaleRef.current + (scaleRate * delta), scale)
+      } else if (currentScaleRef.current > scale) {
+        currentScaleRef.current = Math.max(currentScaleRef.current - (scaleRate * delta), scale)
+      }
+
+      const unit = ((height / 2) - 2) / currentScaleRef.current
+      const time = (timestamp - timeOriginRef.current) * timeRate
+
+      ctx.clearRect(0, 0, width, height)
+      const [xCenter, yCenter] = drawEpicycles(ctx, time, unit)
+      drawTideChart(ctx, time, unit)
+      drawArrow(ctx, xCenter, yCenter)
+      drawBead(ctx, xCenter, yCenter)
+      drawBead(ctx, chartStartX, yCenter)
+
+      rafId = window.requestAnimationFrame(draw)
+    }
+
+    rafId = window.requestAnimationFrame(draw)
+    return () => window.cancelAnimationFrame(rafId)
+  }, [constituents, scale, canvasSize])
 
   return (
     <div>

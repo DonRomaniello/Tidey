@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { setCanvasSize } from '../store/features/harmonics';
 import {
@@ -26,8 +26,6 @@ const Map = () => {
   const position = [41.640078, -124.453125]
 
   const bounds = L.latLngBounds(L.latLng(90, -7200), L.latLng(-90, 7200));
-
-  const { canvasSize } =  useSelector((state) => state.harmonics)
 
   const dispatch = useDispatch()
 

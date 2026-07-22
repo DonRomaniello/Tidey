@@ -55,15 +55,15 @@ export const HelpAndCredits = () => {
       <p>Tidey is a greatly simplified representation of the actual calculations required to predict the tides.</p>
       <p>Do not try to use Tidey to make any sort of predictions or plans.</p>
       <h2>Credits</h2>
-      <p>Tidey is the work of <a href="https://www.linkedin.com/in/don-romaniello" target="_blank">Don Romaniello.</a></p>
-      <p>The code for Tidey <a href="https://github.com/DonRomaniello/Tidey" target="_blank">can be found here.</a></p>
-      <p>The underlying map data comes from <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>, used according to a <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_blank">CC BY SA</a> license.</p>
-      <p> The watercolor rendition of the map is by  <a href="http://stamen.com" target="_blank">Stamen Design</a>, released under a <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a> license.</p>
-      <p>The Compass Rose is a simplified and recolored version of <a href="https://commons.wikimedia.org/wiki/File:WInd_Rose_Aguiar.png" target="_blank">this source</a>, converted to SVG by <a href="https://commons.wikimedia.org/wiki/User:Alvesgaspar" target="_blank">Alvesgaspar</a> and released under a <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC BY-SA 3.0</a> license via Wikimedia Commons.</p>
-      <p>The harmonic constituent method of calculating the tides was independently determined by <a href="http://www.ccpo.odu.edu/~klinck/Reprints/PDF/foremanAvWR1989.pdf" target="_blank">William Ferrel and Lord Kelvin.</a></p>
+      <p>Tidey is the work of <a href="https://www.linkedin.com/in/don-romaniello" target="_blank" rel="noreferrer">Don Romaniello.</a></p>
+      <p>The code for Tidey <a href="https://github.com/DonRomaniello/Tidey" target="_blank" rel="noreferrer">can be found here.</a></p>
+      <p>The underlying map data comes from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>, used according to a <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noreferrer">CC BY SA</a> license.</p>
+      <p> The watercolor rendition of the map is by  <a href="http://stamen.com" target="_blank" rel="noreferrer">Stamen Design</a>, released under a <a href="http://creativecommons.org/licenses/by/3.0" target="_blank" rel="noreferrer">CC BY 3.0</a> license.</p>
+      <p>The Compass Rose is a simplified and recolored version of <a href="https://commons.wikimedia.org/wiki/File:WInd_Rose_Aguiar.png" target="_blank" rel="noreferrer">this source</a>, converted to SVG by <a href="https://commons.wikimedia.org/wiki/User:Alvesgaspar" target="_blank" rel="noreferrer">Alvesgaspar</a> and released under a <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer">CC BY-SA 3.0</a> license via Wikimedia Commons.</p>
+      <p>The harmonic constituent method of calculating the tides was independently determined by <a href="http://www.ccpo.odu.edu/~klinck/Reprints/PDF/foremanAvWR1989.pdf" target="_blank" rel="noreferrer">William Ferrel and Lord Kelvin.</a></p>
       <p>Tide station data, in the form of harmonic constituents, is provided by relevant agencies in various states with funding from taxpayers.</p>
       <p>All station data used in this project is the public domain.</p>
-      <p>For useable tide predictions, observations, and more information, try <a href="https://tidesandcurrents.noaa.gov/map/index.html?type=TidePredictions" target="_blank">this NOAA resource.</a></p>
+      <p>For useable tide predictions, observations, and more information, try <a href="https://tidesandcurrents.noaa.gov/map/index.html?type=TidePredictions" target="_blank" rel="noreferrer">this NOAA resource.</a></p>
       </div>
       <div id={styles.more}
       style={{opacity: fullyScrolled ? 0 : 1}}>...</div>
