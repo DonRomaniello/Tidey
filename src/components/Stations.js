@@ -1,14 +1,23 @@
-import React, {useMemo, useState} from "react"
+import React, {useEffect, useMemo, useState} from "react"
 
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import MarkerAndPopup from "./MarkerAndPopup";
 
+import { fetchHarmonics } from '../store/features/harmonics'
+
 import { useMap, useMapEvents } from 'react-leaflet';
+
+// How many constituent fetches may be in flight at once.
+const maxConcurrentFetches = 8
 
 export const Stations = () => {
 
+  const dispatch = useDispatch()
+
   const {stations, selected} = useSelector((state) => state.stations);
+
+  const cacheStatus = useSelector((state) => state.harmonics.cacheStatus);
 
   const [bounds, setBounds] = useState(useMap().getBounds())
 
@@ -41,9 +50,25 @@ export const Stations = () => {
     return filterStations(stations, bounds, zoom)
   }, [stations, bounds, zoom, selected])
 
+  /* Stream the tide data in: prefetch constituents for the stations in
+   view, a few at a time, so their markers can appear as soon as the data
+   is ready and popups open without a loading delay. */
+  useEffect(() => {
+    const inFlight = Object.values(cacheStatus)
+      .filter((status) => status === 'loading').length
+    filteredStations
+      .filter((station) => !cacheStatus[station.id])
+      .slice(0, Math.max(0, maxConcurrentFetches - inFlight))
+      .forEach((station) => dispatch(fetchHarmonics(station)))
+  }, [filteredStations, cacheStatus, dispatch])
+
+  // A marker only appears once its tide data is ready.
+  const readyStations = filteredStations
+    .filter((station) => cacheStatus[station.id] === 'loaded')
+
   return (
     <>
-    {filteredStations.map((stationInfo, idx) => {
+    {readyStations.map((stationInfo, idx) => {
       return <MarkerAndPopup
               key={stationInfo.id + stationInfo.lat + stationInfo.lng}
               stationInfo={stationInfo}
@@ -51,11 +76,3 @@ export const Stations = () => {
       })}
     </>
   )}
-
-
-
-
-
-
-
-

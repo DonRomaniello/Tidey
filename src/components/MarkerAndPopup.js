@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchHarmonics } from '../store/features/harmonics';
+import { selectStation } from '../store/features/harmonics';
 
 import { updateSelected } from '../store/features/stations';
 
@@ -48,7 +48,7 @@ const MarkerAndPopup = (props) => {
     riseOnHover={true}
     eventHandlers={{
       popupopen: () => {
-        dispatch(fetchHarmonics(stationInfo.harmonicConstituents))
+        dispatch(selectStation(stationInfo.id))
         dispatch(updateSelected(stationInfo.id))
         setCouldOpen(true);
       },
