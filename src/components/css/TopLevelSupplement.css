@@ -1,3 +1,19 @@
+/* Markers fade in as their tide data arrives, like stars coming out.
+ Only opacity is animated; Leaflet positions markers with an inline
+ transform that must not be touched. */
+.leaflet-marker-pane .leaflet-marker-icon {
+  animation: markerAppear .7s ease both;
+}
+
+@keyframes markerAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .leaflet-popup-content-wrapper{
   border-radius: 1000vh;
   overflow: hidden;

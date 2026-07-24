@@ -11,6 +11,19 @@ import { useMap, useMapEvents } from 'react-leaflet';
 // How many constituent fetches may be in flight at once.
 const maxConcurrentFetches = 8
 
+/* The station list is sorted by longitude, so fetching in list order makes
+ markers appear in a west-to-east sweep. Ordering the fetch queue by a hash
+ of the station id scatters arrivals across the map instead, so markers
+ sprinkle in like stars coming out at night. */
+const hashId = (id) => {
+  let hash = 0
+  const text = String(id)
+  for (let i = 0; i < text.length; i++) {
+    hash = (((hash << 5) - hash) + text.charCodeAt(i)) | 0
+  }
+  return hash
+}
+
 export const Stations = () => {
 
   const dispatch = useDispatch()
@@ -58,6 +71,7 @@ export const Stations = () => {
       .filter((status) => status === 'loading').length
     filteredStations
       .filter((station) => !cacheStatus[station.id])
+      .sort((a, b) => hashId(a.id) - hashId(b.id))
       .slice(0, Math.max(0, maxConcurrentFetches - inFlight))
       .forEach((station) => dispatch(fetchHarmonics(station)))
   }, [filteredStations, cacheStatus, dispatch])
